@@ -2,7 +2,7 @@
 # Check the parsed syntax tree s-expression
 # against a reference in the parse/ subdir.
 
-Usage = 'checkparse [-am] <rc> <script> ...'
+usage = 'checkparse [-am] <rc> <script> ...'
 refs = `{cd parse && pwd}
 
 aflag=false # all (continue on error)
@@ -20,7 +20,7 @@ while(~ $*(1) -[ham]*) {
     shift
 }
 
-if([ $#* -lt 2 ]) {
+if([ $#* -lt 1 ]) {
     echo Usage: $usage
     exit 1
 }
@@ -38,24 +38,25 @@ $rc -m ./bin/rcmain -Dc echo >/dev/null >[2=1] || {
 }
 
 fn hasfiles {
-  ok = true
+  _err = 0
   for(f in $*) {
     [ -f $f ] || {
-      echo File not found: $f
-      ok = false
+      echo File not found: $f >[1=2]
+      _err = 1
       ! $aflag && exit 1
     }
   }
-  status = $ok
+  status = $_err
 }
 
 files = $*
 if(! ~ $mflag true && ~ $#files 0) {
     # add all non-s files.
     for(ref in $refs/*) {
-        ! ~ $ref '*.s' && files = ($files $ref)
+        ~ $ref *.s || files = ($files $ref)
     }
 }
+err = 0
 for(i in $files) {
     fname = `{ basename $i }
     if(~ $mflag true) {
@@ -67,21 +68,30 @@ for(i in $files) {
             echo Over-writing files $refs/$fname*
         }
         echo Adding $i '~>' $refs/$fname
-        diff -q $i $refs/$fname || cp $i $refs/$fname
+        diff -q $i $refs/$fname >[2]/dev/null || cp $i $refs/$fname
         chmod 444 $refs/$fname
         $rc -m ./bin/rcmain -DY $refs/$fname >$refs/$fname.s >[2=1]
         chmod 444 $refs/$fname.s
     }
     if not {
         if(hasfiles $refs/$fname ^ ('' .s)) {
-            diff $refs/$fname $i && {
+            echo Comparing $i
+            if(! diff $refs/$fname $i) {
+                err = $err+1
                 echo '^^^' $i '(reference script)'
                 ! $aflag && exit 2
             }
-            diff $refs/$fname.s <{ $rc -m ./bin/rcmain -D $i >[1=2]} && {
+            if not {
+              diff $refs/$fname.s <{ $rc -m ./bin/rcmain -D $i >[2=1]} || {
+                err = $err+1
                 echo '^^^' $i '(parse result)'
                 ! $aflag && exit 1
+              }
             }
         }
     }
 }
+err = `{ echo $err | bc }
+if(~ $err 0) echo Aye! '(Unanimous)'
+if not echo Nay! '('$err files differ')'
+exit $err
