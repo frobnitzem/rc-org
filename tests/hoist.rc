@@ -1,0 +1,12 @@
+#!/usr/bin/env rc
+
+echo 'stdout'
+echo 'stderr' >[1=2]
+
+echo 'gib sail' >gib
+cat >main <<.
+mainmast
+mainsail
+.
+
+status=status

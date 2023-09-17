@@ -14,7 +14,7 @@ if(! ~ $status 0) {
     exit 1
 }
 
-sflag=true  # test s-expressions
+sflag=false # test s-expressions
 aflag=false # all (continue on error)
 mflag=false # make new .12xd references
 while(! ~ $*(1) '--') {
@@ -71,7 +71,7 @@ if not {
 }
 
 # prepare temp. directory for test outputs
-if(! ~ $mflag true && ! $sflag true) {
+if(! ~ $mflag true && ! ~ $sflag true) {
     tmp = `{mktemp -d}
     echo Using temporary directory $tmp
 }
@@ -79,7 +79,7 @@ if not {
     tmp = $refs
 }
 fn flee {
-    if(! ~ $mflag true && ! $sflag true) {
+    if(! ~ $mflag true && ! ~ $sflag true) {
         rm -fr $tmp
     }
     exit $*(1)
@@ -102,10 +102,11 @@ fn run_test {
     #inp = `{ cd `{dirname $*(1)} && pwd } ^ / ^ `{basename $*(1)}
     out = $tmp ^ / ^ `{basename $*(1)}
     mkdir $out.d
-    @{ cd $out.d && $rc -m ./bin/rcmain \
-            >$out.1 >[2]$out.2;
+    wd=`{pwd}
+    @{ cd $out.d;
+       $rc -m $wd/bin/rcmain <$*(1) >$out.1 >[2]$out.2;
        echo $status >$out.x;
-    } <$*(1)
+    }
 }
 fn diff_test {
     out = $tmp ^ / ^ `{basename $*(1)}
@@ -128,7 +129,7 @@ fn diff_test {
 fn hasfiles {
   _err = 0
   for(f in $*) {
-    [ -f $f ] || {
+    [ -e $f ] || {
       echo File not found: $f
       _err = 1
       ! $aflag && flee 1
@@ -148,12 +149,14 @@ err = 0
 for(i in $files) {
     fname = `{ basename $i }
     if(~ $mflag true) {
-        if(test -f $refs/$fname.[sdx12]) {
+        # Add the test to our crew.
+        if(ls -1 $refs/$fname.[sdx12] >/dev/null >[2=1]) {
             if(! ~ $aflag true) {
                 echo File $refs/$fname.[sdx12] exists!
                 flee 1
             }
             echo Over-writing files $refs/$fname*
+            [ -d $refs/$fname.d ] && rm -fr $refs/$fname.d
         }
         echo Adding $i '~>' $refs/$fname
         diff -q $i $refs/$fname >[2]/dev/null || cp $i $refs/$fname
@@ -165,9 +168,11 @@ for(i in $files) {
         }
     }
     if not {
+        # Run the blasted test already.
         if(hasfiles $refs/$fname ^ ('' .$ofiles)) {
             echo Comparing $i
             if(! diff $refs/$fname $i) {
+                # This shouldn't be.
                 err = $err+1
                 echo '^^^' $i '(reference script)'
                 ! $aflag && flee 2
