@@ -1,0 +1,194 @@
+#!/usr/bin/env rc
+#
+# Check the parse / effects of an rc script
+# against a reference in the parse / tests subdir.
+#
+# -s controls whether s-expression (parse tests)
+# or execution tests are done.
+
+usage = 'test [-hams] <rc> <script> ...'
+
+'*' = `{getopt hams $*}
+if(! ~ $status 0) {
+    echo Usage: $usage
+    exit 1
+}
+
+sflag=true  # test s-expressions
+aflag=false # all (continue on error)
+mflag=false # make new .12xd references
+while(! ~ $*(1) '--') {
+    switch($*(1)) {
+    case -h
+        echo Usage: $usage
+        exit 1
+    case -a
+        aflag=true
+    case -m
+        mflag=true
+    case -s
+        sflag=true
+    }
+    shift
+}
+shift
+
+# grab rc executable path
+if([ $#* -lt 1 ]) {
+    echo Usage: $usage
+    exit 1
+}
+rc = `{dirname $*(1)} ^ / ^ `{basename $*(1)}
+shift
+
+# Test for directory layout
+if(~ $sflag true) {
+    refs = `{cd parse && pwd}
+    ofiles = s
+}
+if not {
+    refs = `{cd tests && pwd}
+    ofiles = (x d 1 2)
+}
+
+{ test -f ./bin/rcmain && test -d $refs } || {
+    echo 'Must be run from top-level dir (where bin/rcmain is found)'
+    exit 1
+}
+
+# ensure we can run rc.
+if(~ $sflag true) {
+    $rc -m ./bin/rcmain -Dc echo >/dev/null >[2=1] || {
+      echo $rc does not support -D flag!
+      exit 1
+    }
+}
+if not {
+    $rc -m ./bin/rcmain -c echo >/dev/null >[2=1] || {
+      echo $rc''''s run aground!
+      exit 1
+    }
+}
+
+# prepare temp. directory for test outputs
+if(! ~ $mflag true && ! $sflag true) {
+    tmp = `{mktemp -d}
+    echo Using temporary directory $tmp
+}
+if not {
+    tmp = $refs
+}
+fn flee {
+    if(! ~ $mflag true && ! $sflag true) {
+        rm -fr $tmp
+    }
+    exit $*(1)
+}
+
+# outputs to stdout
+fn run_parse {
+    $rc -m ./bin/rcmain -D $*(1) >[2=1]
+}
+fn diff_parse {
+    _err = false
+    if(! diff $*(1)^.s <{ run_parse $*(1) }) {
+        echo '^^^' $i '(test result)'
+        _err = true
+    }
+    status = $_err
+}
+
+fn run_test {
+    #inp = `{ cd `{dirname $*(1)} && pwd } ^ / ^ `{basename $*(1)}
+    out = $tmp ^ / ^ `{basename $*(1)}
+    mkdir $out.d
+    @{ cd $out.d && $rc -m ./bin/rcmain \
+            >$out.1 >[2]$out.2;
+       echo $status >$out.x;
+    } <$*(1)
+}
+fn diff_test {
+    out = $tmp ^ / ^ `{basename $*(1)}
+    _err = false
+    for(x in $ofiles) {
+        if(test -e $out.$x) {
+            diff $*(1)^.$x $out.$x || {
+                echo '^^^' $*(1)^.$x '(test result)'
+                _err = true
+            }
+        }
+        if not {
+            echo 'No output created for ' $*(1)^.$x
+            _err = true
+        }
+    }
+    status = $_err
+}
+
+fn hasfiles {
+  _err = 0
+  for(f in $*) {
+    [ -f $f ] || {
+      echo File not found: $f
+      _err = 1
+      ! $aflag && flee 1
+    }
+  }
+  status = $_err
+}
+
+files = $*
+if(! ~ $mflag true && ~ $#files 0) {
+    # add all non-output files.
+    for(ref in $refs/*) {
+        ~ $ref *.$ofiles || files = ($files $ref)
+    }
+}
+err = 0
+for(i in $files) {
+    fname = `{ basename $i }
+    if(~ $mflag true) {
+        if(test -f $refs/$fname.[sdx12]) {
+            if(! ~ $aflag true) {
+                echo File $refs/$fname.[sdx12] exists!
+                flee 1
+            }
+            echo Over-writing files $refs/$fname*
+        }
+        echo Adding $i '~>' $refs/$fname
+        diff -q $i $refs/$fname >[2]/dev/null || cp $i $refs/$fname
+        if(~ $sflag true) {
+            $rc -m ./bin/rcmain -DY $refs/$fname >[1=2] >$refs/$fname.s
+        }
+        if not {
+            run_test $refs/$fname
+        }
+    }
+    if not {
+        if(hasfiles $refs/$fname ^ ('' .$ofiles)) {
+            echo Comparing $i
+            if(! diff $refs/$fname $i) {
+                err = $err+1
+                echo '^^^' $i '(reference script)'
+                ! $aflag && flee 2
+            }
+            if not {
+                if(~ $sflag true) {
+                    diff_parse $refs/$fname
+                }
+                if not {
+                    run_test $refs/$fname
+                    diff_test $refs/$fname
+                }
+                ~ $status false || {
+                    err = $err+1
+                    ! $aflag && flee 1
+                }
+            }
+        }
+    }
+}
+err = `{echo $err | bc}
+if(~ $err 0) echo Aye! '(Unanimous)'
+if not echo Nay! '('$err outputs differ')'
+flee $err

@@ -7,7 +7,6 @@ of the rc shell.
 This project aims to track the compatibility of implementations
 using a set of tests -- both for [parsing](parse) and [execution](tests).
 
-
 ## Basic Usage
 
 One may test a given rc shell implementation using
@@ -17,15 +16,16 @@ for all the paths to work correctly.
 
 * parsing
 
-    ./bin/checkparse <path to rc exectable>
+    ./bin/test -s <path to rc exectable>
 
 * execution
 
     ./bin/test <path to rc executable>
 
+
 # More Information
 
-All invocations of `rc` during these tests are run as
+All invocations of `rc` from inside these tests are run as
 
     $rc [other flags] -m ./bin/rcmain <script.rc>
 
@@ -51,20 +51,20 @@ If the rc shell being tested implements the `-D` flag
 to print s-expressions, they are compared to the reference
 parse outputs.  Note that the `-D` flag should not execute
 the scripts, but only print the output s-expressions.
-Therefore, running `checkparse` should not execute any script
+Therefore, running `test -s` should not execute any script
 contents (but should follow source-links from `. <file>`).
 
 Any mismatch will be printed.  This will also
-halt the tests unless `checkparse` is run with the `-a` flag.
+halt the tests unless `test -s` is run with the `-a` flag.
 
 New parse tests may be added by passing the `-m` flag
-to `checkparse`.  In the `-m` mode, each argument
-of `checkparse` and its s-expression parse output
+to `test -s`.  In the `-m` mode, each argument
+of `test -s` and its s-expression parse output
 is copied to the `parse` subdirectory.
 For example, to add `9.rc` (and the corresponding `9.rc.s`)
 into `parse/`, use
 
-    ./bin/checkparse -m <path to rc exectable> /bin/9.rc
+    ./bin/test -ms <path to rc exectable> /bin/9.rc
 
 
 ## Execution Tests
@@ -77,7 +77,7 @@ respectively.  diff is run on all the results to compare them
 to the corresponding reference outputs in the `tests/` subdirectory.
 
 Any mismatch will be printed.  This will also
-halt the tests unless `checkparse` is run with the `-a` flag.
+halt the tests unless `test` is run with the `-a` flag.
 
 New tests may be added by passing the `-m` flag to `test`.
 In the `-m` mode, each argument of `test` and its execution
