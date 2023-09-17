@@ -1,0 +1,146 @@
+commit 069cfd196c355db6a067c3c1cb63f349d2f8b29d
+Author: David M. Rogers <predictivestatmech@gmail.com>
+Date:   Mon Feb 27 11:35:25 2023 -0500
+
+    Fixed redirection for here-commands.
+
+commit 097b90ac12b41e302c1ad923da03a5c3ddb71e60
+Author: David M. Rogers <predictivestatmech@gmail.com>
+Date:   Mon Feb 27 09:56:56 2023 -0500
+
+    Fixed bug parsing "line & cmdexpr"
+
+commit 2202793170dd2107f1c3038f6ecd17892296f18d
+Author: David M. Rogers <predictivestatmech@gmail.com>
+Date:   Sun Feb 26 20:31:17 2023 -0500
+
+    Added conc1 to handle $missing ^ word
+
+commit dde0267ce5f89508b0a1ad366ce2f332a6771027
+Author: David M. Rogers <predictivestatmech@gmail.com>
+Date:   Sun Feb 26 15:32:45 2023 -0500
+
+    Redefind kword as "a word not beginning with ="
+
+commit fb01d85426702b82b32ec966d894c15af2e9749b
+Author: David M. Rogers <predictivestatmech@gmail.com>
+Date:   Sun Feb 26 15:26:24 2023 -0500
+
+    Fixed lines ending in &. Allow newline in (words).
+
+commit e60ec2b923fcef776b639003317b72ba1af6e4d3
+Author: David M. Rogers <predictivestatmech@gmail.com>
+Date:   Sun Feb 26 14:32:56 2023 -0500
+
+    More expressions parse.
+
+commit 861ec7f2474d5a213bfa80b2bc3c027fbed295fe
+Author: David M. Rogers <predictivestatmech@gmail.com>
+Date:   Sun Feb 26 11:37:11 2023 -0500
+
+    Added free carat for word=
+
+commit de101c21dc0390c7190713019a1cba58753d247e
+Author: David M. Rogers <predictivestatmech@gmail.com>
+Date:   Sun Feb 26 11:25:25 2023 -0500
+
+    Added reassoc to make command-lists right-assoc.
+    
+    The original syntax tree used right recursion for
+    commands strung together by ';', '&', and '\n' (inside
+    of braces).  When changing the syntax to left-recursive,
+    the association order of tree2(';',a,b) changed as well.
+    This confused the interpreter when looking for case
+    statements inside switch().  This fix changes all consumers
+    of `line` and `body` syntax trees to make an in-place
+    change of associativity.
+
+commit f0f46ae8386e47be771d5df390c211ad30409b09
+Author: David M. Rogers <predictivestatmech@gmail.com>
+Date:   Sun Feb 26 00:03:08 2023 -0500
+
+    Replaced syntax with explicit resolution.
+
+commit 553b6890624d04e64ca0973d8fe86b107cb363b7
+Author: David M. Rogers <predictivestatmech@gmail.com>
+Date:   Wed Oct 13 11:45:42 2021 -0400
+
+    Moved global variables into globals.c
+
+commit 50b729e65d6f250ab9ab72487bd3c3d7c674e1fc
+Author: Federico G. Benavento <fgb@lotte.local>
+Date:   Wed Oct 23 18:16:17 2019 -0300
+
+    Fix man link, remove garbage and add rc.md
+
+commit 53c3887d34f878a0cbde374ebb4161cc9df45bf5
+Merge: 41568e6 4b1a504
+Author: Federico G. Benavento <benavento@gmail.com>
+Date:   Wed Oct 23 17:32:17 2019 -0300
+
+    Merge pull request #1 from michaelforney/misc-fixes
+    
+    Misc fixes
+
+commit 4b1a504a2c9c350fb6c238c32680f33ed086a506
+Author: Michael Forney <mforney@mforney.org>
+Date:   Sat May 11 14:52:35 2019 -0700
+
+    Add -D_XOPEN_SOURCE=500 to default CFLAGS for strdup
+
+commit 724ee3ce8f87fb3001ca7d393f71883dc36608d0
+Author: Michael Forney <mforney@mforney.org>
+Date:   Sat May 11 14:47:20 2019 -0700
+
+    Use NAME_MAX instead of MAXNAMLEN
+    
+    MAXNAMLEN is not in POSIX, and the location of its definition varies
+    across implementations. glibc defines it in dirent.h, and musl
+    defines it in sys/param.h.
+    
+    NAME_MAX on the other hand, is specified by POSIX in the header
+    limits.h[0].
+    
+    [0] https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/limits.h.html#tag_13_23_03_02
+
+commit 16a17853de5d71ed95cd834e10098d8fa9d8742f
+Author: Michael Forney <mforney@mforney.org>
+Date:   Sat May 11 14:45:59 2019 -0700
+
+    Add -Wno-implicit-fallthrough to default warning flags
+
+commit b966469b731a50df420125ab93cc24d03772b256
+Author: Michael Forney <mforney@mforney.org>
+Date:   Sat May 11 14:44:50 2019 -0700
+
+    Include fns.h in prompt-null.c for setstatus
+
+commit 41568e64bca3117f893ce0ec54afcb1d53537a66
+Author: fgb <benavento@gmail.com>
+Date:   Thu Apr 4 14:37:12 2019 -0300
+
+    Fix Centos 7 build
+
+commit 38e5eebb850172956d00eba072c3e59835e7ee41
+Author: fgb <benavento@gmail.com>
+Date:   Wed Jan 30 12:39:17 2019 -0300
+
+    Fix Linux build
+
+commit 99d601a685c6c76da6162acf41f19522a08cb9c4
+Author: Federico G. Benavento <benavento@gmail.com>
+Date:   Wed Jan 23 18:49:50 2019 -0300
+
+    Update README.md
+
+commit 31c41815509bebcd4ffddb6123e7221a2797bc93
+Author: fgb <benavento@gmail.com>
+Date:   Wed Jan 23 18:30:34 2019 -0300
+
+    add README.md
+
+commit 835da18edfdd6b85edcc4b6b77539b2bc1ac5bc2
+Author: fgb <benavento@gmail.com>
+Date:   Wed Jan 23 17:50:33 2019 -0300
+
+    init

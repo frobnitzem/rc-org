@@ -1,0 +1,4350 @@
+commit 4aaba1a9cb9fdbb8660696a87850836ffdb09599
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Wed Jun 14 09:02:58 2023 +0200
+
+    Install history binary if it was build
+    
+    Related to issue #87.
+
+commit 9ac0043b0af7fab2549b123e2c8a8ef79b49da58
+Merge: 5106dbc 78cc018
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Tue Jun 13 19:34:49 2023 +0200
+
+    Merge pull request #86
+    
+    Drop all control flow entries from estack after fork
+
+commit 5106dbc5ebe52cbbf5aac59d490ceb0370ae8694
+Merge: d2e7258 e0521b6
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Tue Jun 13 19:34:16 2023 +0200
+
+    Merge pull request #83
+    
+    Make variable assignments not set status
+
+commit 78cc01818d9cc2cd0deb0e2b629635d0c3947a5e
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Tue Jun 13 18:03:17 2023 +0200
+
+    Add tests
+
+commit 14506978d087b3b8928df40a3d6f5a49b5808d05
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Tue Jun 13 14:13:36 2023 +0200
+
+    Drop all control flow entries from estack after fork
+    
+    A control flow builtin called in a subshell inside a function now exits
+    with an error. Before this, the subshell jumped out of its scope and
+    continued execution like the parent.
+    
+    Fixes issue #68.
+
+commit d2e7258ffa48a98a0c7deb8e4667ae6fdc9e97a8
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Tue Jun 13 17:21:21 2023 +0200
+
+    Remove unnecessary include
+
+commit a08cd772ebec52dd09680b6d8a77e579199a296f
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 22:03:58 2023 +0200
+
+    Revise waiting for given list of children
+
+commit b5ea8444ff804db7a69b8ad3c0e951f89478daf6
+Author: Olivier Duclos <odc@sleepycat.fr>
+Date:   Thu Jan 26 15:52:23 2023 +0100
+
+    Allow builtin wait more than one argument
+    
+    When waiting on multiple PIDs, $status will be set
+    with the status of each process. Example:
+    
+      ; true&false&true& wait $apids; whatis status
+      status=(0 1 0)
+    
+    This is an extra feature not present in Plan 9 rc.
+    
+    Note that calling wait without argument keeps its
+    standard behavior and only returns the status of
+    the last terminated process.
+
+commit 6d9b96ea8de91cba000df91e48a80bd5d14f30d9
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 18:47:10 2023 +0200
+
+    Revise setting pipeline status
+    
+    Gets rid of local stats[] in dopipe() and add them directly to
+    statuses[] one by one with setpipestatus(), which will also be helpful
+    for waiting for a list of given pids.
+
+commit fb94c97066a549da1f0f0addd1d9f3db401418ce
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 18:40:03 2023 +0200
+
+    Use macro for max pipeline length
+
+commit 554ccf516dc475e927c15267deabc745ccfdaa91
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Tue Jun 13 08:41:54 2023 +0200
+
+    Add generated parser files
+    
+    Only developers that make changes to parse.y need byacc, users who just
+    want to install rc do not need it anymore.
+    
+    Related to issue #85.
+
+commit ca5296c8ad7833a372d35fff536629ef84bb1619
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 11:44:26 2023 +0200
+
+    Exit with non-zero status on syntax error with -n
+    
+    Fixes issue #61.
+
+commit 9bafea61089ad7df393809661b4dce909bf0ae1e
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 11:09:36 2023 +0200
+
+    Fmt README
+    
+    Make the new paragraphs the same width as the old ones.
+
+commit 89e9b854c0705d687c63ecc0b169b81066ff7c0c
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 11:03:11 2023 +0200
+
+    Fix include for WIFSIGNALED
+
+commit 2030d4deabccc3e8b9a01b59e6de7678d81c2ec9
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 11:05:36 2023 +0200
+
+    Fix generating version.h on FreeBSD
+
+commit 17be7fdea85c78a58da532108e49bc5852947952
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 10:36:25 2023 +0200
+
+    Use verbose build on Travis
+
+commit bd99be3abe9b7f00916ea4f9854efbe06c3aabbd
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 10:36:04 2023 +0200
+
+    Update README
+
+commit 449c6d2a37b5c565205f25fd144242ddd94d4c11
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 10:31:02 2023 +0200
+
+    Use portable Makefile
+
+commit 82589ab1014f2d182171e6b7b733e83ce17c4b85
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 09:18:32 2023 +0200
+
+    Fix typo in GNUmakefile
+
+commit cab2c47d18027007f48acd6cf88e93268f132542
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 09:10:37 2023 +0200
+
+    Update README
+
+commit c17d2cf01b76ecc3777636030b1afc5c1cf5cae7
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 09:04:21 2023 +0200
+
+    Move HASH_BANG to config.h
+    
+    Makes it easier to make Makefile portable.
+
+commit b2e988db75c0972bf199fcc38482065e0e3444d3
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 08:48:43 2023 +0200
+
+    Move RC_DEVELOP to config.h
+    
+    Makes it easier to make Makefile portable.
+
+commit f2c3b4e449478c767daeac6a63151d047a1b7e00
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 08:43:38 2023 +0200
+
+    Move RC_ADDON to config.h
+    
+    Makes it easier to make Makefile portable.
+
+commit 28b06b47497528cadb8e4ca14bbb38eab70fd389
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 08:35:27 2023 +0200
+
+    Fmt README
+
+commit 4b3cb89400e0562cc4641104744034cf3be4bfa3
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 08:34:53 2023 +0200
+
+    Move HAVE_RESTARTABLE_SYSCALLS to config.h
+    
+    Makes it easier to make Makefile portable.
+
+commit ef47e77cb5febec2a4acac4ff60bc2bdd0556db0
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 08:15:14 2023 +0200
+
+    Revise generation of version string
+    
+    This requires less CPP macros and simplifies the version string. It also makes
+    it easier to make the Makefile portable.
+
+commit d1712e93da8960d589c08e8f05f46eb8b580ae0e
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Mon Jun 12 08:04:28 2023 +0200
+
+    Remove unused id from history.c
+
+commit a1de9bcce3d031d89d43c82fd2fde009f24a2f5f
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Sun Jun 11 22:01:19 2023 +0200
+
+    Fix Travis build command
+
+commit 5359ef78c292e2f545ff8d0099ca589aa4412c7f
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Sun Jun 11 21:23:48 2023 +0200
+
+    Do not replace non-printable chars in error message with '?'
+    
+    Related to issue #49.
+
+commit 4ecff9d205b9711b1db5aab93756ebee68676c2a
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Sun Jun 11 21:05:03 2023 +0200
+
+    Correctly put -l... into LDLIBS not LDFLAGS
+
+commit 6c9b748f309753f86bae1632c71b8992294894c1
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Sun Jun 11 18:45:47 2023 +0200
+
+    Fix type of pointer passed to el_gets()
+    
+    Fixes issue #38.
+
+commit 6ae876b246bfffd7c93d8e874033f63b3e21fc72
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Sun Jun 11 18:36:59 2023 +0200
+
+    Document installation in README
+
+commit 0e3a9e13f0cf81c0ed2cd50793ae953110fdec57
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Thu Oct 19 14:07:56 2017 +0200
+
+    Handwritten GNUmakefile and config.h
+    
+    No more GNU autohell.
+
+commit 18ef838b77f47b289de0bf2068eaa21e84a6f0a2
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Sun Jun 11 15:12:36 2023 +0200
+
+    Revert 'if not'
+
+commit b390f3701b81d24b3feaa4565f8343d47fcbeeac
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Sun Jun 11 14:32:09 2023 +0200
+
+    Remove vim config
+    
+    Settings specific to the editors used by the developers should not be in the
+    repo. We only ignore files generated during the build process.
+
+commit 9e4c468552064399b89a465a83d55fa321783d73
+Merge: dcd5cac a14a976
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Sun Jun 11 13:48:40 2023 +0200
+
+    Merge pull request #69 from avindra/patch-1
+    
+    Delete RELDATE
+
+commit dcd5cacefff9f1f0f2057b6aad61732ad156ad41
+Author: Bert Münnich <xyb3rt@gmail.com>
+Date:   Sun Jun 11 13:46:59 2023 +0200
+
+    Remove outdated maintainer info from README
+
+commit 81cd350afabbcdfe11cd02a6359ae0558fb014ed
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Thu Oct 3 15:18:16 2019 +0200
+
+    Sort completion matches before quoting them
+    
+    We cannot let readline sort the matches because it gets them after they are
+    quoted and the leading quote character messes up the ordering.
+
+commit cf3c76f57f520fb656a101baff501b44eb42ca77
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Mon Sep 30 22:37:13 2019 +0200
+
+    Supplant readline's quoting and word separation mechanisms
+    
+    With this we can finally complete an open quoted word with an escaped quote
+    (e.g. 'it''s alive^I) without any issues!
+    
+    It is really f!*#ing hard to bend readline to rc's simple quoting rules. Tons
+    of variables control a huge pile of code but every code path assumes just
+    enough of bash's quoting rules to render all these mechanisms unusable for rc.
+    
+    Abusing *rl_completion_word_break_hook* is our only hope. Let us pray that this
+    keeps working.
+
+commit c2230bc9821af52e56744437b538c4d08b74ee26
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Sun Sep 29 23:01:09 2019 +0200
+
+    Unify call to completion generators
+    
+    Filename completion is not a special case anymore. The generated filenames are
+    quoted like the matches of the custom completion generators.
+
+commit 56a118fb94e78d4d181aec97747f40a5be08cd1e
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Tue Jun 25 14:58:44 2019 +0200
+
+    Quote matches of all custom completion functions
+    
+    We only did this for external commands. Now function and variable names get
+    quoted too, if they contain a character that needs quoting.
+
+commit 7a4687ecfa2a51afe356779a44f3ecd17cb3fac8
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Tue Jun 25 14:20:45 2019 +0200
+
+    Allow empty context-aware completion
+    
+    We do not want to fall back to filename completion just because the
+    context-aware completion did not produce any matches.
+
+commit 120e2500b199d977d9dbd1bdd082f0ff90ca0c2c
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Sat Jun 15 22:13:03 2019 +0200
+
+    Fix tab completion of quoted commands and variables
+    
+    An open quoted string was always completed as a filename. The type of
+    completion is now guessed based on the token preceding the opening quote in the
+    same way as it is done for unqoted words.
+    
+        ; 'fals -> ; 'false'
+        ; echo $'hom -> ; echo $'home'
+
+commit 1f2a5238148549513de053af81b83de45bdee399
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Sun Mar 24 14:32:23 2019 +0100
+
+    Report children as soon as possible when waiting for all
+    
+    The following example demonstrates the problem:
+    
+        ; false & sleep 300 & wait
+        2317 # pid of false
+        2318 # pid of sleep
+        # blocking for 300s
+        2318: done (0)
+        2817: done (1)
+    
+    With this commit the status for false is reported instantly:
+    
+        ; false & sleep 300 & wait
+        4205 # pid of false
+        4206 # pid of sleep
+        4205: done (1)
+        # blocking for 300s
+        4206: done (0)
+
+commit 0d45076c2c1825bf9bb4843ad8d49d96e0dd7274
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Sun Feb 10 19:28:52 2019 +0100
+
+    Simplify string creation in completion
+
+commit 655b67204f25856d92d6dfd97fd1998cc4817d97
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Sun Feb 10 19:02:20 2019 +0100
+
+    Remove useless unquote function
+    
+    It is only needed for completing an open quoted string with an escaped quote:
+    
+        'it''s alive
+    
+    Unfortunately, readline will always treat the last quote character as the start
+    of the string so that unquote only gets called on "s alive".
+
+commit b0678196cf2911942b3af4015a2cec073deee8f6
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Mon Jan 7 21:06:33 2019 +0100
+
+    Properly complete subdirs in $path
+    
+    Quote from the comment on the *bodge* mechanism:
+    
+        (It would be better to persuade readline just to append the "/" as
+        it does for filename completion, but it's not clear to me if this is
+        possible.)
+    
+    Readline has the *rl_completion_append_character* variable for exactly that.
+
+commit e40e80402e17d8484a4a274e0d2e6d5b35b92353
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Mon Jan 7 20:52:19 2019 +0100
+
+    Fix command completion of absolute paths
+
+commit 7248fd4cc5421bade42ef52a902c98bbe2773729
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Tue May 1 16:21:58 2018 +0200
+
+    Correctly name real-time signals
+    
+    Also make names of unknown signals use fmt 'sig%d' instead of 'sigunknown%d'.
+
+commit e6ffc7b8440951db3cb999af9607258e4765bef6
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Mon Jul 11 22:05:18 2016 +0200
+
+    Revise status messages for terminated children
+    
+    Print a status message for a terminated child if: 1) the wait builtin is called
+    in an interactive shell, or 2) the child terminated due to a signal and it is
+    not sigint and not sigpipe or it caused the child to dump core.
+    
+    The messages are of the form:
+    
+        [pid:] <signal message[--core dumped] | done (status)>
+    
+    Before this, there were various inconsistencies, e.g. the wait builtin--
+    regardless if called in an interactive shell or script--would print just the
+    pid and a colon w/o a message and w/o a newline if the child it waited for
+    terminated due to receiving sigint.
+
+commit 35e4210029e4da2344f67ee35db2a53f7d8047cf
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Fri May 5 06:43:07 2017 +0200
+
+    Glob matching in linear time
+    
+    As described by Russ Cox: https://research.swtch.com/glob
+    
+    The exponential complexity of the old implementation was not a real problem,
+    though, as no glob triggering excessive backtracking has ever been spotted in
+    the wild.
+
+commit 1d491ac9da42701209b7a8864adbd4c2452f0e69
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Sat Nov 18 13:58:07 2017 +0100
+
+    Restore tty attributes if interactive child is terminated by signal
+    
+    Some programs like su(1) do not restore tty attributes like ECHO when they are
+    terminated by receiving SIGINT. Other shells (bash, mksh, zsh) save tty
+    attributes before executing an external command and restore them if the child
+    exited due to the receipt of a signal. rc now does the same if it is
+    interactive.
+
+commit 864cac55e8c0796a168762fd73450b764775f34e
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Sat Nov 28 16:41:21 2015 +0100
+
+    Set LC_CTYPE after reading ~/.rcrc
+    
+    rc does not handle umlauts correctly, if locale environment variables are first
+    set in ~/.rcrc. It is necessary to update the environment before calling
+    setlocale(3) because it would otherwise not see the variable values assigned in
+    ~/.rcrc.
+
+commit 5f9c72a9fff6cc91793767615aab020ef3057929
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Sat Nov 28 16:24:41 2015 +0100
+
+    Prevent duplicate lines in readline history
+    
+    Before appending a new line to the readline history, remove all prior lines in
+    the history, which are an exact duplicate of it.
+
+commit a2a3e71424b41952857634e6236c017bf7ab0b1b
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Thu May 26 14:56:25 2016 +0200
+
+    Remove duplicate line editing unit
+    
+    edit-bsd.c was a copy of edit-edit.c.
+
+commit c5c7942d0ac0746f6bc0174acc94ad5c0ee2d3fc
+Merge: 8ca9ab1 89f4bd2
+Author: Byron Rakitzis <rakitzis@users.noreply.github.com>
+Date:   Sat Jun 10 20:13:09 2023 -0700
+
+    Merge pull request #84 from borkovic/man_continue
+    
+    Add "continue" to the list of differences from plan9 in man page
+
+commit 89f4bd2ddbec0979d49baeb6918602ceae3aba2d
+Author: Dražen Borković <borkovic@nomail>
+Date:   Fri Jun 9 13:51:30 2023 -0700
+
+    Add "continue" to the list of differences from plan9
+
+commit e0521b6b974140793f8738c3bdd672370f4d4171
+Author: gtnoble <garretnoble@gmail.com>
+Date:   Mon Jun 5 14:54:13 2023 -0500
+
+    Modified the behavior of assignment to not modify the status code.
+    This is consistent with the behavior of bash/POSIX shell
+    Before, it was impossible (to me) to get the status code when making an
+    assigment from a command substitution.
+    
+    Now you can have really neat C-like code like this:
+    
+    if ( response=`{make-http-request $url} ) {
+            echo $response
+    } else {
+            echo 'an error occurred' >[1=2]
+            echo $response
+    }
+
+commit 8ca9ab1305c3e30cd064290081d6e5a1fa841d26
+Merge: ceb59bb 098c5f5
+Author: Byron Rakitzis <rakitzis@users.noreply.github.com>
+Date:   Tue Aug 3 07:47:10 2021 -0700
+
+    Merge pull request #72 from rakitzis/travis
+    
+    add travis yml
+
+commit 098c5f5a40253e1381ac02344909ad3da1ed0d83
+Author: Byron Rakitzis <byron@rakitzis.com>
+Date:   Mon Aug 2 22:20:08 2021 -0700
+
+    add travis yml
+
+commit a14a9761268d609191c499e89783ed38a6fe5dbd
+Author: Avindra Goolcharan <aavindraa@gmail.com>
+Date:   Tue Feb 2 15:15:05 2021 -0500
+
+    Delete RELDATE
+    
+    This file became vestigial after:
+    
+    https://github.com/rakitzis/rc/commit/89f1e1b445c2c50ffb61fa1327e11c475eb1b57f
+
+commit ceb59bb2a644f4ebc1645fe15f1063029579fa7c
+Author: Toby Goodwin <toby@nqmail.org>
+Date:   Sun Aug 19 22:46:08 2018 +0100
+
+    do not permit "if not" after "if ... else"
+
+commit 3f4dfc08e2ca5dc37260dee2bc7d1fb6c5f9ff96
+Author: Toby Goodwin <toby@nqmail.org>
+Date:   Sun Aug 19 22:29:03 2018 +0100
+
+    add failing test for else / if not case
+
+commit 9c6211258c808637d6a71430b191841f0c50ed25
+Author: Toby Goodwin <toby@nqmail.org>
+Date:   Wed Aug 8 22:52:23 2018 +0100
+
+    minor tidyups
+
+commit 3d2cd3500b6b9881ad86511acf29b39aba8551a4
+Author: Drazen Borkovic <dborkov@amazon.com>
+Date:   Sat Aug 4 17:57:38 2018 -0700
+
+    Cleaner string for test
+
+commit 674875fe55afd5f76f0f4dab3555ff283928545a
+Author: Drazen Borkovic <dborkov@amazon.com>
+Date:   Sat Aug 4 17:28:00 2018 -0700
+
+    Test for if-not issue
+
+commit 30b5d93c057e582d10577796fe5fe296b4498ac2
+Author: Toby Goodwin <toby@nqmail.org>
+Date:   Wed Aug 8 22:47:02 2018 +0100
+
+    improved implementation of if_state inspired by borkovic
+
+commit 9d071b26bf1b1dcd71efb06dc4fb6c25803856a0
+Author: Toby Goodwin <toby@nqmail.org>
+Date:   Wed May 30 22:46:38 2018 +0100
+
+    if_state was being clobbered while running body of succeeding if
+
+commit dc29bf28ac586e9790f0784785774589fb367c9b
+Author: Toby Goodwin <toby@nqmail.org>
+Date:   Wed May 30 22:19:47 2018 +0100
+
+    tweak ChangeLog
+
+commit eb3ccbb69aba3db181d009147e37514388f4e3db
+Merge: 668096b b0b8ff7
+Author: Toby Goodwin <toby@paganbooks.eu>
+Date:   Wed May 30 21:51:26 2018 +0100
+
+    Merge branch 'master' of github.com:rakitzis/rc
+
+commit 668096b6d336128d6828b0e0bf214e2a228d7026
+Author: Toby Goodwin <toby@paganbooks.eu>
+Date:   Wed May 30 21:50:52 2018 +0100
+
+    very minor cleanups
+
+commit b0b8ff7b1dbc2cd316cdb4afe51b02e1dda9851d
+Merge: 8ecd970 7893cd8
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Wed May 2 22:42:26 2018 +0100
+
+    Merge pull request #47 from muennich/ifnot-conflicts
+    
+    Silence parser conflicts caused by IF NOT
+
+commit 7893cd8502b900941e57a041072b9ca524470d84
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Tue May 1 21:08:37 2018 +0200
+
+    Silence parser conflicts caused by IF NOT
+
+commit f42cd916f72863cae6f2d49dc66b5bd089f4364e
+Author: Toby Goodwin <toby@paganbooks.eu>
+Date:   Tue May 1 07:33:37 2018 +0100
+
+    implement quoting for command completion
+
+commit 23d7c25bef82a221e559302424e3e1f53bf8d4cd
+Author: Toby Goodwin <toby@paganbooks.eu>
+Date:   Tue May 1 06:45:06 2018 +0100
+
+    quoting functions mean filename completion mostly works for names containing "'"
+
+commit ce98977a948081a3ac6006f730f469f12cba8b3c
+Author: Toby Goodwin <toby@paganbooks.eu>
+Date:   Sun Apr 29 21:51:25 2018 +0100
+
+    minor cleanups
+
+commit 154fb2264f717aebe4ff149efce42411cefd583f
+Author: Toby Goodwin <toby@paganbooks.eu>
+Date:   Sat Apr 28 23:14:12 2018 +0100
+
+    support completion through subdirs of path
+
+commit 6fe8c0e92443ce3898fa8c3ebd73f6976fe98eec
+Author: Toby Goodwin <toby@paganbooks.eu>
+Date:   Sat Apr 28 08:21:19 2018 +0100
+
+    check access of external commands when completing
+
+commit cb99a1b11a2f0d39cd92a27351a4920422bcd7a1
+Author: Toby Goodwin <toby@paganbooks.eu>
+Date:   Sat Apr 28 07:46:54 2018 +0100
+
+    eliminate goto... clearer?
+
+commit f26b1b7d1311c34b1ed4ec29b5d26e3ae421873b
+Author: Bert Münnich <b.muennich@stagetec.com>
+Date:   Fri Feb 26 18:32:27 2016 +0100
+
+    Always insert single match of explicit complete function
+    
+    If an explicit complete function has only one match but is used directly after
+    the default tab completion, than the single match is shown instead of inserted.
+    The solution is resetting the 'rl_last_func' variable if it is set to
+    'rl_complete' when using an explicit complete function.
+
+commit a50b93cd6790c95a85c7647829c14a0ccd166f31
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Sat Dec 5 18:26:37 2015 +0100
+
+    Custom readline commands for explicit completions
+    
+    New commands:
+      - rc-complete-command, per default bound to "M-!"
+      - rc-complete-filename, "M-/"
+      - rc-complete-variable, "M-$"
+    
+    These commands are useful, if one wants a specific type of completion which is
+    not performed by the context-senstive default one, e.g. filename completion at
+    the beginning of the line or command completion for the second word (after
+    sudo).
+    
+    The readline code now also sets the application name to "rc", making it
+    possible to specify different bindings for these commands in ~/.inputrc:
+      $if rc
+      "\C-x\C-[": rc-complete-command
+      "\C-[\C-x": rc-complete-filename
+      "\C-x\C-v": rc-complete-variable
+      $endif
+
+commit 68fc1605e7d3a317477abf1afc6410581724b72d
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Sat Dec 5 17:34:49 2015 +0100
+
+    Completion of command names and variables
+    
+    New completion entry functions for readline specific code:
+      - compl_var for variables
+      - compl_fn for functions
+      - compl_builtin for builtins
+      - compl_extcmd for external commands in path
+      - compl_command, which combines the last three
+    
+    The first three are simple wrappers for compl_name, which iterates over a
+    typical rc table (an array of structs) yielding the name fields.
+    
+    The appropriate completion entry function is chosen based on the
+    character/token that preceeds the word to complete: '$' for variable,
+    beginning of line or one of [`@|&(){;] for command. Otherwise the shell falls
+    back to readline's default completion, which it also does, if the chosen
+    completion entry function finds no match.
+
+commit 8ecd9704f9564950d8ea80c0fcff04b8861b37e4
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Wed Apr 25 22:29:49 2018 +0100
+
+    bring ChangeLog up to date
+
+commit 34f91fd658412d1ae31a2236eb406934c84e311a
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Apr 20 11:56:34 2018 +0100
+
+    new mkinstalldirs for some reason
+
+commit c8ef247c39df2038e112b4d5e97f373e1f0c6858
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Apr 20 11:55:42 2018 +0100
+
+    replace space used to terminate heredoc
+
+commit 0a1ecd59e87e2a3f394be2bcf9bf14d2eb293fc8
+Merge: 969af16 47151e4
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Mar 26 18:21:22 2018 +0100
+
+    Merge branch 'master' into ifnot
+
+commit 969af168ea450bf79f800da620efefa91ed1f174
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Mar 26 18:20:39 2018 +0100
+
+    whitespace cleanups
+
+commit 47151e4647b8decd77bb65c4fbe0dadb16ae79a8
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Tue Mar 20 21:58:03 2018 +0000
+
+    whitespace cleanup
+
+commit 9475ab261beabd848267f925940c15f9fd6eb96e
+Merge: 7a64312 79fcb6d
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Mar 19 21:59:02 2018 +0000
+
+    Merge branch 'master' into ifnot
+
+commit 79fcb6da5a44da33459122881085297c35e781f1
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Mar 19 21:50:11 2018 +0000
+
+    implement $nl and $tab, issue #43
+
+commit 7a643120366f1ea24eac5ccb759d4df616e7789b
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Mar 19 20:55:56 2018 +0000
+
+    implement desugaring version (again, lost due to git problem)
+
+commit 2dd0aa249c9bac4e5c616d1f386dc4271fdbab46
+Merge: 1128baa 54ccf74
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Mar 17 18:36:15 2018 +0000
+
+    Merge branch 'master' into ifnot
+
+commit 54ccf74c675696318b697182573a86668fe36f50
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Mar 17 18:34:17 2018 +0000
+
+    fix bad merge fixup
+
+commit e7b1461bb4ff9fed1b1240e50726012e365f160d
+Merge: cccdab7 d18aac7
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Mar 17 18:32:40 2018 +0000
+
+    Merge branch 'continue'
+
+commit cccdab7ea2bb922413f02698ecc5969c00e7a7aa
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Mar 17 15:14:21 2018 +0000
+
+    tidy up, test cases, document flag
+
+commit 9c7ee8473a71303ab4cb51c9593089c07c224a22
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Mar 16 20:39:43 2018 +0000
+
+    flag largely working, flag n + is a bit odd
+
+commit bc84292076945924cd9b006c061ae04d79f4209f
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Mar 16 20:20:46 2018 +0000
+
+    starting to work
+
+commit 1128baa58acaff32e4538d5878b916fba091c574
+Merge: b3b9943 a328793
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Mar 5 07:13:14 2018 +0000
+
+    Merge branch 'master' into ifnot
+
+commit a32879322714f53ec044dabe4d20c44cb85be116
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Mar 5 07:08:12 2018 +0000
+
+    add to ChangeLog
+
+commit b3b9943da25aa0f86e2542c6846142aeeaa0cfe5
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Mar 5 06:51:31 2018 +0000
+
+    implement walk half of if not, plus tests
+
+commit 280d57b40b71c16b242dab52286592efdf2e3356
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Fri Mar 2 21:04:06 2018 +0100
+
+    Unify bodies of if and if-else statements
+    
+    Fixes issue #31 of rakitzis/rc.
+
+commit 7d179ce096c89963deae835327596de435e66cdf
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Mar 2 06:06:51 2018 +0000
+
+    nBody second child can be null
+
+commit 5b624196125034b95d504be682127a5964e08da5
+Merge: 5966ab2 67a87ad
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Thu Mar 1 21:37:18 2018 +0000
+
+    Merge branch 'master' into ifnot
+
+commit 67a87ad0104d88e8b1711a3831d616598edb30c2
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Feb 17 16:03:30 2018 +0000
+
+    remove all references to SIGCLD
+
+commit dff49d84c0ef9880b191ebbaac2cf65a17eb481a
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Feb 9 06:39:40 2018 +0000
+
+    remove config.h-dist; add thanks to Bert and Leah
+
+commit 5966ab2ca2632c5bed9815def1add4859beececa
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Feb 9 06:34:34 2018 +0000
+
+    wip
+
+commit c5b1bdce2ced84fe956a56a206d7964e60f3f641
+Merge: 7dc3033 266dac9
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Nov 17 07:36:25 2017 +0000
+
+    Merge pull request #41 from muennich/issue40
+    
+    Fix issue #40
+
+commit 266dac97fd1cbd2e14cf7a9ca0fda4e446c75e3c
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Sat Oct 28 13:16:20 2017 +0200
+
+    Add test for issue #40, exit status of -e with failed backquote or pipeline
+
+commit 775b775240d09fe665efaecf2432d590567e68ef
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Fri Oct 27 19:30:09 2017 +0200
+
+    Fix exit value for -e with failed backquote or pipeline
+    
+    This fixes rakitzis/rc issue #40.
+    
+    Both cases suffered from a misconception of statprint() in which the necessary
+    check for -e happens. The checked status value gets passed to statprint() as an
+    argument but the corresponding value passed to rc_exit() in case the status is
+    non-zero comes from getstatus(), which requires that the checked status is
+    written to statuses[] first. For pipelines this happened in the wrong order and
+    for backquotes the status value was not put into statuses[] at all.
+    
+    Making statprint() a static helper function prevents this mistake by only
+    leaving the setstatus family of functions to handle status codes.
+
+commit d18aac739636fd9ae1f84fef8347f46216fb8d9c
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Aug 28 20:32:21 2017 +0100
+
+    remove blank line at end of file
+
+commit 383ea67ea46d335e0bd8b78168cd44c8bd56f6eb
+Author: Drazen Borkovic <borkovic@users.noreply.github.com>
+Date:   Sun Aug 27 12:49:03 2017 -0700
+
+    Change one continue-testing loop from for to while
+
+commit 292f79d2715d0e7cdcc0836f6f26ef56967c5f11
+Author: Drazen Borkovic <borkovic@users.noreply.github.com>
+Date:   Sat Aug 26 17:01:35 2017 -0700
+
+    Formatting
+
+commit 73c408f1358aba0ad50eca04c10e1fe06c969ccd
+Author: Drazen Borkovic <borkovic@users.noreply.github.com>
+Date:   Sat Aug 26 16:32:02 2017 -0700
+
+    Remove space at end of line
+
+commit 9d1668acadbddc53c673e19d4213365e92b8dbee
+Author: Drazen Borkovic <borkovic@users.noreply.github.com>
+Date:   Sat Aug 26 16:21:39 2017 -0700
+
+    Add continue to man page
+
+commit 2325713c2f574aa08b5ad1bb91a3e4ee30b6b0b5
+Author: Drazen Borkovic <borkovic@users.noreply.github.com>
+Date:   Sat Aug 26 16:19:50 2017 -0700
+
+    Add "continue" builtin
+
+commit 7dc3033c862c30d8998ed3e4c98c056286f31401
+Merge: 1952b15 eb59486
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Aug 25 20:46:09 2017 +0100
+
+    Merge pull request #21 from muennich/break-varstack
+    
+    Fix breaking out of loops through local variable blocks
+
+commit 1952b154af8f2afedbdb4b58bd1c6d9099b39973
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Aug 25 20:36:45 2017 +0100
+
+    use "/bin/pwd -P" - github #36
+
+commit e42c481a6dd6d5b7977fcd7221267cceeeefbb86
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Aug 25 20:28:55 2017 +0100
+
+    add Casper
+
+commit dc80ccac672785085df2fe20cd3a2a2198f6decb
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Jun 23 23:10:35 2017 +0100
+
+    fix for github #32 readline loses track of term size
+
+commit d2a398257626faf73fd7a5326b31bbc3f613e3da
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Jun 23 22:29:00 2017 +0100
+
+    fix prefix redir precedence bug, github #33
+
+commit dfc639b58490bc5c00da9c17e6c4dc367909b5e5
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Jun 23 22:20:02 2017 +0100
+
+    add failing test for github #33 counter intuitive redirection parse
+
+commit 1216df718969c0f856bce9e1adc64bce127eadd9
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Jun 23 22:16:23 2017 +0100
+
+    add parse tree dumper with --enable-develop
+
+commit 29440403156f6afc4ace075d96407596dfea2daa
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Jun 23 22:14:19 2017 +0100
+
+    reinstate yacc to the build process
+
+commit 7fba14fa7e6e414c623894be2ef371c6ca41e473
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri May 26 22:50:41 2017 +0100
+
+    INSTALL is an artifact, so add to .gitignore
+
+commit 5895c530562659ee5b547fe78fa65a380d5b0605
+Author: Jakub Wilk <jwilk@jwilk.net>
+Date:   Tue Feb 2 22:07:27 2016 +0100
+
+    fix typos
+
+commit d8946406165ccfc458ff418aec465d67fa61ec1e
+Author: Drazen Borkovic <borkovic@users.noreply.github.com>
+Date:   Mon Oct 26 22:22:54 2015 -0700
+
+    When running rc on the following script, rc crashes.
+        fn f1 { v=x {  }}
+        fn f2 { f1  1;  f1  2 }
+        f2
+        whatis
+    
+    Valgrind stack:
+        ==10068== Invalid read of size 8
+        ==10068==    at 0x40EFB1: varlookup (var.c:84)
+        ==10068==    by 0x407B04: whatare_all_vars (hash.c:311)
+        ==10068==    by 0x401E60: b_whatis (builtins.c:323)
+        ==10068==    by 0x402E32: exec (exec.c:92)
+        ==10068==    by 0x40F997: walk (walk.c:39)
+    
+    The reason is that vp[h].p is freed in delete_var(), but the pointer is kept.
+    Later the pointer is found to be non-null and dereferenced causing the crash.
+
+commit 6eb8030b2dcc91cf689394056741f47408411d69
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Thu May 25 22:25:03 2017 +0100
+
+    remove trailing space
+
+commit 08d7e12bb904e6e427605297b9f01c3bf95d8dac
+Author: Drazen Borkovic <borkovic@users.noreply.github.com>
+Date:   Fri May 12 22:14:57 2017 -0700
+
+    Man page explanation of the -e option include the test in the while() statement.
+
+commit 03bfa8b5f639928fa3f003182a51ee263a8dcc91
+Author: Drazen Borkovic <borkovic@users.noreply.github.com>
+Date:   Thu May 11 19:49:52 2017 -0700
+
+    Fix: "rc -e" exits if condition in while statement returns false the second time
+
+commit 819db03616d13e2b3da646140d74a4879d46f8c8
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Thu May 25 22:21:48 2017 +0100
+
+    tidy up bootstrap: INSTALL is an artifact
+
+commit 250c8ad26a4edb13623f492be0b608f9e02ba16c
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Apr 17 23:04:12 2017 +0100
+
+    document readline tilde expansion
+
+commit 52b096b7ac9ffa8150fe0450ba76dbc3332a214e
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Apr 17 21:59:45 2017 +0100
+
+    add some tests for unquoted equals
+
+commit a4eddefec148f98c790e390d80fbd69811da48c7
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Thu Sep 15 21:39:41 2016 +0100
+
+    update parse.[ch]
+
+commit d0ee32e585437b76f095379ec84fd753a5d30a3c
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Sat Feb 27 20:52:33 2016 +0100
+
+    Parse equals sign as keyword
+    
+    The parser treats unexpected keyword tokens (eg. if, while, ~) as literals and
+    not as syntax errors. It does not do this for the equals sign, but it could, as
+    it only has a special meaning at the beginning of a command, much like the
+    keywords. Doing this allows one to write commands like this:
+    
+        dd if'='/dev/zero of'='data bs'='1024 count'='1
+    
+    without the quotes around the equals signs. All shells from the Bourne family
+    do this.
+    
+    For this to work, the lexer must not automatically terminate words at equals
+    signs, instead it has to generate a free caret around it like for the twiddle
+    and other such special characters.
+    
+    In the parser's grammar we need to get rid of the left recursion in the rules
+    for 'simple' to turn the reduce/reduce conflict at 'first' on '=' (empty ->
+    'optcaret' or 'first' -> 'simple') into a shift/reduce conflict, which then
+    can be solved with precedence/associativity so that the reduction of the
+    empty 'optcaret' wins over shifting '='.
+
+commit d260301ae1c54fb68c0849e1895c0958f55942ef
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Apr 17 21:23:44 2017 +0100
+
+    improve lshift function in man page
+
+commit 4ac92d8074388d1b9e70b0533469d1b82c71ba95
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Apr 17 21:23:26 2017 +0100
+
+    add "rc: " prefix to "cannot shift" error
+
+commit 89f1e1b445c2c50ffb61fa1327e11c475eb1b57f
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Aug 27 23:02:32 2016 +0100
+
+    replace problematic reldate with git describe (thanks @RamKromberg)
+
+commit 98036baceaea6c37af19b64af547eb98b2ea19ee
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Aug 27 23:01:05 2016 +0100
+
+    git ignore aclocal.m4
+
+commit 43d2c19d4f7760722a2f72ca0dc4657f8dbbe04c
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Aug 27 22:21:50 2016 +0100
+
+    mention that ~ $foo () cannot be combined with other patterns
+
+commit cc11e3c80f687fb98dcbcd2249731f999ddb9189
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Thu Aug 25 22:09:42 2016 +0100
+
+    do not return random value if sigaction fails (thanks @borkovic)
+
+commit 2ab8e78dfa862d4a378f766548442c24efa516cc
+Merge: c95bdf7 a5faae1
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Thu Aug 25 21:46:12 2016 +0100
+
+    Merge pull request #14 from muennich/edit-sigh
+    
+    Restore signal handlers when catching signals in edit_alloc()
+
+commit eb594861d41090b53272a6bc8941bf2075c4311f
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Fri Feb 26 23:32:48 2016 +0100
+
+    Break out of loops through local variable blocks
+    
+    This code:
+    
+    while () {
+            var = 1 {
+                    break
+            }
+    }
+    
+    caused an 'break outside of loop' error. Handling eVarstack like eArena in
+    rc_raise() fixes this.
+
+commit a5faae14cd81c019b8757c2f263799d19a2218e0
+Author: Bert Münnich <ber.t@posteo.de>
+Date:   Sat Nov 28 15:48:46 2015 +0100
+
+    Restore signal handlers when catching signals in edit_alloc()
+    
+    edit_catcher() performs a longjmp via rc_raise() to the matching setjmp in
+    doit(). The latter does the same as before, so that edit_alloc() gets called
+    again, but this time the installation of the signal handlers trashes the old
+    handlers saved in the last call. Once readline() returns normally to
+    edit_alloc() the wrong signal handlers get restored.
+    
+    The simplified call hierarchy looks like this:
+    
+    doit();
+      sigsetjmp();
+        edit_alloc();
+          oldint = sys_signal(SIGINT, edit_catcher);
+          readline();
+            SIGINT -> edit_catcher();
+              siglongjmp();
+          sys_signal(SIGINT, oldint);
+    
+    Restoring the old signal handlers in edit_catcher() solves this.
+
+commit c95bdf7ce9be6c6ed8ca4b0a474fc4947836eba9
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Oct 23 11:18:42 2015 +0100
+
+    remove chldign.c and (binary!) chldign
+
+commit 680d794205b9e7ec0f17732dd31fc231a84b0115
+Merge: 85bdc54 c884da5
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Oct 23 11:17:53 2015 +0100
+
+    Merge branch 'master' into develop
+
+commit 85bdc54544a8b0f9f8c4b2103a7eced0dde69fb2
+Merge: 5457e81 c3314c0
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Thu Sep 3 15:55:11 2015 +0100
+
+    Merge pull request #8 from Pyrohh/example
+    
+    Fix man page example
+
+commit c3314c0927fe1afb71a22c51343c23822aba7ba2
+Author: Michael Reed <m.reed@mykolab.com>
+Date:   Wed Sep 2 16:47:44 2015 -0400
+
+    Fix man page example
+    
+    A closing brace was missing.
+
+commit 5457e8175e2f58e4f16715e8dc20cdeb954ce1b9
+Merge: 0434fd3 c878835
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Wed Jul 15 20:41:46 2015 +0100
+
+    Merge pull request #7 from jwilk/spelling
+    
+    fix a typo
+
+commit c878835c5b3d3899064afd9065278e1197b121c0
+Author: Jakub Wilk <jwilk@jwilk.net>
+Date:   Wed Jul 15 13:11:39 2015 +0200
+
+    fix a typo
+
+commit 0434fd325c7fb9fcea14107b070564878e0bccc9
+Merge: 8481121 40ac711
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Wed Jun 24 11:52:54 2015 +0100
+
+    Merge pull request #4 from rlonstein/feature/fix-gnuism
+    
+    use POSIX style date format in configure, not GNU date option
+
+commit 40ac711166428c4de7e6a77baa76c48ece0d7b0d
+Author: Ross Lonstein <rlonstein+github@pobox.com>
+Date:   Tue Jun 23 18:30:45 2015 -0400
+
+    use POSIX style date format in configure, not GNU date option
+
+commit 8481121e378fbe8512b892dc83f63e1656f83aef
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sun May 17 20:29:26 2015 +0100
+
+    tidy up READMEs
+
+commit 25bc76cc1e058e31d20dfb834ed46db18d457f74
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sun May 17 20:15:31 2015 +0100
+
+    create a README.md for github
+
+commit b1611c2a34d7b4c7605836cdfe2393c09b2aba07
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sun May 17 20:14:21 2015 +0100
+
+    Revert "rename README to README.md"
+    
+    This reverts commit 7d9b971e1a11080af402d65613ec870c0203dedb.
+
+commit 7d9b971e1a11080af402d65613ec870c0203dedb
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat May 16 11:33:24 2015 +0100
+
+    rename README to README.md
+
+commit 3c26aae11e1f8e8afc788eb8694cac152db7f4fc
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat May 16 11:31:54 2015 +0100
+
+    remove some old / odd files
+
+commit a63fdbc28b31e425019db3125764481942fa734e
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat May 16 11:19:52 2015 +0100
+
+    remove automake artifacts
+
+commit 490fd204dd4d4cb62e28fd2b95df37103fc3aca9
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Wed May 13 22:24:51 2015 +0100
+
+    release: rc-1.7.4
+
+commit 471b6d47ea38466543d8566a3a7df65e1a309e4b
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Tue May 12 22:28:54 2015 +0100
+
+    make mktemp more bsd friendly
+
+commit 526c86edcbf2cdd1249ee63c043dd3a96a5694a4
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Tue May 12 22:18:31 2015 +0100
+
+    update to plain zlib license
+
+commit 9e59c75ff705f24990fb07895455293f23ba1169
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Tue Apr 21 21:39:04 2015 +0100
+
+    Release: rc-1.7.3.
+
+commit 42fdde129932db706c17a58b1cdb7fae37504ace
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Tue Apr 21 21:26:05 2015 +0100
+
+    rename edit shims
+
+commit 80073a271ce29ffd6bfb594bb0e03b3efd7c2453
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Apr 18 22:09:37 2015 +0100
+
+    update release time files
+
+commit 82c5cb6a55884f69963c4419368ce3891de50475
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Apr 18 12:13:09 2015 +0100
+
+    update licence to "ZlibWithAcknowledgement" (change approved by Byron)
+
+commit 39c0c097d46c742c5751957f1fe55ba273ca034d
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Apr 18 12:06:30 2015 +0100
+
+    remove RELDATE from ReleaseTime too
+
+commit 99e9e28b96888db192f93f9afcb4ac9f7e933abf
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Apr 18 12:02:51 2015 +0100
+
+    Revert "readline completion: now mainly working" (moved to branch)
+    
+    This reverts commit 90de423084757db66041175b43a59b5ff630cb50.
+
+commit ba06b72d0df0c89e4beddbadedfe42cf4a3088ba
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Apr 17 20:03:13 2015 +0100
+
+    remove obsolete RELDATE
+
+commit 95ca3a83a71b7aa9051b5fb1bf2aad8ed060d75d
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri Apr 17 19:23:52 2015 +0100
+
+    add rc-1.7.2 release date
+
+commit ac05f84854833da085c9503765f462a29c3bc719
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Tue Apr 14 23:36:05 2015 +0100
+
+    in initinput() ungetcount was used uninitialized
+
+commit 6ca78ba8c54c4ba6105e04119c5e8146aefa40bd
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Apr 13 21:02:43 2015 +0100
+
+    configure.ac: AM_CONFIG_HEADER and AM_PROG_CC_STDC are obsolete
+
+commit ab7361a7ff91a9a79bd02e06f20ded42ee2a5bcc
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Tue Apr 7 23:54:45 2015 +0100
+
+    readline completion: now mainly working
+
+commit 535d086f6efb24eeaf9a0b2d8269e97a88c12f29
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Tue Apr 7 22:29:49 2015 +0100
+
+    tgetent can be in -ltinfo
+
+commit aea3b917a8b6668126a3f3df41d4207fcfb38d99
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Tue Apr 7 22:29:26 2015 +0100
+
+    edit shims: rename and tidy in configure script
+
+commit 85a4df1cd04821b5ae5fe9f90181687621e9eb0a
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Tue Apr 7 22:24:20 2015 +0100
+
+    remove a couple of autoconfiscation products
+
+commit 8ca9f57a797e425205e08bce8355cf953d6be16b
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Tue Apr 7 22:22:56 2015 +0100
+
+    edit shims: better naming, editline and vrl added
+
+commit fbeb8501cdbf8f640605e3c05551fd71e5cc33a3
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Apr 4 12:46:13 2015 +0100
+
+    typo (thanks Jakub Wilk)
+
+commit 8f6cdbf1e60d882598cd649000d13cd9859d8cc9
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Apr 4 11:55:08 2015 +0100
+
+    s/__va_copy/va_copy/g
+
+commit b84c9e384eb97f3ca12700ecadd22bac86f4fe64
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sat Apr 4 10:29:07 2015 +0100
+
+    rc.spec was majorly out of date
+
+commit f8437571747248d91b5e341213fbc74e92fa5838
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Sep 1 22:47:45 2014 +0100
+
+    release rc-1.7.2; fixes CVE-2014-1936
+
+commit e2e189493e395eef839fd58800fbaaaf736152b9
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Sep 1 22:44:05 2014 +0100
+
+    add $"x as a synonym for $^x
+
+commit 517ced5334f62771153cc16c73ba382c7da42f8e
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Mon Sep 1 22:39:21 2014 +0100
+
+    fix both Zekoll and Neukirchen bugs
+
+commit 4648857ce124cff7bbe41f29cfadf0f8a2393b1e
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sun Aug 31 22:55:55 2014 +0100
+
+    update NEWS file
+
+commit a8ffbdddc29a3a1be658a3824f3669301bca9d28
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sun Aug 31 17:17:46 2014 +0100
+
+    add .gitignore
+
+commit e477187400f55d5de0b06f6629d9b18d79ce2690
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sun Aug 31 22:40:19 2014 +0100
+
+    quoting for filename completion
+
+commit 16fadbd2cf8cfebbf3b2951f750b13d9816e36fa
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sun Aug 31 17:17:46 2014 +0100
+
+    add .gitignore
+
+commit a9b2dfaf4f225903cc999e5f1dc8f408599274d3
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sun Jun 29 22:18:00 2014 +0100
+
+    update email and web addresses
+
+commit 6be65f1158693d5238b7afa54e4a8d8964c2773a
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Sun Jun 29 21:59:24 2014 +0100
+
+    fixes for automake
+
+commit 8ff8b4fee6229914beb8407ff21235e07f9c48f1
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Wed Feb 26 21:07:09 2014 +0000
+
+    various patches from Jakub Wilk
+
+commit ee7e7d932217dc6d6d7cc14da1b1209365fd22b8
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Thu Jun 6 22:28:21 2013 +0100
+
+    various autoconf tweaks
+
+commit d854792229fd4151b3f9abb70fa4bfaeea369563
+Author: Toby Goodwin <LibreSoftwareDesign@gmail.com>
+Date:   Mon Oct 15 00:17:17 2012 +0100
+
+    more tidying up of errors
+
+commit d1f7167ce21da3e3f4ee051b2fdd24fc9607bbdc
+Author: Toby Goodwin <LibreSoftwareDesign@gmail.com>
+Date:   Thu Oct 4 22:54:20 2012 +0100
+
+    more errors
+
+commit 826eea2e08a9ec4254ccbd4d12fcd7828f8c413d
+Author: Toby Goodwin <LibreSoftwareDesign@gmail.com>
+Date:   Mon Oct 1 21:51:47 2012 +0100
+
+    various minor fixups
+
+commit c8a77b86b4f8c91314222a8e12e6e37cf182ee10
+Author: Toby Goodwin <LibreSoftwareDesign@gmail.com>
+Date:   Mon Oct 1 20:46:40 2012 +0100
+
+    initial commit
+
+commit 27c900d6ae9cd0dcf4bc97bc9b8c1882e40ccfa8
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Fri May 15 19:36:55 2015 +0100
+
+    snapshot from cvs: 2005-03-03
+
+commit 3202133256713848312dddefba2250a6803bfec6
+Author: tjg <tjg>
+Date:   Tue Sep 30 13:36:41 2003 +0000
+
+    checkpoint
+
+commit 27e15d138e55da4dbb626b727424d550a1464a69
+Author: tjg <tjg>
+Date:   Tue Sep 30 10:21:45 2003 +0000
+
+    Initial revision
+
+commit d000dc89db8f65db051a3d870bbc8f4d4edefd8d
+Author: tjg <tjg>
+Date:   Thu Sep 25 09:17:46 2003 +0000
+
+    Initial revision
+
+commit 70a21186f92ee19a995080744ce9a320345c05cb
+Author: tjg <tjg>
+Date:   Wed Sep 24 10:15:11 2003 +0000
+
+      Tidiness: minor improvements to input.c.
+
+commit 02c12b81c0b9b19a7b1372c8e6842337a9f00959
+Author: tjg <tjg>
+Date:   Wed Aug 13 13:51:14 2003 +0000
+
+    typos only
+
+commit 2b0f189582c7ecf11f3b3aa0e367ec781e5ac2b5
+Author: tjg <tjg>
+Date:   Wed Aug 13 13:07:02 2003 +0000
+
+      Release: rc-1.7.1.
+
+commit c67f6a38b2a04469c99194c9bb7594233c917c21
+Author: tjg <tjg>
+Date:   Wed Aug 13 13:06:42 2003 +0000
+
+      Testing: remove test for large file support, as it causes
+      indigestion on file systems that don't support sparse files (thanks
+      Scott Schwartz).
+
+commit 4096742b6e95c879444b004a92f4fa43e648abed
+Author: tjg <tjg>
+Date:   Thu Jul 17 11:59:38 2003 +0000
+
+      Testing: remove test for large file support, as it causes
+      indigestion on file systems that don't support sparse files (thanks
+      Scott Schwartz).
+
+commit ffe6f1d41d3711bcae4f622028966839f739419f
+Author: tjg <tjg>
+Date:   Thu Jul 17 11:59:28 2003 +0000
+
+    bogus dependency
+
+commit b0d0a475dddc8957bf6af44f81b111e9b3ec7064
+Author: tjg <tjg>
+Date:   Thu Jul 17 11:50:18 2003 +0000
+
+    it's not rc_version any more
+
+commit ef11f0fb434c571204e207e50e55a3c8a9941432
+Author: tjg <tjg>
+Date:   Thu Jul 17 11:45:28 2003 +0000
+
+    fix tiny typo
+
+commit f78fc50d1b677a4f8f92dd7057f87eb26dea31a6
+Author: tjg <tjg>
+Date:   Thu Feb 20 14:03:41 2003 +0000
+
+    Initial revision
+
+commit c759fd5f39c2cc2971869a2ffe59a29ffecd63da
+Author: tjg <tjg>
+Date:   Wed Nov 27 16:29:49 2002 +0000
+
+    better comments
+
+commit 920f0ca9c8b7ae370a3ceaacee2c54662cfdb0fd
+Author: tjg <tjg>
+Date:   Wed Nov 27 12:40:57 2002 +0000
+
+      Bug: history dumps core if more colons than substitutions (thanks
+      Callum Gibson); history fails to avoid itself if it's the only
+      command; history writes and reads outside allocated memory.
+
+commit 85590ce3487c3e5a6edb1a1f4f82a67ea62712e1
+Author: tjg <tjg>
+Date:   Wed Nov 27 12:40:33 2002 +0000
+
+      Configuration: upgrade to autoconf-2.56 and automake-1.7.1.
+
+commit 3350079a799e9b685d829c720f2b875b27d1ff47
+Author: tjg <tjg>
+Date:   Wed Nov 27 10:23:26 2002 +0000
+
+      Bug: history dumps core if more colons than substitutions (thanks
+      Callum Gibson).
+
+commit 8b0eda2af45a00158ef3688a1627cb127a74b20b
+Author: tjg <tjg>
+Date:   Tue Aug 20 15:57:45 2002 +0000
+
+    no NDEBUG for snapshots
+
+commit abc309bee6007ed47a2aee33705324dc9cc8050a
+Author: tjg <tjg>
+Date:   Tue Aug 20 15:38:52 2002 +0000
+
+      Bug: don't call ealloc(0) on systems where getgroups() doesn't
+      return egid (thanks Chris Siebenmann).
+
+commit 456bce4845a7035515a737e3276e5390c2b6db16
+Author: tjg <tjg>
+Date:   Thu Aug 15 14:02:09 2002 +0000
+
+    fix typo (s/SIGCONT/SIGSTOP/)
+
+commit 8f26017bb9cb3f38424f50511263cf70e476d98b
+Author: tjg <tjg>
+Date:   Thu Aug 15 13:45:03 2002 +0000
+
+      Portability: don't call sigaction() for SIGKILL or SIGCONT; don't
+      hand a garbage signal mask to sigaction() (thanks Jeremy
+      Fitzhardinge).  Also, remove use of SA_INTERRUPT (SUSv3, BSD,
+      etc. have SA_RESTART with the inverted meaning).
+
+commit 8f81d22c989808d3889a7ad6806903adec5ae27b
+Author: tjg <tjg>
+Date:   Thu Aug 15 12:51:27 2002 +0000
+
+      Bug: variables that are sometimes exported (i.e. $prompt and
+      $version) need to be made exportable if they are inherited from the
+      environment.
+
+commit 192d9da98404dc93eb1e5bcc2b1c810d5c6c8435
+Author: tjg <tjg>
+Date:   Wed Jul 31 12:39:07 2002 +0000
+
+      Bug: fix globbing of broken symlinks.
+
+commit a099278f6289d9cd3bda09215dd08de50833285c
+Author: tjg <tjg>
+Date:   Wed Jul 31 12:28:01 2002 +0000
+
+      Bug: readline doesn't handle EIO either.
+
+commit 1b73f47776f32c04410bde4498956321f7b2beb7
+Author: tjg <tjg>
+Date:   Wed Jul 31 12:26:58 2002 +0000
+
+    back to snapshots
+
+commit 15524157755d0d1452624d1e66659dba2bf6a7c3
+Author: tjg <tjg>
+Date:   Thu Jul 25 12:19:17 2002 +0000
+
+      Bug: fix globbing of broken symlinks.
+
+commit 3616be790d722e6037bd436c654d9a2c0c48a7e7
+Author: tjg <tjg>
+Date:   Thu Jul 25 12:17:21 2002 +0000
+
+    s/LIBS/LDFLAGS/
+    mention that it doesn't work on CygWin
+
+commit 604e3fa3c170ab78dc15c6ffded55fbc6ed4a041
+Author: tjg <tjg>
+Date:   Thu Jun 20 15:29:07 2002 +0000
+
+    Initial revision
+
+commit 0d95155a112f968589ec737e9248ed171a002f1c
+Author: tjg <tjg>
+Date:   Wed Jun 19 14:57:54 2002 +0000
+
+    update copyright
+
+commit 2157d7ebbee8aae4e52bd69ac97d4563687fca40
+Author: tjg <tjg>
+Date:   Tue Jun 18 11:18:12 2002 +0000
+
+      Release: rc-1.7.
+
+commit eea228e936fab3fffb001bd63d49de505d1ee092
+Author: tjg <tjg>
+Date:   Wed May 22 14:25:10 2002 +0000
+
+      Documentation: possible warning in tripping.c (thanks Dan Moniz).
+
+commit 919925fbf135231f1adeb2bcf368b0b262674dc6
+Author: tjg <tjg>
+Date:   Wed May 22 13:25:49 2002 +0000
+
+      Release: rc-1.6c7.
+
+commit 610f70f69e12c1883c0016d63bb54ad57701e505
+Author: tjg <tjg>
+Date:   Wed May 22 13:25:40 2002 +0000
+
+      Feature: make $version less magical, and exportable if it's changed
+      from its default value.  Same for $prompt (thank Erik Quanstrom).
+    
+      Bug: make $bqstatus and $status not exportable.
+
+commit 898c2070071211cf92caa4bbac269e3b81095ab1
+Author: tjg <tjg>
+Date:   Wed May 22 13:24:53 2002 +0000
+
+    tidy up for release
+
+commit b241fc272dde1a99ca058d90bed8a0de166bfb88
+Author: tjg <tjg>
+Date:   Wed May 22 13:23:59 2002 +0000
+
+      Feature: "stuttering" colons for multiple replacements in the
+      history programs (thanks Callum Gibson).
+
+commit e9d74072f34b43258aa10e45d35389fc52a9f042
+Author: tjg <tjg>
+Date:   Wed May 22 13:23:01 2002 +0000
+
+    tidy up copyright notice (don't need additional years)
+
+commit 3c2a0d4be32e375a71452ab442a4465b5ef84608
+Author: tjg <tjg>
+Date:   Wed May 22 13:22:30 2002 +0000
+
+    remove redundant decl of doredirs
+
+commit 092c39019d63e178c57413fe660f2b86f93f7c92
+Author: tjg <tjg>
+Date:   Tue May 21 15:34:35 2002 +0000
+
+    add 2002
+
+commit f438af241d1a85f9d6d7b3cd214eb3f11a972e0b
+Author: tjg <tjg>
+Date:   Thu Apr 4 10:07:58 2002 +0000
+
+      Feature: make $version less magical, and exportable if it's changed
+      from its default value.  Same for $prompt.
+
+commit 5ebf72443b04d110e41c9f2f9dbc6a9796862e38
+Author: tjg <tjg>
+Date:   Wed Apr 3 14:57:21 2002 +0000
+
+      Feature: make $version less magical, and exportable.
+    
+      Bug: make $bqstatus and $status not exportable.
+
+commit 94fa27339355b25aeb93a02ac36ab3b7921810b5
+Author: tjg <tjg>
+Date:   Wed Mar 27 13:44:30 2002 +0000
+
+    reorder variables
+
+commit 6af4f7a7ae3d9e016399f09ba99331bfbdc6a6af
+Author: tjg <tjg>
+Date:   Wed Mar 27 13:42:36 2002 +0000
+
+      Feature: rename $version to $rc_version.
+
+commit c065d5875b8467f0ad81c1d05c4ffda57ddb380d
+Author: tjg <tjg>
+Date:   Fri Feb 8 14:48:47 2002 +0000
+
+      Bug: yet more wrongly ordered header file includes.
+
+commit 061386e5f31da451257235b3a24a3f00e427fe02
+Author: tjg <tjg>
+Date:   Fri Feb 8 14:14:01 2002 +0000
+
+      Release: rc-1.6c6.
+
+commit ab5a66ad3e612ae1d0b0b386a65ab13c24a97d2a
+Author: tjg <tjg>
+Date:   Fri Feb 8 14:06:52 2002 +0000
+
+    snapshot
+
+commit ea5ce6dbed2f425da750f7a1991e5bae05f70c3e
+Author: tjg <tjg>
+Date:   Fri Feb 8 14:03:36 2002 +0000
+
+      Bug: parselimit() was broken in various ways (thanks Chris
+      Siebenmann).
+
+commit bf61b6f19e8292742ed3dedcf58457ff3607173a
+Author: tjg <tjg>
+Date:   Fri Nov 23 16:03:22 2001 +0000
+
+      Bug: parselimit() was broken in various ways (thanks Chris
+      Siebenmann).
+
+commit c09b7f1b7658ff06291ec6f9360db73b67a6ed82
+Author: tjg <tjg>
+Date:   Wed Nov 21 16:01:03 2001 +0000
+
+    "fonto"
+
+commit 08ad2780dbbba3d15da3a386d83f1c0ff343b138
+Author: tjg <tjg>
+Date:   Wed Nov 21 14:53:42 2001 +0000
+
+    update date
+
+commit e08f2f67a5bbd7014d5a25d38d2c923fa30c6031
+Author: tjg <tjg>
+Date:   Tue Nov 20 21:35:04 2001 +0000
+
+      Release: rc-1.6c5.
+
+commit bb75d87840ec0aa49c4ec0019e32c162054229a2
+Author: tjg <tjg>
+Date:   Tue Nov 20 21:34:50 2001 +0000
+
+      Documentation: tighten up various descriptions, and include some
+      more examples.
+    
+      Release: rc-1.6c5.
+
+commit 0c8f724114bd5703a825cc8a9d7f9c7ae0acbfb3
+Author: tjg <tjg>
+Date:   Tue Nov 6 17:03:09 2001 +0000
+
+      Portability: rename print.c::utoa() to rc_utoa() to avoid QNX name
+      clash; use "sh -c 'test ...'" in trip.rc for missing standalone
+      `test' on QNX (thanks Stefan Dalibor).
+
+commit c18e056190765f36a8801838184adc080ce0820f
+Author: tjg <tjg>
+Date:   Tue Nov 6 16:55:11 2001 +0000
+
+      Bug: more wrongly ordered header file includes (thanks Callum
+      Gibson).
+
+commit 0c150b1982f71725fe4cea1501bb7d0877ca2247
+Author: tjg <tjg>
+Date:   Wed Oct 31 14:12:20 2001 +0000
+
+      Documentation: subscripted variables don't work in here documents.
+
+commit fe16557d6674b2e481e88af6b837a177141ff20f
+Author: tjg <tjg>
+Date:   Wed Oct 31 12:31:57 2001 +0000
+
+      Release: rc-1.6c4.
+
+commit aea9f2fdebb7daf2c0b16af9430bb05a07ab86b1
+Author: tjg <tjg>
+Date:   Wed Oct 31 12:30:00 2001 +0000
+
+      Feature: large file support (thanks Scott Schwartz, Chris
+      Siebenmann).
+
+commit dca1eabff1b5fd37367a5921153c51a694063bcb
+Author: tjg <tjg>
+Date:   Mon Oct 29 10:04:47 2001 +0000
+
+      Bug: space vs tab confusion in commented out Makefile rules to
+      rebuild parser (thanks Gary Carvell).
+
+commit bd6ac331d8f50d516f5ad7b489d9c5a547d0c133
+Author: tjg <tjg>
+Date:   Thu Oct 25 09:33:51 2001 +0000
+
+      Feature: large file support.
+
+commit 6227d0be31fc6e287feb44c82fbac15afd2bed71
+Author: tjg <tjg>
+Date:   Thu Oct 25 09:33:31 2001 +0000
+
+    minor tidy ups
+
+commit 01455da77e4ef8619ef5fe558bbadca1e8049b69
+Author: tjg <tjg>
+Date:   Fri Oct 12 15:09:49 2001 +0000
+
+    fix a few minor problems
+
+commit 879921041eb0d12a6789f954db311cc3ef8b892d
+Author: tjg <tjg>
+Date:   Fri Oct 12 10:25:58 2001 +0000
+
+      Release: rc-1.6b3.
+
+commit fdad690897bab5783236bfbd2217ce7e01f59569
+Author: tjg <tjg>
+Date:   Fri Oct 12 10:25:35 2001 +0000
+
+    newer gccs don't "clobber"
+
+commit 753fd6ea3c4aadf9de5265663a98df371c975dde
+Author: tjg <tjg>
+Date:   Fri Oct 12 10:22:55 2001 +0000
+
+    make functions static, to avoid warnings
+
+commit 692977070514082a226f256e8df7dfea33b31bc2
+Author: tjg <tjg>
+Date:   Fri Oct 12 10:22:05 2001 +0000
+
+    fix a few more warnings
+
+commit f5e2a8522f34b56018b77520738fb15fab083ee6
+Author: tjg <tjg>
+Date:   Fri Oct 12 09:33:44 2001 +0000
+
+      Release: rc-1.6b3.
+
+commit a25e66a479d5fea0eac3d74fbe3a082352799358
+Author: tjg <tjg>
+Date:   Fri Oct 12 09:30:14 2001 +0000
+
+      Bug: semantic errors in `fn prompt' no longer throw rc into a tailspin.
+
+commit 0d3f5de9280d8854871efd8a99d1590ea768e350
+Author: tjg <tjg>
+Date:   Fri Oct 12 09:29:49 2001 +0000
+
+      Feature: don't export $cdpath or $home (the lower-case versions).
+
+commit 46f562d0552458b4cf13a11dd342080f73852f09
+Author: tjg <tjg>
+Date:   Fri Oct 12 09:28:21 2001 +0000
+
+    add assertion
+
+commit 49d21f8fe6bc2bf7f44e83c2c8a74bcfc936952f
+Author: tjg <tjg>
+Date:   Fri Oct 12 09:28:10 2001 +0000
+
+    include <assert.h>
+
+commit 858f712a8ce34406195cb525c32f42e1d03e53f9
+Author: tjg <tjg>
+Date:   Fri Oct 12 09:19:24 2001 +0000
+
+    make the assertion live
+
+commit 3cd08d6119446034f93b6e66175dcfc7c273cb66
+Author: tjg <tjg>
+Date:   Thu Oct 11 15:39:17 2001 +0000
+
+    fix compilation warning
+
+commit a726029f67d338ba7c9325f2cb54644bd53b26eb
+Author: tjg <tjg>
+Date:   Thu Oct 11 11:14:45 2001 +0000
+
+    remove some things that have happened
+
+commit 938c5cb26a9e6990b49e81123e078ef955b111e9
+Author: tjg <tjg>
+Date:   Thu Oct 11 11:14:21 2001 +0000
+
+    Initial revision
+
+commit bc9d91680eb03dc4eedcd4e3af7fbdfd7ed7c794
+Author: tjg <tjg>
+Date:   Thu Oct 11 11:14:09 2001 +0000
+
+    update date
+
+commit cc1697192640f1e68b33593af0f1c350de5b7a04
+Author: tjg <tjg>
+Date:   Fri Oct 5 11:05:33 2001 +0000
+
+    alternative fix for fn prompt tailspin
+
+commit 8731b3ebc39715005c402d746e282fe2edfa7118
+Author: tjg <tjg>
+Date:   Thu Oct 4 12:32:43 2001 +0000
+
+      Bug: semantic errors in `fn prompt' no longer throw rc into a tailspin.
+
+commit 6dedd11104490fe8ac43bd35c39c0aed12047322
+Author: tjg <tjg>
+Date:   Wed Oct 3 12:43:04 2001 +0000
+
+    can't eval in a subshell!
+
+commit da5e3263a66be23102fd988e1bb51a152d1869dd
+Author: tjg <tjg>
+Date:   Wed Oct 3 12:41:38 2001 +0000
+
+      Feature: exported lists no longer use redundant parentheses.
+
+commit a11a8d312e531231ed4d284f3cd129ccf2de2a43
+Author: tjg <tjg>
+Date:   Tue Oct 2 13:00:35 2001 +0000
+
+      Bug: it's no longer possible to use parentheses to sneak a word that
+      needs quoting past the "quoting detector", so `fn x { echo $(x.y) }'
+      now works both in the current rc and its descendants.
+
+commit 38da49b97b529815045c23cfef4820a56179eebb
+Author: tjg <tjg>
+Date:   Tue Oct 2 13:00:14 2001 +0000
+
+      Bug: the ^A bug is fixed.
+    
+      Bug: it's no longer possible to use parentheses to sneak a word that
+      needs quoting past the "quoting detector", so `fn x { echo $(x.y) }'
+      now works both in the current rc and its descendants.
+
+commit ebb96bbbc075c304c6f8cbf8c4d301a35fd64114
+Author: tjg <tjg>
+Date:   Tue Oct 2 09:52:59 2001 +0000
+
+    fix obscure quoting bug
+
+commit 361e9b464d51a935364eb00d6a2a9a3a5e57d868
+Author: tjg <tjg>
+Date:   Tue Oct 2 09:20:03 2001 +0000
+
+      Bug: it's no longer possible to use parentheses to sneak a word that
+      needs quoting past the "quoting detector", so `fn x { echo $(x.y) }'
+      now works both in the current rc and its descendants.
+
+commit 8ce5bc05bcf9b263a65eb6e8d6bae0e610a88b16
+Author: tjg <tjg>
+Date:   Mon Oct 1 12:54:26 2001 +0000
+
+      Bug: it's no longer possible to use parentheses to sneak a word that
+      needs quoting past the "quoting detector", so `fn x { echo $(x.y) }'
+      now works both in the current rc and its descendants.
+
+commit 593a3857b992c85038276eb0e4c8aa20d796f3de
+Author: tjg <tjg>
+Date:   Mon Oct 1 10:58:19 2001 +0000
+
+      Bug: the ^A bug is fixed.
+
+commit 23892fe09be24eb8e53747d4d3752eebb0dd2284
+Author: tjg <tjg>
+Date:   Fri Sep 28 10:00:48 2001 +0000
+
+      Bug: the ^A bug is fixed.
+
+commit 643940b99070750dfd0883df080af72b8031a106
+Author: tjg <tjg>
+Date:   Thu Sep 27 15:23:22 2001 +0000
+
+      Bug: the ^A bug is fixed.
+
+commit 467fbf7aacbd4239bd1715352b4c891cacbba10b
+Author: tjg <tjg>
+Date:   Thu Sep 27 15:22:58 2001 +0000
+
+      Documentation: we don't consider that `.' failing to search path is
+      a bug.
+
+commit d325681723fe5b0d345980721572a67be91f82f4
+Author: tjg <tjg>
+Date:   Mon Jun 18 13:20:44 2001 +0000
+
+    add check target (same as trip)
+
+commit 090c383ea3d70c6d612de493b12019a7f6d9a320
+Author: tjg <tjg>
+Date:   Mon Jun 18 13:17:44 2001 +0000
+
+    remove equals hack
+
+commit 6999b51cb1dfee343e088834c83c32ae0d195b01
+Author: tjg <tjg>
+Date:   Mon Jun 18 13:16:09 2001 +0000
+
+    snapshot release
+
+commit cc5cbeb46fdb1dcacfde60ad7e9bb11a39a65911
+Author: tjg <tjg>
+Date:   Mon Jun 18 12:58:15 2001 +0000
+
+      Bug: you can't pass a short to a stdargs function!
+
+commit e8bb2c56eb016144f0fa2e595399a2d34b67cc62
+Author: tjg <tjg>
+Date:   Mon Nov 27 12:53:21 2000 +0000
+
+    2000-11-27
+
+commit ea85ce1cc1935ed36a7d09f3c0d22fcf909e3d4d
+Author: tjg <tjg>
+Date:   Mon Nov 27 12:53:12 2000 +0000
+
+      Portability: configure fails to detect strerror() on NetBSD; we need
+      to include <string.h>.
+
+commit 21703f6be477bfd95a2fd63efe2af081044babd5
+Author: tjg <tjg>
+Date:   Mon Nov 27 12:51:55 2000 +0000
+
+    need to #include <string.h> before testing for strerror()
+
+commit 033d8a6834bcc51ca99052497e16701c31664441
+Author: tjg <tjg>
+Date:   Mon Nov 27 12:47:57 2000 +0000
+
+    remove equals hack
+
+commit 25995fe7bf087969591f9fac6aafbb74f79ecadd
+Author: tjg <tjg>
+Date:   Mon Nov 27 12:46:54 2000 +0000
+
+    revert to 1.4
+
+commit cbc42d41142c2261b7d02ca74c2d43777847564d
+Author: tjg <tjg>
+Date:   Mon Nov 27 12:46:10 2000 +0000
+
+    equals hack
+
+commit 9154b20cebe240270ce525ee39324835523005b9
+Author: tjg <tjg>
+Date:   Mon Nov 27 12:44:52 2000 +0000
+
+    remove all equals hacks!
+
+commit 0ef10dfb7ab1749c28bf650567de7b39d97a8d36
+Author: tjg <tjg>
+Date:   Mon Nov 27 12:43:58 2000 +0000
+
+    yet another go at equals hack
+
+commit 2c905bca704d5f9e874adcea920264a6ace8f3e1
+Author: tjg <tjg>
+Date:   Fri Aug 18 10:44:58 2000 +0000
+
+    another attempt at the equals hack
+
+commit ca70bc5a3fe38275efedac55cea0564d80d8f5b4
+Author: tjg <tjg>
+Date:   Tue Aug 15 08:24:35 2000 +0000
+
+    new equals hack
+
+commit b47bd06cd957cd584f91fcd33e6c539ae3958f2c
+Author: tjg <tjg>
+Date:   Fri Aug 11 12:35:08 2000 +0000
+
+    add Thomas Nordin
+
+commit 316674915d98e419b76179f1e599b2c19c56ffd0
+Author: tjg <tjg>
+Date:   Fri Aug 11 12:12:52 2000 +0000
+
+      Feature: the "equals hack".
+
+commit 1ca2462e082c8747acbe7b4bec2f1019c1b33c7c
+Author: tjg <tjg>
+Date:   Mon Jul 24 08:31:35 2000 +0000
+
+    update copyright to 2000
+
+commit cb4386d79742a1281b064449ca300122bb97a10e
+Author: tjg <tjg>
+Date:   Mon Jul 24 08:29:59 2000 +0000
+
+      Feature: add `-I' flag (definitively not interactive) for
+      compatibility with Plan 9 rc.
+
+commit d9ced3e5c9db073d7eb2d4c1b70bc25c005a6b37
+Author: tjg <tjg>
+Date:   Mon Jul 24 08:29:38 2000 +0000
+
+    trivial comment change
+
+commit 94be82ae2c06b2e250584eb41a4ec4546e114a6f
+Author: tjg <tjg>
+Date:   Thu May 25 14:52:47 2000 +0000
+
+    fix buglet
+
+commit ba2b5321c58c1a7420c7d9d31c1226584537bcaa
+Author: tjg <tjg>
+Date:   Thu May 25 14:31:27 2000 +0000
+
+      Portability: need special runes for read() returning EIO under job
+      control systems.
+
+commit 8293905f58f0cea00a03ca9bec122de84887a2be
+Author: tjg <tjg>
+Date:   Wed Apr 19 14:31:32 2000 +0000
+
+    add Decklin Foster
+
+commit 1cafe23ea14b6ce33e03bfe809a0332a3baa45ba
+Author: tjg <tjg>
+Date:   Wed Apr 19 14:29:23 2000 +0000
+
+    snapshot
+
+commit 216659afe8132442e85e5a012984c276eed0ebbf
+Author: tjg <tjg>
+Date:   Wed Apr 19 14:27:53 2000 +0000
+
+    2000-04-19
+    
+      Bug: isatty() tests in input.c are relevant to any fd, not just 0.
+      Now `. -i /dev/tty' works right.
+    
+      Bug: fn sigexit wasn't always cleared in child shells.
+    
+      Bug: `~ () '*'' dumped core.
+
+commit f5cf8df384be0b52cbf08015d77580d8f44a77d6
+Author: tjg <tjg>
+Date:   Wed Apr 19 14:27:44 2000 +0000
+
+    2000-04-19
+    
+      Bug: `~ () '*'' dumped core.
+
+commit 643d8f677a0554e323078b4d75171010dc5a612f
+Author: tjg <tjg>
+Date:   Wed Apr 19 14:16:51 2000 +0000
+
+    2000-04-19
+    
+      Bug: isatty() tests in input.c are relevant to any fd, not just 0.
+      Now `. -i /dev/tty' works right.
+
+commit a19078db3265138bbd50200fbadeaec16b8a27ee
+Author: tjg <tjg>
+Date:   Wed Apr 19 14:16:32 2000 +0000
+
+    add some extra calls to setsigdefaults
+
+commit ef7e1b630f5660ce2f77e2fa4ee8dcf6231016d5
+Author: tjg <tjg>
+Date:   Fri Dec 10 11:55:04 1999 +0000
+
+      Release: rc-1.6b2.
+
+commit 1b4f262aca1d67fdd1cea8ccbee09c03d23b1ab7
+Author: tjg <tjg>
+Date:   Fri Dec 10 11:54:46 1999 +0000
+
+      Documentation: extra parentheses around `~' and `!' expressions are
+      forbidden.  Tom Duff's paper is not distributed with rc, but is
+      available on the web.
+
+commit 449420e7e294e11aff835f638481fd7608778bc1
+Author: tjg <tjg>
+Date:   Fri Dec 10 10:50:41 1999 +0000
+
+      Bug: avoid a putative race condition in signal.c
+
+commit 09cad2440e9990cde808747f640c368124c17328
+Author: tjg <tjg>
+Date:   Fri Dec 10 10:39:44 1999 +0000
+
+    1999-12-10
+    
+      Bug: absolute globs do still need a special case.  `/*' works again now, but
+      we still avoid creating names like `//tmp/foo'.
+
+commit b2569daad007df645bd39513a5f45e8b5743d243
+Author: tjg <tjg>
+Date:   Fri Dec 10 10:30:08 1999 +0000
+
+    `/' special case just moves elsewhere...
+    remove use of commas to separate statements
+
+commit 602e014ebbd4303a2bf474e1a8c3085b7ef94ecb
+Author: tjg <tjg>
+Date:   Thu Nov 11 11:30:12 1999 +0000
+
+    new release date
+
+commit 275239b5d0bcb3beb1bb43ec9b8384c159e6c205
+Author: tjg <tjg>
+Date:   Thu Nov 11 11:29:09 1999 +0000
+
+    1999-11-11
+    
+      Documentation: when running configure, you need to set LDFLAGS for
+      `-L' options, not LIBS.
+
+commit c24992d132dfb21ad5b1ee44154a5a8c008d6def
+Author: tjg <tjg>
+Date:   Thu Nov 11 09:26:33 1999 +0000
+
+    1999-11-10
+    
+      Feature: make `version' a list.
+
+commit 31b3400165654188894b35dcf43ede44dc7e553e
+Author: tjg <tjg>
+Date:   Wed Nov 10 14:55:51 1999 +0000
+
+    1999-11-10
+    
+      Release: rc-1.6b1.
+
+commit e8120f8f2372162fa02ccb7120758aaade587b5e
+Author: tjg <tjg>
+Date:   Thu Oct 14 15:50:15 1999 +0000
+
+      Documentation: failing to search $path for a `.' command is at least
+      an incompatibility with Tenth Edition rc, and probably a bug.
+
+commit d20276b6f2f37e349a8929b4e60a6111da19de35
+Author: tjg <tjg>
+Date:   Thu Oct 14 10:36:56 1999 +0000
+
+      Portability: add /usr/bsd to default default path.
+
+commit 6cccd7bc3b9ff1440e2e02bcdaff8bf6dcfb25d8
+Author: tjg <tjg>
+Date:   Thu Oct 14 10:14:57 1999 +0000
+
+      Feature: replace `-V' with `version' variable.
+      Portability: exporting `path' causes indigestion in CygWin.  Since
+      it's virtually impossible for a child `rc' process to inherit `path'
+      (which I consider a bug, but it's not going to be fixed now), simply
+      don't export `path'.
+
+commit a7041ce4c119f290c4dc9f6a002966608c5d8827
+Author: tjg <tjg>
+Date:   Thu Oct 14 09:56:21 1999 +0000
+
+      Portability: exporting `path' causes indigestion in CygWin.  Since
+      it's virtually impossible for a child `rc' process to inherit `path'
+      (which I consider a bug, but it's not going to be fixed now), simply
+      don't export `path'.
+
+commit c3ebbbf35d712613024488098645f432160f9e26
+Author: tjg <tjg>
+Date:   Wed Oct 13 16:29:06 1999 +0000
+
+      Feature: replace `-V' with `version' variable.
+
+commit f7a3ce1bd9e66dc46487b3c9f60d11028b9ff35c
+Author: tjg <tjg>
+Date:   Wed Oct 13 16:10:51 1999 +0000
+
+      Feature: replace `-V' with `version' builtin.
+
+commit 32514265eae23c9196b09477c63ab26850ecbe6a
+Author: tjg <tjg>
+Date:   Wed Oct 13 15:37:34 1999 +0000
+
+      Portability: use POSIX strerror() where it's available; fake it with
+      sys_errlist[] where not.
+
+commit 55187d8e921d611b3fa9ff4a166125c44b7dd6d9
+Author: tjg <tjg>
+Date:   Wed Oct 13 15:36:23 1999 +0000
+
+    1999-10-13
+    
+      Bug: a read(2) error in fdgchar() should call rc_raise(), not
+      rc_exit().  This bug is easily tickled on systems (like Linux) which
+      allow you to open(2) but not read(2) directories: `. /tmp'.  In all
+      previous versions of rc, this caused the shell to exit.
+
+commit 40b965f8ff43131e22b0eb9cdafd2754166b0b76
+Author: tjg <tjg>
+Date:   Wed Oct 13 11:25:04 1999 +0000
+
+    zap statval.h on `make distclean'
+
+commit 84872e38eee4c7f5fec2a12563f9607e62c94219
+Author: tjg <tjg>
+Date:   Tue Oct 12 14:10:22 1999 +0000
+
+    1999-10-12
+    
+      Portability: status.c assumes traditional Unix layout of 0 and 1 exit
+      statuses in the parent, which is not shared by BeOS.  Add mkstatval.c.
+
+commit 43ce7b24fad3fc46860648d00544176526dcafcc
+Author: tjg <tjg>
+Date:   Mon Oct 11 11:16:46 1999 +0000
+
+    1999-10-11
+    
+      Bug: absolute globs don't need special case in doglob().  Avoids
+      creating path names like `//tmp', which is a UNC path under CygWin.
+
+commit e9fc7b5a7c12eeb3bffbb170d7ff8a6649f93980
+Author: tjg <tjg>
+Date:   Thu Aug 19 09:29:59 1999 +0000
+
+      Portability: the proposed C 9x __va_copy() macro is called that, not
+      va_copy(), as I thought.  Furthermore, it is defined to be a macro, so
+      we don't need to use autoconf to check for it.
+
+commit da4790fcdc1b9328f201c54827d97cb3c9393fa1
+Author: tjg <tjg>
+Date:   Fri May 28 09:37:28 1999 +0000
+
+    1.6 take 2
+
+commit 3f3f0709a332f8384a135b621b811eaf364ccad4
+Author: tjg <tjg>
+Date:   Thu May 27 09:56:26 1999 +0000
+
+    typos, etc.
+
+commit e7a3654e598b6597d90d3194d7af160a2853a998
+Author: tjg <tjg>
+Date:   Wed May 26 14:56:52 1999 +0000
+
+      Tidiness: `make distclean' now removes sigmsgs.[ch].
+
+commit f50a51b132ff5bda9fe3906c7ddc12f9f86fe8be
+Author: tjg <tjg>
+Date:   Wed May 26 14:56:28 1999 +0000
+
+    really 1.6 (maybe?)
+
+commit b95795a3267153a0ef5b30c5c7862bc006bec2d7
+Author: tjg <tjg>
+Date:   Wed May 26 14:27:08 1999 +0000
+
+    rc-1.6
+
+commit 92f0dc8d56d2d4bf37f5eca0402bb35daa70a6ea
+Author: tjg <tjg>
+Date:   Wed May 26 13:38:26 1999 +0000
+
+    towards 1.6
+
+commit 96c7d7fc271f1393a4b94ca96fc6e33e556ed4a4
+Author: tjg <tjg>
+Date:   Wed May 26 13:37:28 1999 +0000
+
+    add Dale Scheetz
+
+commit 1c334e8f893782f590f761f1ec02e110c3981511
+Author: tjg <tjg>
+Date:   Wed May 19 15:10:19 1999 +0000
+
+      Documentation: minor fixes to man page.
+
+commit bf3efc74d7ff94f6be05c5997a50f45e943e86ab
+Author: tjg <tjg>
+Date:   Wed May 12 15:41:07 1999 +0000
+
+    1.5b6
+
+commit 4542440306ef58f1b2b766eefabb916d16810a05
+Author: tjg <tjg>
+Date:   Wed May 12 15:39:56 1999 +0000
+
+      Documentation: note that `$(a.b)' syntax only mostly works, and that
+      list definitions in exported functions are noisier than they need to
+      be.
+
+commit 679073500ff1077a61793ee8d890e08dbfdd9476
+Author: tjg <tjg>
+Date:   Wed May 12 12:56:34 1999 +0000
+
+    fix typo
+
+commit 255694d1a8e6488dd58abfa9e4f694e3b11015a5
+Author: tjg <tjg>
+Date:   Mon May 10 15:39:05 1999 +0000
+
+    make comment more precise
+
+commit f9461d66f9351480812a6dc365abf54000d75493
+Author: tjg <tjg>
+Date:   Mon May 10 15:19:34 1999 +0000
+
+    another snapshot
+
+commit b2d0248df8071a57508500448afd93f04e318fb3
+Author: tjg <tjg>
+Date:   Mon May 10 15:19:23 1999 +0000
+
+      Bug: if we reset SIGCLG to SIG_DFL, we need to record the fact in the
+      sighandlers[] array.
+
+commit 67e60012a3076479bb7de91b78a2c972ae0b6901
+Author: tjg <tjg>
+Date:   Mon May 10 15:19:14 1999 +0000
+
+      Portability: Linux *almost* has SysV SIGCLD semantics, and we need to
+      detect them.
+
+commit 3df02408cbd92b1c07fc96dfc09417c7dcf713bd
+Author: tjg <tjg>
+Date:   Thu May 6 14:37:51 1999 +0000
+
+    remove debugging statement
+
+commit 2e2b6876f964f60d557a37f196a65698f316a16a
+Author: tjg <tjg>
+Date:   Thu May 6 12:54:13 1999 +0000
+
+    towards another snapshot
+
+commit e31674ab5e74c382894c02450481f303cb3fe39a
+Author: tjg <tjg>
+Date:   Thu May 6 12:51:02 1999 +0000
+
+    1993-05-06
+    
+      Portability: tgetent() might be in -lncurses instead of -ltermcap.
+
+commit 87c0174c7a427402c02f55e034a048a07f34820b
+Author: tjg <tjg>
+Date:   Thu May 6 12:20:15 1999 +0000
+
+      Documentation: document the yacc-imposed limit on ; separated commands
+      in a line.
+
+commit 55397d009912086b0675b5a2198918ee83129b20
+Author: tjg <tjg>
+Date:   Mon Mar 1 16:17:03 1999 +0000
+
+    trivial fixes
+
+commit 28a6582771685132eee3788cbc9aa739367aa893
+Author: tjg <tjg>
+Date:   Mon Mar 1 13:25:29 1999 +0000
+
+    minor updates
+
+commit a859cf1bcdcdf25ba8c48b32c4b781c7476a1699
+Author: tjg <tjg>
+Date:   Mon Feb 15 15:30:10 1999 +0000
+
+      Portability: AM_INIT_AUTOMAKE calls AC_ARG_PROGRAM and
+      AC_PROG_INSTALL.  Don't do it explicitly.  For once, the configure
+      script gets smaller!
+
+commit 1790cb5e40f13289ace9273f42ee812d50ce6de6
+Author: tjg <tjg>
+Date:   Mon Feb 15 15:23:28 1999 +0000
+
+    add Aharon Robbins and Wolfgang Zekoll
+
+commit 131e6434581cc65ea03b1c22842db1fadbffaf01
+Author: tjg <tjg>
+Date:   Wed Jan 27 13:49:09 1999 +0000
+
+    some changes for rc-1.5b5
+
+commit f9ede4ed373461d50f2c8799341a39d7e104e5f4
+Author: tjg <tjg>
+Date:   Wed Jan 27 11:43:54 1999 +0000
+
+      Release: rc-1.5b5.
+
+commit c41799d1273a8483f9aa87c9a0261e1538e38ddf
+Author: tjg <tjg>
+Date:   Wed Jan 27 11:43:37 1999 +0000
+
+      Documentation: default path was out of date; minor consistency
+      improvements.
+
+commit c6be87833c6ccfe55c11e868b11052a1c4be515a
+Author: tjg <tjg>
+Date:   Tue Jan 26 12:53:37 1999 +0000
+
+    back to snapshots for now
+
+commit b1a26c5bd891f015ba2c43252b083e9d48d25001
+Author: tjg <tjg>
+Date:   Tue Jan 26 12:53:16 1999 +0000
+
+      Testing: add regression test for `-s' behaviour.
+
+commit 1095cdf1a451f585c3794e8bf225772982c49f17
+Author: tjg <tjg>
+Date:   Tue Jan 26 12:53:03 1999 +0000
+
+      Bug: `-s' should not imply `-i'.
+
+commit 4af037719781cbecce13713a53e30f5bc584b9db
+Author: tjg <tjg>
+Date:   Tue Jan 26 12:50:24 1999 +0000
+
+    add Gerry Tomlinson
+
+commit 9387f4791b4a41e5d8cbc9dc249f5c2bda445ce3
+Author: tjg <tjg>
+Date:   Tue Jan 26 12:50:07 1999 +0000
+
+      Documentation: document the `-s' option.  Also, arrange the option
+      documentation in alphabetical order.
+
+commit 558bb1641e24a5c76627548f345f416b5c2ff13f
+Author: tjg <tjg>
+Date:   Tue Jan 26 12:06:54 1999 +0000
+
+      Tidiness: just install `history' to `$(bindir)/-'; don't create an
+      extra link (which `make clean' failed to remove).
+
+commit cb75624ddc0826e049781a124b53baf05585f0d1
+Author: tjg <tjg>
+Date:   Tue Jan 19 12:17:39 1999 +0000
+
+    Initial revision
+
+commit 91f267363bbbf99ed9353af44ccb07748ea880dd
+Author: tjg <tjg>
+Date:   Mon Jan 11 10:51:47 1999 +0000
+
+    It's 1999, dude!
+
+commit 8b11acd39adaaaf8d31d948ad04296d6084f9aca
+Author: tjg <tjg>
+Date:   Mon Jan 11 10:51:04 1999 +0000
+
+    beta4?
+
+commit 0ba8dbc2b86d0ae1becea284da3360a6d34a14eb
+Author: tjg <tjg>
+Date:   Fri Jan 8 15:46:13 1999 +0000
+
+    it's 1999, dude
+
+commit 02972c5c4bbaeb478dd9d1bbbcebedac4a349bd7
+Author: tjg <tjg>
+Date:   Fri Jan 8 15:17:12 1999 +0000
+
+    new snap
+
+commit f4185a022ea4e4af849102e62ffbb33cd96d6ea6
+Author: tjg <tjg>
+Date:   Fri Jan 8 15:17:04 1999 +0000
+
+      Documentation: the Bell Labs rc now has the list flattening operator,
+      but spelt $"foo.
+
+commit 9a4c9466e3d3fad6310f2cf6198866b241dae215
+Author: tjg <tjg>
+Date:   Tue Dec 22 15:35:28 1998 +0000
+
+    more stuff
+
+commit f5a12d83d721fc506ab4cbd0369f2a45d671351b
+Author: tjg <tjg>
+Date:   Tue Dec 22 15:34:41 1998 +0000
+
+    1998-12-11
+    
+      Tidiness: the release date now only needs to be changed in one place.
+
+commit 6248ca87ecf106d83280d4a7481e3feadf383f29
+Author: tjg <tjg>
+Date:   Fri Dec 18 12:30:25 1998 +0000
+
+    change contact address
+
+commit fb49756192673059a23e79d2d5f14a099640a791
+Author: tjg <tjg>
+Date:   Thu Dec 10 16:06:55 1998 +0000
+
+      Tidiness: move most of the configure.in nastiness into acinclude.m4.
+
+commit ffa3896e58f8dcaab7b3c6f4732fd77508f99828
+Author: tjg <tjg>
+Date:   Wed Dec 9 15:24:08 1998 +0000
+
+      Portability: test for va_copy() needs to include <stdarg.h>.
+
+commit b7a6f5d187c97a9ba6adb7998dee52c1774f3d8b
+Author: tjg <tjg>
+Date:   Wed Dec 9 11:47:09 1998 +0000
+
+      Tidiness: latest autoconf version has fixed AC_FUNC_SETPGRP, so we
+      no longer need to supply our own.
+
+commit ff0cea8fca8dcafe9c91f5dad081c802c7cf2270
+Author: tjg <tjg>
+Date:   Wed Dec 9 11:46:44 1998 +0000
+
+      Portability: use AM_PROG_CC_STDC.  This obviates the need for a
+      special hack on HP-UX.
+
+commit 57c2e46ca6138eb29282d29f47feeaa44404b656
+Author: tjg <tjg>
+Date:   Wed Dec 9 11:46:06 1998 +0000
+
+      Documentation: document all the flags to `whatis'.
+
+commit e68007b56849e44233537e2dc76cface0f7c88a9
+Author: tjg <tjg>
+Date:   Wed Dec 9 11:23:15 1998 +0000
+
+      Portability: use AM_PROG_CC_STDC.  This obviates the need for a
+      special hack on HP-UX.
+
+commit 22c687beb012235050097daf2571057c5a1245a1
+Author: tjg <tjg>
+Date:   Fri Dec 4 17:36:25 1998 +0000
+
+      Bug: a debugging statement was left in history.c by mistake.
+    
+      Bug: `history' needs to check for `me' character preceded by `/', as
+      well as all the other options.  An invocation like ../rc-1.5/- no
+      longer loops.
+
+commit 8c60612f7636704f3c6acbccf3daa1358b17f077
+Author: tjg <tjg>
+Date:   Fri Dec 4 17:32:31 1998 +0000
+
+    towards another snapshot
+
+commit e8d715e6daf567dc1ac46a1c3106b4bdc39df13f
+Author: tjg <tjg>
+Date:   Fri Dec 4 17:32:09 1998 +0000
+
+    add Raymond Venneker
+
+commit d26c0961af1efb6b920449ba817e0657084f3f6b
+Author: tjg <tjg>
+Date:   Fri Dec 4 17:31:52 1998 +0000
+
+    move some stuff to the web page
+
+commit 40105672cda7b34770ba888ced04e94bc389281e
+Author: tgoodwin <tgoodwin>
+Date:   Fri Oct 30 16:07:36 1998 +0000
+
+    towards another snapshot?
+
+commit a1f1ee9b27d08644061bc440b779f99c3e9362f0
+Author: tgoodwin <tgoodwin>
+Date:   Fri Oct 30 16:07:02 1998 +0000
+
+      Portability: rename basename() to rc_basename(), since the former is
+      quite widespread, and has a variety of different definitions (none of
+      them, of course, static).
+      Portability: work around i386 GCC 2.7.2.3 optimization bug triggered
+      by a (really quite simple) expression in history.c.
+
+commit c1959b3d914f52bf0c00523e360aece68d9076d3
+Author: tgoodwin <tgoodwin>
+Date:   Fri Oct 30 16:06:31 1998 +0000
+
+    add Stefan Dalibor
+
+commit c7be9f38400dd3c6364fff3812da52b33b5bc448
+Author: tgoodwin <tgoodwin>
+Date:   Thu Oct 29 15:07:24 1998 +0000
+
+      Portability: include <sys/types.h> before <sys/stat.h>.
+
+commit 5da6a89b1e630263d034aab99c7a1056ec7891c4
+Author: tgoodwin <tgoodwin>
+Date:   Thu Oct 29 14:52:13 1998 +0000
+
+    fix test for cdpath
+
+commit c2f4ccc59f6760f6eed41cc485d079eb7b9b3e48
+Author: tgoodwin <tgoodwin>
+Date:   Thu Oct 29 14:36:42 1998 +0000
+
+    another snapshot
+
+commit c0f34f63b9da18e135bac9f5ad7c57552279cf38
+Author: tgoodwin <tgoodwin>
+Date:   Thu Oct 29 14:19:48 1998 +0000
+
+      Testing: add testing auxiliary program; use testing to generate null
+      character on the fly (since it's a nuisance having a literal null
+      character in trip.rc); reset sigexit in `fn fail'; add test for
+      nonblocking input file descriptor.
+
+commit 709cabfe384362577d53b36817c70001fe9895af
+Author: tgoodwin <tgoodwin>
+Date:   Thu Oct 29 14:15:41 1998 +0000
+
+      Portability: work around readline's broken treatment of a non-blocking
+      input file descriptor.
+
+commit 9abdba3fd5946e4af117a297957fdbf11504f801
+Author: tgoodwin <tgoodwin>
+Date:   Thu Oct 29 14:15:41 1998 +0000
+
+      Bug: the "null character ignored" warning was printed with the wrong
+      line number.  Fix by adding an offset argument to pr_error.
+    
+      Portability: work around readline's broken treatment of a non-blocking
+      input file descriptor.
+
+commit 600c45ab9ac6bf6a0257997d4c21d49c868ec0bb
+Author: tgoodwin <tgoodwin>
+Date:   Thu Oct 29 14:13:51 1998 +0000
+
+    pr_error now takes a line number offset
+
+commit 3b225b2f889a79e3b3dfef6a962e5655c91c1a96
+Author: tgoodwin <tgoodwin>
+Date:   Thu Oct 29 14:13:23 1998 +0000
+
+    Initial revision
+
+commit 0415699153be7beae0af2a2c375075cecc64794b
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 28 14:27:40 1998 +0000
+
+    towards another snapshot
+
+commit 5df77bab6d3324c2b9dc696e38ccac9317b1ff70
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 28 14:19:43 1998 +0000
+
+      Portability: apparently some systems declare `char *basename(const
+      char *)' in system header files.  Changing our basename() (in
+      history.c) to match this prototype allows it to be compiled on such
+      systems, and is harmless.  (Harmless, that is, if no system declares
+      `char *basename(char *)'.)
+
+commit f034ca39df7f6f513d0d4d4f479194592ac48645
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 28 14:15:21 1998 +0000
+
+    use va_copy() where it exists
+
+commit d535c86b0f886e1c4cf0ae73048bf4bdba6d0813
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 28 14:12:38 1998 +0000
+
+    add some information about HP-UX
+
+commit 405c444e92fbb63e240cc1f0bdad607697983dab
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 28 14:12:24 1998 +0000
+
+    add Jeremy Fitzhardinge
+
+commit b9aa3d67de90a0340a42ce816c2b8e764f99c686
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 28 14:12:08 1998 +0000
+
+    s/makenonblock/makeblocking/
+
+commit 70e64642088aadafb6e9aa8c3751db1e53a0c124
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 28 14:10:00 1998 +0000
+
+    include "wait.h"
+
+commit 90a6d10f4fcf1bd2577bbcca43b37c3389201fc0
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 28 11:43:19 1998 +0000
+
+    add braces to avoid "ambiguous" else
+
+commit 9411d4d4bca6717cc534c0c047b4370d98f8c278
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 28 11:40:46 1998 +0000
+
+    Initial revision
+
+commit fc8169d3e79bfdcbc75cbee245e2312218ebb01c
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 21 13:17:29 1998 +0000
+
+    document the ^A bug
+
+commit 4a6c3c0ff459f3398bf944b055dfa4a7a17af1b0
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 21 12:56:06 1998 +0000
+
+    19981021 snapshot
+
+commit 1817e8753e4b9cfe75e65a15513c2dc219120ae2
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 21 12:54:28 1998 +0000
+
+    add makenonblock()
+
+commit 281a824241d21cd0296067ae06428cb49ed1dd1a
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 21 12:54:02 1998 +0000
+
+    use rc_error instead of panicking
+    (it's hard to know what to do here)
+
+commit b45bc7e88f3468121d8be516dc861e6fe45ab720
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 21 12:52:57 1998 +0000
+
+    don't include <setjmp.h> here
+    handle non-blocking stdin, etc.
+
+commit ed7d22829d82dba9714c6b7a5fdf37a95c05a269
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 21 12:52:30 1998 +0000
+
+    don't include <sys/types.h> here
+
+commit a988abd0be551c0c37fc20b49b233c8a22ebfe7a
+Author: tgoodwin <tgoodwin>
+Date:   Wed Oct 21 11:00:16 1998 +0000
+
+    Initial revision
+
+commit 1a7f00653697b147d3be949c448b820f1e5fddbf
+Author: tgoodwin <tgoodwin>
+Date:   Tue Oct 20 17:08:23 1998 +0000
+
+    forgot to mention vrl
+
+commit a1dbe5a3191dab87bb71fba04cf0ecf15549bfd6
+Author: tgoodwin <tgoodwin>
+Date:   Tue Oct 20 16:54:26 1998 +0000
+
+    ready for 1.5b4
+
+commit c87f03356634c5e15c8fe2d24eec3d873281c02d
+Author: tgoodwin <tgoodwin>
+Date:   Tue Oct 20 16:28:56 1998 +0000
+
+    1.5b4, 1998-10-20
+
+commit 4d3d6ae415d565b58f3edc1eca08ad049c08f685
+Author: tgoodwin <tgoodwin>
+Date:   Tue Oct 20 16:28:44 1998 +0000
+
+    latest changes
+
+commit 585c85d82fc649d2cfadbba4451756d10cdbbc98
+Author: tgoodwin <tgoodwin>
+Date:   Tue Oct 20 14:28:59 1998 +0000
+
+    document -V flag
+    mention /proc/self/fd
+
+commit e4daa594ed4b2a499e4e5f41e60c66870aae1566
+Author: tgoodwin <tgoodwin>
+Date:   Mon Oct 19 15:01:17 1998 +0000
+
+    add prototype for add_history when doing editline
+
+commit 3d90bedddc3efd85bbb5f30e2b8976e4fbb2045b
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 27 15:40:20 1998 +0000
+
+    vrl tweaks
+    update URLs
+
+commit 61d7a02c78048f82197ec72e763b4a63851f88f9
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 27 13:57:14 1998 +0000
+
+    add "wait.h"
+
+commit 6bc6c587f8d5af799526551e1056f1a1f15e0009
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 27 13:34:35 1998 +0000
+
+    more changes
+
+commit 3f9565c766c909258ec8035d00df19e33c4226e5
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 27 13:34:00 1998 +0000
+
+    fix long line
+
+commit 7682867936110840720bc20e3a73ade7a322c375
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 27 13:27:34 1998 +0000
+
+    move <sys/wait.h> magic into "wait.h"
+
+commit d3102fa7de519677c917beb108a71b81ef9a8abc
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 27 13:26:37 1998 +0000
+
+    add RC_FUNC_GETGROUPS configure magic
+
+commit 8a11028b592d1c7a5b408475fdc3028b04ab6ffa
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 27 13:25:33 1998 +0000
+
+    no group.h
+    add getgroups.h wait.h
+
+commit 4439fbc1a38e08223875849c74b3186c9c4b8133
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 27 11:46:12 1998 +0000
+
+    y.tab.? now called parse.?
+
+commit ab8b28809aaba9a130337214320a5f59e0898db9
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 27 09:44:05 1998 +0000
+
+    use RC_FUNC_SETPGRP
+
+commit 270cc5707a6ca6715fc6e3b1b094a46b4c4db91f
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 27 09:29:02 1998 +0000
+
+    Initial revision
+
+commit cb2f9b483a09d9b2f122272a1a30857bdb4ec19e
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 24 16:00:13 1998 +0000
+
+    get the <sys/wait.h> stuff right this time
+
+commit 85132307560fb07e38dde99919d2b278c9d15c3b
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 24 15:53:44 1998 +0000
+
+    y.tab.h is now parse.h
+
+commit 391cc8bb552a6c4d616d786fd710c38fc41162cb
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 24 13:28:13 1998 +0000
+
+    sort out includes of <sys/wait.h>
+
+commit 16dd2a3cd044f84a8c4f51579b513c76b24871a8
+Author: tgoodwin <tgoodwin>
+Date:   Thu Jul 23 15:55:25 1998 +0000
+
+    update vrl support
+    update date
+
+commit 635acd54010e49bb317d0400a750b7dc12d60e39
+Author: tgoodwin <tgoodwin>
+Date:   Thu Jul 23 15:55:14 1998 +0000
+
+    fix silly typo
+
+commit 0281b45fac9309ef788271917dc228b2c57ba5fa
+Author: tgoodwin <tgoodwin>
+Date:   Thu Jul 23 15:55:00 1998 +0000
+
+    some more changes
+
+commit e4c435f329499bc8a453e5aaf269a53e43ff9d34
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 21 16:00:28 1998 +0000
+
+    snapshot stuff
+
+commit 4a98d16dd0255ca3f19a4c5c4ed7034909578590
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 21 16:00:00 1998 +0000
+
+    some more stuff
+
+commit 5e6e70ecec4fe5605e1184d3336853551e13680b
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 21 15:59:04 1998 +0000
+
+    *** empty log message ***
+
+commit a4da093a65fc5c1869dbd634762a33e0faa71002
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 21 14:30:18 1998 +0000
+
+    date
+
+commit 76ba3674f167bc082d2759443e4b34cc4c9f6dce
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 21 14:28:28 1998 +0000
+
+    sigmsgs.[ch] dependency is on plain `mksignal', not `./mksignal'
+
+commit a185d885b561333f5543536127dcd01d58374b50
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 21 14:28:17 1998 +0000
+
+    fix name conflict with lconf
+
+commit 43c1019eca5e6d67e239cb38d54cd9c359577827
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 21 14:27:42 1998 +0000
+
+    fix for Linux with glibc2 so system calls are not restarted
+
+commit b79e7f2d747a7ad926e15eb1395616a3babb6671
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 21 14:15:25 1998 +0000
+
+    add test that cd prints output when directory is found
+    via cdpath
+
+commit 547a9bfdfa3d3d4438609d2128116a15083e23db
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 21 14:04:07 1998 +0000
+
+    add David Swasey
+
+commit 699a957f3a6fbb86cb741cb3747fd2cfee5d58fd
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 20 13:04:53 1998 +0000
+
+    add support for vrl
+
+commit 406963661b89f38c1d978dc78b863d531bd46695
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 20 12:56:58 1998 +0000
+
+    add support for vrl
+
+commit c3c536b9d48b214efa358ea04bfd1332cf24ff52
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 20 12:20:16 1998 +0000
+
+    remove unused interrupt_happened
+
+commit 096de180211a0573a80d9380aae99b940ce46a42
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 20 10:12:46 1998 +0000
+
+    only call WTERMSIG if WIFSIGNALED
+    also, always check that WTERMSIG is in range
+
+commit 7203d4edba0affd77b257610a2fa6e23a37a8da6
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 17 11:36:17 1998 +0000
+
+    y.tab.c no longer goes in BUILT_SOURCES
+
+commit 371c898151db2005e3350d9e3bf64ad416b53b02
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 17 10:57:06 1998 +0000
+
+    we need to include <sys/types.h> first
+
+commit b2dcb6df908bdbc7c9faed625389b9ad8d20544d
+Author: tgoodwin <tgoodwin>
+Date:   Thu Jul 16 14:32:10 1998 +0000
+
+    arrgh!  sigmsgs.c is *not* an rc_SOURCE
+
+commit f1e98fae9a6bd66d9de7fea3ed3d0d4b56743b87
+Author: tgoodwin <tgoodwin>
+Date:   Thu Jul 16 11:02:22 1998 +0000
+
+    fix typo
+    add `or HTTP'
+
+commit bfa603bbeb0268bbd679e7b79640ef476d023764
+Author: tgoodwin <tgoodwin>
+Date:   Thu Jul 16 11:02:04 1998 +0000
+
+    add WWW section
+
+commit 7b13225790adc40899c82719604260fe81d63bf4
+Author: tgoodwin <tgoodwin>
+Date:   Thu Jul 16 10:59:12 1998 +0000
+
+    Initial revision
+
+commit c39516861677fe5d964818c0b36350404e3ea63c
+Author: tgoodwin <tgoodwin>
+Date:   Thu Jul 16 10:58:29 1998 +0000
+
+    add some more news
+
+commit a4e8c0581b288abac5b8e601743875b1d113108c
+Author: tgoodwin <tgoodwin>
+Date:   Thu Jul 16 10:58:11 1998 +0000
+
+    add section on compilation warnings
+
+commit 40e4ed5563cdf38614c6ba4682bcb3fafdf7e758
+Author: tgoodwin <tgoodwin>
+Date:   Thu Jul 16 10:37:17 1998 +0000
+
+    no longer need to find `yacc'
+
+commit 1b04184007de5ff9ad66abbf1e44267d71e784c9
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 16:09:17 1998 +0000
+
+    don't mention old c.s.u version of editline
+
+commit 6545a5575065ad02dc62ab9092d213615eb5ff59
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 14:18:32 1998 +0000
+
+    ready for rc-1.5b3
+
+commit 0d36e707b8649bd34dce72ef786f3355c5154309
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 14:18:10 1998 +0000
+
+    typo
+
+commit 58c190f279f73402264dfe35a02e98fa6bd1c207
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 14:12:53 1998 +0000
+
+    remove comments about yacc, and change comments about old C compilers
+
+commit ebc9d1856f5298b3cac0b0053541d4e1a0720741
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 14:12:00 1998 +0000
+
+    error message now reports failure of (POSIX) mkfifo
+
+commit 0e4b6dc07b2f585a955a6de5b1553eb2b9c13afa
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 13:36:00 1998 +0000
+
+    pointer to editline now lives in README
+
+commit 42b4ef3d27402526bafbbd656447c5f048652c37
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 13:19:13 1998 +0000
+
+    minor tweaks
+
+commit 39268b00c05b879ff9d7959c22888d671b79dff9
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 13:17:17 1998 +0000
+
+    remove funky indentation
+
+commit 46c5b30c80c5b3b04a0d068a05b34e68091f4138
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 13:11:10 1998 +0000
+
+    do warning right if readline not found
+
+commit 5fd501ac0bf1a9d8515e7267016e87b35bc39ba6
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 12:39:30 1998 +0000
+
+    tidy this up a bit
+
+commit 918e8f9b8935ad2034bc0d458c64d5c688b2bab5
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 12:39:13 1998 +0000
+
+    get readline stuff working and pretty(ish)
+
+commit 382b7e3f5bc34d78694fdbd8d078dc904979350c
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 12:38:44 1998 +0000
+
+    move some stuff to proto.h
+    declare readline stuff for ourselves
+
+commit f829b8c54d991a430dc8274659c6961db976bde9
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 12:37:36 1998 +0000
+
+    move some stuff from rc.h to here
+
+commit 936d5b8a052f18e528d5956b9578450e47c1d263
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 12:37:21 1998 +0000
+
+    don't declare slowbuf here
+
+commit 6c257ad015311fc34c0e2b3625c3c82b1d9e933c
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 12:36:53 1998 +0000
+
+    don't bother finding readline.h and friends
+
+commit e5075712fc1f3150ca42ff7549f770d6c42e35e0
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 15 12:15:34 1998 +0000
+
+    add stuff to look for readline.h include files
+
+commit b207419942677abc56fc2e6d2e4496ecf9a2c8d1
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 14 17:17:23 1998 +0000
+
+    Initial revision
+
+commit 8844d14005fe48ae8b2ae8fb9c45f012cc605877
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 14 10:47:55 1998 +0000
+
+    define slowbuf and friends here
+
+commit f4f97b1bd0ba9d780e6565b05675a4a8debe2515
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 13 10:22:15 1998 +0000
+
+    add `x'
+
+commit 75b4f0440f1e83b020e17b0d09dafe37dbf7e4ee
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jul 13 10:22:06 1998 +0000
+
+    add READLINE_OLD
+
+commit 769ce647bc9079b54d745d4e56c790622aff0d57
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 14:00:43 1998 +0000
+
+    Initial revision
+
+commit 125d4b6d0406cc1ef0d92403ceb820b54a8625d2
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 13:42:26 1998 +0000
+
+    explain about y.tab.?
+
+commit b9ccf50d906662e9c9ada98671045a03a49ce2a0
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 13:42:13 1998 +0000
+
+    UnixWare has broken make, too
+
+commit 5f2de0f2e1d8cd6c3f83c4d6cc0ad399729306a8
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 13:41:38 1998 +0000
+
+    remove lint definition
+
+commit cf69a6080c9194f1d928b8372c2aa8f6f80a233d
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 13:36:49 1998 +0000
+
+    Initial revision
+
+commit 444505dafacdf3a69bf5237a684bbed0e603b7f9
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 13:30:05 1998 +0000
+
+    y.tab.h depends on parse.y too
+
+commit 8f8fad82967ac2db25056356cd009fd7fb62f133
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 13:29:12 1998 +0000
+
+    zap extra space
+
+commit 373165c14f7855b6820908b812f26bf9b0bd4f17
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 13:28:14 1998 +0000
+
+    change to `--with-history'
+
+commit eb567b53548387240506e76fb41c1c705c19aa01
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 13:27:50 1998 +0000
+
+    change some unused argument names to `ignore'
+
+commit 6932a5d18d354b12bcbb82fc46fcb4045cc71cd4
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 13:27:24 1998 +0000
+
+    explain editing mode more clearly
+
+commit 25305e9045f9b3d0611b4c035942308410c7d46e
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 13:26:51 1998 +0000
+
+    remove warning for execit
+
+commit 875a35ff98989a50a80ede8648d3683b391a3f01
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 13:26:30 1998 +0000
+
+    proper declaration of main(), please!
+
+commit 8f74d727d649dae205122b35151c851b008e081b
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 13:26:13 1998 +0000
+
+    change some unused argument names to ignore
+
+commit 3090c112c0ba4ca228d01d3ded2b076a00eacbdc
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 13:25:39 1998 +0000
+
+    remove some genuinely unused arguments
+
+commit a16991aae18b1d286ad6bb24ad0d96d49fcf5717
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 13:25:11 1998 +0000
+
+    remove some genuinely unused arguments
+    change names of some others to ignore
+
+commit dc6c6af3b304a8ee8d6f58ab2b5b8311e0512c37
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 12:32:55 1998 +0000
+
+    apply fix for use of realloc()ed memory from Scott Schwartz
+
+commit 5290f5477832c5edc8cabf5b9709570acb7f772a
+Author: tgoodwin <tgoodwin>
+Date:   Fri Jul 10 12:32:14 1998 +0000
+
+    include rc.h
+
+commit 8906db24cb3d0ce6042f1e40bc6fa89607860d0b
+Author: tgoodwin <tgoodwin>
+Date:   Thu Jul 9 17:01:11 1998 +0000
+
+    err, sometimes you *do* need the `=' sign
+
+commit f41b897207c2d23503cb813cd8117af9a5391912
+Author: tgoodwin <tgoodwin>
+Date:   Thu Jul 9 16:33:42 1998 +0000
+
+    don't ever try to set a signal to SIG_ERR
+
+commit 48c0b2add862b07e0c535e09bc1d0ae3c7661896
+Author: tgoodwin <tgoodwin>
+Date:   Thu Jul 9 12:30:20 1998 +0000
+
+    Initial revision
+
+commit 040805486632f85203d25aa14fc134e31a1900aa
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 17:01:08 1998 +0000
+
+    use AMC_ consistently
+    handle addons
+
+commit 847a4f216b29bd14988da970200ee84d2e5ce005
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 17:00:52 1998 +0000
+
+    add RC_ADDON and EDITLINE
+
+commit 4163c691dfb2e1b681a2036c49c0663cae1d7f59
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 17:00:32 1998 +0000
+
+    completely revamp to use my `+' example
+
+commit 279e7fc70338626ed540163afa7e1450ae4ce866
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 16:59:58 1998 +0000
+
+    don't declare umask, but do include sys/stat.h
+    better support for addons
+
+commit d5cfcd08cbc2ad79d8d7c73bb033a2198cbb9cce
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 16:59:10 1998 +0000
+
+    use AMC_ consistently for automake conditionals
+    look for readline include files, too
+    handle addon properly
+
+commit 414214273ddec72752c2621334dc864bb9d25191
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 16:58:43 1998 +0000
+
+    we have to call it rc_Function to avoid clash with readline
+
+commit 92f004d552441f0ff1fdc1e802520422117f0444
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 16:58:00 1998 +0000
+
+    better integration with readline
+
+commit 7b605b5f6d00a9a75c9fe091f30c845f12e88aec
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 16:57:24 1998 +0000
+
+    we now handle EDITLINE and READLINE separately
+
+commit d8c86b86c069c39cfc67a9c7eee1cbb7531dc122
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 16:56:42 1998 +0000
+
+    SIGINT and SIGPIPE should be silent
+    ,
+
+commit 9e7205844ec6db007490ecca820e952300ee862e
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 16:55:56 1998 +0000
+
+    lots of changes, mostly to integrate better with readline
+
+commit 5b668456266d2da4e1cf34b11841f96b26fdb8eb
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 16:55:30 1998 +0000
+
+    fix up readline stuff somewhat
+
+commit 51ca079c2f13e1e66e944082be36e34e382eaa76
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 16:54:31 1998 +0000
+
+    don't declare rl_reset_terminal()
+
+commit 3cf6580197ccd9300af633502e746a1b5c22c176
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 16:53:21 1998 +0000
+
+    don't include standard headers: that's rc.h's job
+    don't declare stat()
+
+commit a0f0aa5f02a087f2c433f6cc53a6331c5befaaed
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 13:31:24 1998 +0000
+
+    include declaration for malloc() if we didn't have stdlib.h
+    is this right thing to do?
+
+commit 3173fedfe4988d304bebf0e598384cab76fe94e9
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 8 10:47:26 1998 +0000
+
+    Initial revision
+
+commit 51620813cfe54910ece7d9d1164d0806c7fc513f
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 7 15:53:48 1998 +0000
+
+    add AC_HEADER_SYS_WAIT
+
+commit e2da8395bc4085f0e70f406ade8c47fcf0506db7
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 7 15:11:41 1998 +0000
+
+    don't declare malloc()
+
+commit 75c6b4aaf091e76e31f69a14b29c1dfadd6c06f2
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 7 15:08:45 1998 +0000
+
+    use POSIX wait() macros
+
+commit ae927ace641cfb8f5ab95c56b77fe6746e2ed4bf
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 7 12:26:49 1998 +0000
+
+    Initial revision
+
+commit c9f54031af8137dbd999eff245df4dff6a470f14
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 7 10:02:11 1998 +0000
+
+    stdlib.h is already covered by STDC_HEADERS
+
+commit 32e3f0b10e224745879b17fbddd1f712f4df6884
+Author: tgoodwin <tgoodwin>
+Date:   Tue Jul 7 09:53:34 1998 +0000
+
+    use signal.c to find signal names
+
+commit 27e371fe3239f0114e577fc49f06ae0b41b7dca4
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 1 14:48:22 1998 +0000
+
+    mksignal stuff now works
+    history stuff maybe works
+
+commit 3836fdb17a4616dc91c398ace25ebbf66d22573a
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 1 12:49:09 1998 +0000
+
+    Initial revision
+
+commit 31777f2b1f93502ef5a7f25c012623c1edcec41c
+Author: tgoodwin <tgoodwin>
+Date:   Wed Jul 1 12:46:22 1998 +0000
+
+    add mksignal.c
+
+commit bbb6b6ee8aaeea2bcd1f87e1cfedfca4f6eeb627
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jun 15 15:42:29 1998 +0000
+
+    remove `=' from configure arguments
+
+commit 229ec31e0e8343a33568cad16cde7d55f80a3778
+Author: tgoodwin <tgoodwin>
+Date:   Mon Jun 1 09:25:34 1998 +0000
+
+    Initial revision
+
+commit 9e2f80902685a3047d7d1d6c4dce96adf89297c8
+Author: tgoodwin <tgoodwin>
+Date:   Fri Feb 27 17:26:29 1998 +0000
+
+    add sig_atomic_t
+
+commit 18487b02b48a57c5d331bfb417feef451501cb51
+Author: tgoodwin <tgoodwin>
+Date:   Fri Feb 27 17:26:03 1998 +0000
+
+    next attempt to get readline interaction correct
+
+commit f5dde44eee092602bee6df746043abc6fcfec38f
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 25 14:18:22 1998 +0000
+
+    fix some history installation things
+
+commit a8c039e14eafd7933776e8616715955d52320600
+Author: tgoodwin <tgoodwin>
+Date:   Tue Feb 24 12:00:28 1998 +0000
+
+    try for mkfifo()
+
+commit a3d14284af40b0d4d9bf33cf33f640c3ea6102ad
+Author: tgoodwin <tgoodwin>
+Date:   Tue Feb 24 11:28:10 1998 +0000
+
+    update RELDATE for "nearly" release
+
+commit b7a4386d26c640c77ab92822d2a23a2d27fae3b1
+Author: tgoodwin <tgoodwin>
+Date:   Tue Feb 24 11:21:25 1998 +0000
+
+    lower #if count
+
+commit ac8a8fcf0dad4e73b16a584d4ba3c02b89c1b86e
+Author: tgoodwin <tgoodwin>
+Date:   Mon Feb 23 15:45:05 1998 +0000
+
+    incorporate Tom Culliton's patches for readline
+
+commit ed765fba692da152247018becb1f407a4ee64452
+Author: tgoodwin <tgoodwin>
+Date:   Mon Feb 23 11:06:06 1998 +0000
+
+    #include <sys/wait.h>
+
+commit 6d1206af1b0342a8ce28f585b3fdafad1a0ea0a1
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 19 14:27:32 1998 +0000
+
+    implicit int
+
+commit b389a2876331f8691680fcd0a720250e815d6e80
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 19 14:25:22 1998 +0000
+
+    changes approaching release of rc-1.5b3
+
+commit 51e812bb39e28064a256788ac2b6b5c3b6de3204
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 19 14:25:04 1998 +0000
+
+    add people that helped
+
+commit 9a73d57745c20ce30e630a2200885e1f0b023a64
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 19 13:27:48 1998 +0000
+
+    abandon waitforall() if rc_wait4() returns with errno == EINTR
+
+commit 047445c483a321852b4e595ef47a1dc84aaef617
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 19 13:26:00 1998 +0000
+
+    quote signal.h to shell
+
+commit 1df676a9c02aa0e89332ca5666948b4b7ed91ac5
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 19 13:25:00 1998 +0000
+
+    s/uname/date/ 'cos I think some systems don't have uname
+
+commit 2c34815099762e7a4845dbade6a75a57f70e3b59
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 19 13:23:17 1998 +0000
+
+    actually test for sigsetjmp (not setjmp), bozo
+    nasty sed hack to handle \\ paths under CygWin32
+
+commit f08474ea0c5d4ad9266081d5f3dd0017448d2498
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 19 12:39:21 1998 +0000
+
+    do preprocessor trick: it works now
+
+commit 13d5710c5af78365a5dd2699e8bad15b93aee773
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 19 11:56:33 1998 +0000
+
+    separate instructions for building in a separate directory
+
+commit 2f7e46ad7e270716d9e444591b4919ccf90c61f1
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 18 17:11:24 1998 +0000
+
+    default for ssize_t needs to be signed, bozo
+
+commit eab21e5857e7b19a06196ec7a9c197bc599560a0
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 18 17:10:53 1998 +0000
+
+    reinstate rc_wait (but right this time)
+
+commit bb225300e267a55fb40cf082de04567129652bda
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 18 15:14:06 1998 +0000
+
+    handle system.c and execve.c properly
+
+commit 4df986e38352bb9a6cf49de170cb8bb98726f92e
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 18 14:15:46 1998 +0000
+
+    add test for `{ uname & wait } |cat'
+
+commit 10bcb2f276247c332f4136b3769b403706342e87
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 18 12:30:53 1998 +0000
+
+    move rc_readline to rdwr.c
+    fix prompt printing for readline some more
+
+commit a33cdf2c71aec230b14a0e07317e0a38d743089b
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 18 12:30:53 1998 +0000
+
+    move rc_readline to rdwr.c
+
+commit 4682c96c0bd432f41abb6d83b9edf8bce195ce40
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 18 11:37:45 1998 +0000
+
+    support ssize_t
+
+commit 67fd3c37e6908795bd86220435a37637c9e16d63
+Author: tgoodwin <tgoodwin>
+Date:   Tue Feb 17 15:46:42 1998 +0000
+
+    first stab at getting execve.c only compiled when needed
+
+commit 063d3cc3f65f8f5b8dd636b7b8bd07e132e5aa28
+Author: tgoodwin <tgoodwin>
+Date:   Tue Feb 17 14:22:47 1998 +0000
+
+    first stab at doing execve right
+
+commit a14f36cd14770c0cc789737a0b0fa39ca411c9e1
+Author: tgoodwin <tgoodwin>
+Date:   Tue Feb 17 13:59:07 1998 +0000
+
+    only define slowbuf etc. if needed
+
+commit 7cdc7259c1b514197fee5a0d973f95fdf3347677
+Author: tgoodwin <tgoodwin>
+Date:   Tue Feb 17 13:48:31 1998 +0000
+
+    split some restartable syscall stuff out
+    don't declare slowbuf unless it's needed
+
+commit 2af5bbbb5355e9fcf311673f8051952c6b9b2509
+Author: tgoodwin <tgoodwin>
+Date:   Tue Feb 17 13:48:31 1998 +0000
+
+    Initial revision
+
+commit 943fd3314e3955c9f6094ffeaef81f0fe5ab16f8
+Author: tgoodwin <tgoodwin>
+Date:   Mon Feb 16 16:48:44 1998 +0000
+
+    *** empty log message ***
+
+commit ea419c7cb70e74f78049c421e5840bb77db66a76
+Author: tgoodwin <tgoodwin>
+Date:   Mon Feb 16 16:30:38 1998 +0000
+
+    HAVE_SYSV_SIGCLD
+
+commit 96e9ab556c494516074029a69e7661f7676a6f23
+Author: tgoodwin <tgoodwin>
+Date:   Mon Feb 16 15:24:29 1998 +0000
+
+    Initial revision
+
+commit b738845946d51ecd3da731abe7227a34f3733be5
+Author: tgoodwin <tgoodwin>
+Date:   Mon Feb 16 11:48:15 1998 +0000
+
+    fix memory leak after fork()
+    remove rc_wait()
+
+commit 8bf55d806a101b05ed775f4f7994789738efe2db
+Author: tgoodwin <tgoodwin>
+Date:   Mon Feb 16 11:27:17 1998 +0000
+
+    use `#if' for consistency
+
+commit 37746b3d9d557f8c603715702d0cf38b4464d7b3
+Author: tgoodwin <tgoodwin>
+Date:   Mon Feb 16 10:22:04 1998 +0000
+
+    use ealloc(), not malloc()
+
+commit 5e881721eff63ace43b88082939800eb902c9c35
+Author: tgoodwin <tgoodwin>
+Date:   Fri Feb 13 15:58:32 1998 +0000
+
+    ignore exit status of `rm -f'
+
+commit 6cc4e58f673b8509c73c859659e57d3b469b3fb8
+Author: tgoodwin <tgoodwin>
+Date:   Fri Feb 13 12:04:53 1998 +0000
+
+    get rid of version.c
+    fix RELDATE
+
+commit 47ef99525ea8442d61e136ab3f809025fc57a880
+Author: tgoodwin <tgoodwin>
+Date:   Fri Feb 13 12:04:25 1998 +0000
+
+    remove version.c
+    tidy up history install
+
+commit f63b6ec11153ee4105110962826d4a503161b12a
+Author: tgoodwin <tgoodwin>
+Date:   Fri Feb 13 12:04:10 1998 +0000
+
+    add -V option
+
+commit 7a1805b6f42215f37522166a6ec3de6de042bee6
+Author: tgoodwin <tgoodwin>
+Date:   Fri Feb 13 11:20:39 1998 +0000
+
+    Initial revision
+
+commit 3cbd370a06bd2022588306d36217421d3aad812a
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 12 17:28:37 1998 +0000
+
+    improve quad_t test some more
+
+commit 0bd6ecafbbdf20c8cdd38d073de1d37d0ecd129c
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 12 13:04:34 1998 +0000
+
+    automake stuff
+
+commit 123722529fa7ac6383d8066481bc13f584eefa20
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 12 13:04:09 1998 +0000
+
+    trying to get it working right
+
+commit 8d8059fc729b5152b4b168944ce9399cc63cbf38
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 12 13:03:32 1998 +0000
+
+    check that it's a file descriptor we've got before seeing if it' stdin
+
+commit 02d9475165e3b52bce47b0699fb8a9f67da4f0f4
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 12 13:03:02 1998 +0000
+
+    prompt printing now fixed; don't need to document bug
+
+commit 011f34043daf8d2de2ae3d6131acf06ee6ca6d4c
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 12 13:02:37 1998 +0000
+
+    send bugs to *me*!
+
+commit bc3b4cb2bbc2e58c442bb952955df35d6c40a2b7
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 12 13:02:24 1998 +0000
+
+    let configure fill in the details
+
+commit 1ed590eb57aeba98400db1f7f0488f9e03b03ddd
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 12 10:12:04 1998 +0000
+
+    reinstate setsigdefaults after nSubshell fork
+    (disappeared between 1.4 and 1.5b1)
+
+commit 1a20347d673cfad74b8e0e27d8700cd804f00ad1
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 12 09:46:17 1998 +0000
+
+    Initial revision
+
+commit 81ff36490a5b795629b54de9332ec6634816516b
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 11 15:45:35 1998 +0000
+
+    Initial revision
+
+commit 2184e03bc66a77d9ead42730d51c22b942e7848e
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 11 15:44:57 1998 +0000
+
+    an array of `gid_t's is not indexed by gid_t, bozo
+
+commit e438ef1167232d1f863aafc078be47e99574c344
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 11 15:44:22 1998 +0000
+
+    tidy up quad_t test: compile, don't run
+
+commit 93301b48619929a5839bfda8b5372c8ab1f27bd7
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 11 14:35:02 1998 +0000
+
+    automake support
+
+commit f579c3af795db00a013b3b078d8e1c403af62a92
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 11 14:29:00 1998 +0000
+
+    Initial revision
+
+commit 8b49006e571ddeea95da03b0135262298801de13
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 11 14:06:01 1998 +0000
+
+    Initial revision
+
+commit 731e13e89b59f94c8ee37f8387276dcc0d19f119
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 11 14:05:47 1998 +0000
+
+    move most stuff to INSTALL file
+
+commit 37d2cf03f1f15f57432d3d4fb0c3c451438afdb0
+Author: tgoodwin <tgoodwin>
+Date:   Wed Feb 11 14:04:49 1998 +0000
+
+    fix prompting for readline
+
+commit 034adee7e777b3f841eebed9fe827689721847c9
+Author: tgoodwin <tgoodwin>
+Date:   Tue Feb 10 16:40:54 1998 +0000
+
+    fix const / prototype warnings
+
+commit 882ec17c89fd44f9264eca37624de0f8b5e0feb8
+Author: tgoodwin <tgoodwin>
+Date:   Tue Feb 10 16:30:24 1998 +0000
+
+    Initial revision
+
+commit 5d76c3ad2f7fffdd7bd7700da1c9fd33db3ec245
+Author: tgoodwin <tgoodwin>
+Date:   Mon Feb 9 14:17:39 1998 +0000
+
+    just say `false' (not /bin/false)
+
+commit 2cbc84317f93f18e00e252f83b2d1cd65925031c
+Author: tgoodwin <tgoodwin>
+Date:   Mon Feb 9 14:17:09 1998 +0000
+
+    another gid_t / GETGROUPS_T confusion
+
+commit 1c08ed0dc8fef3a7b844b02676aa0418ebce00b5
+Author: tgoodwin <tgoodwin>
+Date:   Mon Feb 9 14:16:41 1998 +0000
+
+    reset list of child processes after fork; fixes `{ls & wait} |cat' bug
+
+commit 0bb130a5476691071c783eea3a175cd4b3a05731
+Author: tgoodwin <tgoodwin>
+Date:   Mon Feb 9 14:16:10 1998 +0000
+
+    remove tmp file after checking named pipes
+    define DEFAULTPATH in the right place
+
+commit 40d09a0bca0f075ae2ef692dd00a5e8517d26405
+Author: tgoodwin <tgoodwin>
+Date:   Fri Feb 6 18:01:29 1998 +0000
+
+    Initial revision
+
+commit 3b39a6827f68a5183ce44637ca6b39c464d30067
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 5 15:22:28 1998 +0000
+
+    use sigsetjmp, etc.
+
+commit dc327f40c8d4981bb5dce27f8e967aacfcf4fb23
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 5 15:22:28 1998 +0000
+
+    no longer need to specify -ltermcap for readline
+
+commit ee67e2be095997249d2a6147f404fbcb4764b548
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 5 15:20:08 1998 +0000
+
+    don't use signals in this file
+
+commit 31f0826614c17ef69f3cc654f9ede3ca9452522e
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 5 14:51:54 1998 +0000
+
+    Initial revision
+
+commit b12d41f95452f06360d4879bc466469686d167a8
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 5 14:51:09 1998 +0000
+
+    attempt to fix wait() race
+
+commit 61f3dc4ae75009ba3e8638a7fb7767cdb92c598c
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 5 14:50:14 1998 +0000
+
+    avoid longjmp clobber
+
+commit 784e5340c6b56ed2495eb5debe06ee43f9c2ddb3
+Author: tgoodwin <tgoodwin>
+Date:   Thu Feb 5 14:49:07 1998 +0000
+
+    fix RESTART thinko
+
+commit d36dbd6441a3864f1a6a64baefe127fa729d0fb3
+Author: tgoodwin <tgoodwin>
+Date:   Tue Sep 30 10:19:04 1997 +0000
+
+    abortive attempt to parse output of
+    #include <signal.h>
+    to find real signal files
+
+commit aca33971e8c64b565d7ab5006b2c7bc9f2970b94
+Author: tgoodwin <tgoodwin>
+Date:   Tue Sep 30 09:41:34 1997 +0000
+
+    Initial revision
+
+commit cdebef2d61705d76b56ece92f2e7e18a0f78fcb4
+Author: tgoodwin <tgoodwin>
+Date:   Mon Sep 29 14:48:47 1997 +0000
+
+    Initial revision
+
+commit 28764f40827bc3c4ef9bfe1154c66d8537568752
+Author: tgoodwin <tgoodwin>
+Date:   Thu Sep 25 11:10:35 1997 +0000
+
+    add -ltermcap for readline
+
+commit 2f0647437041b9ece45fc251d7f7551f8235d04a
+Author: tgoodwin <tgoodwin>
+Date:   Tue Sep 23 10:47:03 1997 +0000
+
+    Initial revision
+
+commit b07426171c15c2399bb1e41c9000fbac6e5d0d49
+Author: tgoodwin <tgoodwin>
+Date:   Mon Sep 15 12:40:01 1997 +0000
+
+    s/gid_t/GETGROUPS_T/ in gidset malloc
+
+commit ed2dea21e2615a249edc6c7aa9cb14df50ee699d
+Author: tim <tim>
+Date:   Mon Jul 7 15:43:23 1997 +0000
+
+    some changes
+
+commit 2a58f5fa894cb104a7caff2e24d2238f0c80a9db
+Author: tim <tim>
+Date:   Mon Jul 7 15:32:58 1997 +0000
+
+    Initial revision
+
+commit 6c7a12b0dc632f2464a1be592943a61965db7b82
+Author: tim <tim>
+Date:   Tue Jul 1 20:53:01 1997 +0000
+
+    1.5b2
+
+commit ca94f2f71a47b241239abd9d88eafb7859c4be3e
+Author: tim <tim>
+Date:   Tue Jul 1 20:52:56 1997 +0000
+
+    autoconf
+
+commit 61720f1d51fc980b69008e5303f7a42aab8c3033
+Author: tim <tim>
+Date:   Tue Jul 1 20:02:57 1997 +0000
+
+    autoconf
+    use getgroups(0, 0), rather than NGROUPS
+
+commit 97e2ecf8267f5c91cc0d6b8b832a0aa16f1e7226
+Author: tim <tim>
+Date:   Tue Jul 1 20:02:07 1997 +0000
+
+    make sure SIGCLD is not SIG_IGN
+
+commit 60af71b51c86873430bcff673a3ecd7a45d18a6c
+Author: tim <tim>
+Date:   Tue Jul 1 20:01:38 1997 +0000
+
+    remove most prototypes
+
+commit 659bef21b6809987a56eff0d3c2aa1b81679128b
+Author: tim <tim>
+Date:   Tue Jul 1 20:00:50 1997 +0000
+
+    autoconf
+    add support for quads
+
+commit 83b03b1ee0c43a7068e387cecf1e43d73b0c66a3
+Author: tim <tim>
+Date:   Tue Jul 1 20:00:09 1997 +0000
+
+    use setjmp.h, rather than our prototypes
+
+commit df8f2d58845819d1973779918d9c97018edc1170
+Author: tim <tim>
+Date:   Tue Jul 1 19:57:45 1997 +0000
+
+    autoconf
+
+commit 8a03ed3fc54e728f7ccd2fef40b7215e1d072054
+Author: tim <tim>
+Date:   Tue Jul 1 19:57:16 1997 +0000
+
+    autoconf
+    get consts right in casts
+
+commit a819960f747a251f4b9d88e3e56f9144318efd71
+Author: tim <tim>
+Date:   Tue Jul 1 19:56:06 1997 +0000
+
+    add autoconf stuff
+    do limits portably
+
+commit edf6d5059cbb06ad0cd1c5b126cd9359e4ea32e8
+Author: tim <tim>
+Date:   Wed Jun 4 15:02:34 1997 +0000
+
+    Initial revision
+
+commit 5e91362042e4c1b7023ce18ef7e81ab144fd6928
+Author: tim <tim>
+Date:   Mon Jun 2 16:35:07 1997 +0000
+
+    Initial revision
+
+commit 7ea25f9756a5b39d0594a40a159f55862bb4f5c7
+Author: tim <tim>
+Date:   Mon Jun 2 09:26:58 1997 +0000
+
+    Initial revision
+
+commit a8462ca047b5eb8eb5a32ace445c3dee31c2a8f0
+Author: tim <tim>
+Date:   Wed May 28 16:24:27 1997 +0000
+
+    signal.c.
+
+commit ad53672222e8347ea00064a5f783e1990f65fc4d
+Author: tim <tim>
+Date:   Thu May 22 12:34:26 1997 +0000
+
+    Initial revision
+
+commit 623048776e55ae3232cd13e1a3c61344de7b85b4
+Author: tim <tim>
+Date:   Thu May 22 10:12:03 1997 +0000
+
+    Initial revision
+
+commit 39edd860750a18dffd6767042b90a69648d10db6
+Author: tim <tim>
+Date:   Wed May 21 12:26:01 1997 +0000
+
+    Initial revision
+
+commit 2ea901dfe7f367ddad61b3a64bbef4195a90ce35
+Author: tim <tim>
+Date:   Tue May 20 16:17:15 1997 +0000
+
+    Initial revision
+
+commit f8f33b2674afaa2682c4a4ccec3e20439c53c144
+Author: tim <tim>
+Date:   Tue May 20 15:51:18 1997 +0000
+
+    Initial revision
+
+commit ed03d0edf6f3a34f552db79e42f99a8c624f34ad
+Author: tim <tim>
+Date:   Tue May 20 14:59:33 1997 +0000
+
+    Initial revision
+
+commit a005c00d82364393252795cb9f13ceb0fa2a0685
+Author: tim <tim>
+Date:   Tue May 20 14:40:41 1997 +0000
+
+    Initial revision
+
+commit 5a539887ea0a5d591d66f86aca830b19ac98a2b1
+Author: tim <tim>
+Date:   Mon May 19 16:44:38 1997 +0000
+
+    Initial revision
+
+commit ed998daafc3b46899a4c59419a9ac584d3a5e883
+Author: tim <tim>
+Date:   Wed May 14 16:24:26 1997 +0000
+
+    Initial revision
+
+commit 960afa1642f23d71c07be587ccf25c1a41b2fe98
+Author: tim <tim>
+Date:   Wed May 14 16:13:50 1997 +0000
+
+    Initial revision
+
+commit 53cf1b1c1c3f0c2b5067afccc2976b99a574a089
+Author: tim <tim>
+Date:   Wed May 14 15:30:41 1997 +0000
+
+    Initial revision
+
+commit b87bfedf65c289bf0ee5338c9e10492b70b1e8e0
+Author: Toby Goodwin <tgoodwin@cygnus.co.uk>
+Date:   Mon Jul 7 00:00:01 1997 +0100
+
+    beta: rc-1.5b2
+
+commit 5556dde4d3ad4e34267320b1411fc090b18a24b0
+Author: Byron Rakitzis <byron@archone.tamu.edu>
+Date:   Mon Mar 7 00:00:01 1994 +0000
+
+    beta: rc-1.5betadev1
+
+commit 26bb34cf036027dfa22dfae8d8fc2f6bfd6acb75
+Author: Byron Rakitzis <byron@archone.tamu.edu>
+Date:   Wed May 27 00:00:01 1992 +0100
+
+    release: rc-1.4
+
+commit c884da53a7c885d46ace2b92de78946855b18e92
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Wed May 13 22:26:26 2015 +0100
+
+    release: rc-1.7.4
+
+commit c68ac7eedea03d0c21cbfbb57704fda65a1c9cc3
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Tue Apr 21 21:39:24 2015 +0100
+
+    release: rc-1.7.3
+
+commit a8699a58d8632f21e897ea5c4900a15483a9a8ca
+Author: Toby Goodwin <toby@paccrat.org>
+Date:   Tue Sep 2 08:01:39 2014 +0100
+
+    release: rc-1.7.2
+
+commit d884971193ef4934424b77ae862e8b0ecf70bab3
+Author: Toby Goodwin <tjg@star.le.ac.uk>
+Date:   Wed Aug 13 13:51:14 2003 +0100
+
+    release: rc-1.7.1
+
+commit 77b18786228a8cf9f58aee09677440c61dc218a9
+Author: Toby Goodwin <tjg@star.le.ac.uk>
+Date:   Wed Jun 19 16:12:04 2002 +0100
+
+    release: rc-1.7
+
+commit 2e67f638ea031ce0138891b6356806b463f5e9af
+Author: Toby Goodwin <tjg@star.le.ac.uk>
+Date:   Wed May 22 14:25:10 2002 +0100
+
+    candidate: rc-1.6c7
+
+commit e354cf4fd756584239e7778217ee8860009e6728
+Author: Toby Goodwin <tjg@star.le.ac.uk>
+Date:   Fri Feb 8 14:48:47 2002 +0000
+
+    candidate: rc-1.6c6
+
+commit bc11ebf09feec23608459c8e632f30369c6bae49
+Author: Toby Goodwin <tjg@star.le.ac.uk>
+Date:   Tue Nov 20 16:01:03 2001 +0000
+
+    candidate: rc-1.6c5
+
+commit 2ef8a59ae61b83ad2ba9d4c9381eead5ae403cb0
+Author: Toby Goodwin <tjg@star.le.ac.uk>
+Date:   Wed Oct 31 12:31:57 2001 +0000
+
+    candidate: rc-1.6c4
+
+commit 609a278bf6e301ea9a021793de314ddcadb806ba
+Author: Toby Goodwin <tjg@star.le.ac.uk>
+Date:   Fri Oct 12 10:25:58 2001 +0100
+
+    beta: rc-1.6b3
+
+commit 14106ccc3b2cb03c8b9a1df1a1b3e3953aaee2f8
+Author: Toby Goodwin <tjg@star.le.ac.uk>
+Date:   Fri Dec 10 11:55:04 1999 +0000
+
+    beta: rc-1.6b2
+
+commit 3e9e4d3f8f518f8f467066593ae6f270d97f6d60
+Author: Toby Goodwin <tjg@star.le.ac.uk>
+Date:   Wed Nov 10 14:55:51 1999 +0000
+
+    beta: rc-1.6b1
+
+commit 3815ffb98e9db3d593219cead05284f983eb6d71
+Author: Toby Goodwin <tjg@star.le.ac.uk>
+Date:   Fri May 28 10:38:44 1999 +0100
+
+    release: rc-1.6
+
+commit 2c998c165268f24f038e02f103e07a967b343c3f
+Author: Toby Goodwin <tjg@star.le.ac.uk>
+Date:   Wed May 12 16:47:55 1999 +0100
+
+    beta: rc-1.5b6
+
+commit f983e502ce8fc8d1d0289b8feb269218a70618e6
+Author: Toby Goodwin <tjg@star.le.ac.uk>
+Date:   Wed Jan 27 14:01:36 1999 +0000
+
+    beta: rc-1.5b5
+
+commit e11c7df86144bed383ac6bbeaecc3017d18b37db
+Author: Toby Goodwin <tjg@star.le.ac.uk>
+Date:   Mon Jan 11 10:55:18 1999 +0000
+
+    beta: rc-1.5b4
+
+commit 671e1e2d1599aa8c5f1010b3fe75c151c56a7403
+Author: Toby Goodwin <tgoodwin@cygnus.co.uk>
+Date:   Mon Jul 7 00:00:01 1997 +0100
+
+    beta: rc-1.5b2
+
+commit a076248389c82276e079756bee26c011b03f70f2
+Author: Byron Rakitzis <byron@archone.tamu.edu>
+Date:   Mon Mar 7 00:00:01 1994 +0000
+
+    beta: rc-1.5betadev1
+
+commit 6bb38f6a01dbf4bbd584e038ceace0a00faa27bb
+Author: Byron Rakitzis <byron@archone.tamu.edu>
+Date:   Wed May 27 00:00:01 1992 +0100
+
+    release: rc-1.4

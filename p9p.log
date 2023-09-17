@@ -1,0 +1,668 @@
+commit eebb374456cd1424d76177b50dd7a225faaca130
+Author: Ori Bernstein <ori@eigenstate.org>
+Date:   Tue Oct 6 20:22:36 2020 -0700
+
+    rc: remove dead code.
+    
+    kencc warns that this code is dead.
+
+commit c1e77dc788c1c0b846763dea1f30fb3fa2d3ff2a
+Author: Russ Cox <rsc@swtch.com>
+Date:   Thu Jan 14 09:59:54 2021 -0500
+
+    rc: do not exit on EINTR from read
+    
+    This happens if lldb attaches to rc.
+
+commit 5f4f8d7a15463ab80a5c2bac45eb8bd72b6ad59f
+Author: Russ Cox <rsc@swtch.com>
+Date:   Mon May 18 22:32:59 2020 -0400
+
+    rc: avoid problematic internal names "var", "thread"
+    
+    For AIX.
+
+commit a115df19eb68151aa080e1b45c7446e385e7de3e
+Author: Russ Cox <rsc@swtch.com>
+Date:   Tue May 5 08:29:45 2020 -0400
+
+    rc: clean up parser levels, disallow free carats on lists
+
+commit 71446f7fb62316f2c87a64c4288c92bb8633dfbb
+Author: Russ Cox <rsc@swtch.com>
+Date:   Mon May 4 23:31:59 2020 -0400
+
+    rc: allow unquoted = in command arguments
+    
+    dd fans rejoice!
+    
+    Also helps with commands like go test -run=x.
+
+commit f09b503a7091d527dd56d095eceadaa6f5a3f94d
+Author: Russ Cox <rsc@swtch.com>
+Date:   Mon May 4 23:20:08 2020 -0400
+
+    rc: move free carat handling into parser
+    
+    This fixes at least one shell script (printfont) that expected
+    
+            'x'`{y}'z'
+    
+    to mean
+    
+            'x'^`{y}^'z'
+    
+    as it now does. Before it meant:
+    
+            'x'^`{y} 'z'
+    
+    One surprise is that adjacent lists get a free carat:
+    
+            (x y z)(1 2 3)
+    
+    is
+    
+            (x1 y2 z3)
+    
+    This doesn't affect any rc script in Plan 9 or plan9port.
+
+commit 2912b8c6981bb9d5bca80a422c1ef921d8f9097c
+Author: Russ Cox <rsc@swtch.com>
+Date:   Mon May 4 22:52:27 2020 -0400
+
+    rc: move newline handling into parser
+
+commit 152e3b679c578880b8af82ad690bd356151d4ea5
+Author: Russ Cox <rsc@swtch.com>
+Date:   Mon May 4 18:34:19 2020 -0400
+
+    rc: add recursive descent parser
+    
+    The old yacc-based parser is available with the -Y flag,
+    which will probably be removed at some point.
+    
+    The new -D flag dumps a parse tree of the input,
+    without executing it. This allows comparing the output
+    of rc -D and rc -DY on different scripts to see that the
+    two parsers behave the same.
+    
+    The rc paper ends by saying:
+    
+            It is remarkable that in the four most recent editions of the UNIX
+            system programmer’s manual the Bourne shell grammar described in the
+            manual page does not admit the command who|wc. This is surely an
+            oversight, but it suggests something darker: nobody really knows what
+            the Bourne shell’s grammar is. Even examination of the source code is
+            little help. The parser is implemented by recursive descent, but the
+            routines corresponding to the syntactic categories all have a flag
+            argument that subtly changes their operation depending on the context.
+            Rc’s parser is implemented using yacc, so I can say precisely what the
+            grammar is.
+    
+    The new recursive descent parser here has no such flags.
+    It is a straightforward translation of the yacc.
+    
+    The new parser will make it easier to handle free carats
+    in more generality as well as potentially allow the use of
+    unquoted = as a word character.
+    
+    Going through this exercise has highlighted a few
+    dark corners here as well. For example, I was surprised to
+    find that
+    
+            x >f | y
+            >f x | y
+    
+    are different commands (the latter redirects y's output).
+    
+    It is similarly surprising that
+    
+            a=b x | y
+    
+    sets a during the execution of y.
+    
+    It is also a bit counter-intuitive
+    
+            x | y | z
+            x | if(c) y | z
+    
+    are not both 3-phase pipelines.
+    
+    These are certainly not things we should change, but they
+    are not entirely obvious from the man page description,
+    undercutting the quoted claim a bit.
+    
+    On the other hand, who | wc is clearly accepted by the grammar
+    in the manual page, and the new parser still handles that test case.
+
+commit 0baf7ce2d83efad1bebc5c1e0c5397f37cb461dc
+Author: Dan Cross <cross@gajendra.net>
+Date:   Fri Jan 10 14:44:21 2020 +0000
+
+    Trivial changes: whitespace and modes.
+    
+    Remote whitespace at the ends of lines.
+    Remove blank lines from the ends of files.
+    Change modes on source files so that they
+    are not executable.
+    
+    Signed-off-by: Dan Cross <cross@gajendra.net>
+
+commit e06b24d76723e77c94d673925294e2de18379db3
+Author: Neven Sajko <nsajko@gmail.com>
+Date:   Thu Aug 8 21:24:58 2019 +0000
+
+    cmd/rc: fix declarations of some externally linked variables
+    
+    Change-Id: If8fe1afecb9fe55f85e8e5af37521b83e787d718
+
+commit 0404d47d176dff72a1190466487886c303d9a5b1
+Author: Ray Lai <ray@raylai.com>
+Date:   Tue Jan 16 15:41:56 2018 +0800
+
+    rc: use proper type for storing ulimit values
+    rc on amd64 stores ulimit values as 32-bit int, but the limits on
+    OpenBSD amd64 can exceed 2^31, so "ulimit -a" shows some values as
+    negative. This is a problem when I want to increase my ulimit but
+    the hard ulimit values are printed as negative.
+
+commit b1743480a7dedd579f568b06957356689c64491e
+Author: Kare Nuorteva <kare.nuorteva@me.com>
+Date:   Sun Sep 10 13:26:57 2017 +0300
+
+    all: remove .cvsignore files
+    
+    Rename following .cvsignore files to .gitkeep since they are
+    required by the build (directories must exist before build):
+            - bin/fossil/.gitkeep
+            - bin/fs/.gitkeep
+            - bin/venti/.gitkeep
+    
+    Change-Id: I9c2865058480cffb3a4613f25e2eca1f7e5578c0
+
+commit 97786009dfbbe7049d9fba42f6d56231f529585a
+Author: Xi Wang <xi.wang@gmail.com>
+Date:   Tue Mar 19 14:36:50 2013 -0400
+
+    rc: avoid undefined C
+    
+    There are two bugs in pdec() on INT_MIN:
+    
+    * wrong output.
+    
+    `n = 1-n' should be `n = -1-n' when n is INT_MIN.
+    
+    * infinite loop.
+    
+    gcc optimizes `if(n>=0)' into `if(true)' because `-INT_MIN' (signed integer overflow) is undefined behavior in C, and gcc assumes the negation of a negative number must be positive.  The resulting binary keeps printing '-' forever given INT_MIN.
+    
+    Try the simplified pdec.c below.
+    
+    $ gcc pdec.c
+    $ ./a.out -2147483648
+    --214748364*
+    
+    $ gcc pdec.c -O2
+    $ ./a.out -2147483648
+    <infinite loop>
+    
+    $ gcc pdec.c -O2 -D__PATCH__
+    $ ./a.out -2147483648
+    -2147483648
+    
+    === pdec.c ===
+    
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <limits.h>
+    
+    #define io void
+    
+    void pchr(io *f, int c)
+    {
+            putchar(c);
+    }
+    
+    void pdec(io *f, int n)
+    {
+            if(n<0){
+    #ifndef __PATCH__
+                    n=-n;
+                    if(n>=0){
+                            pchr(f, '-');
+                            pdec(f, n);
+                            return;
+                    }
+                    /* n is two's complement minimum integer */
+                    n = 1-n;
+    #else
+                    if(n!=INT_MIN){
+                            pchr(f, '-');
+                            pdec(f, -n);
+                            return;
+                    }
+                    /* n is two's complement minimum integer */
+                    n = -(INT_MIN+1);
+    #endif
+                    pchr(f, '-');
+                    pdec(f, n/10);
+                    pchr(f, n%10+'1');
+                    return;
+            }
+            if(n>9)
+                    pdec(f, n/10);
+            pchr(f, n%10+'0');
+    }
+    
+    int main(int argc, char **argv)
+    {
+            int n = atoi(argv[1]);
+            pdec(NULL, n);
+            putchar('\n');
+    }
+    
+    R=rsc
+    CC=plan9port.codebot
+    https://codereview.appspot.com/7241055
+
+commit 459b42e206166f00de1fe2832e26245fdd517113
+Author: Russ Cox <rsc@swtch.com>
+Date:   Tue Aug 2 16:21:33 2011 -0400
+
+    rc: silence lion roar
+    
+    R=rsc
+    http://codereview.appspot.com/4835048
+
+commit 094d7f97ed1014e1d4649200c47f15124ad2c86a
+Author: Russ Cox <rsc@swtch.com>
+Date:   Wed Feb 16 12:48:06 2011 -0500
+
+    rc: fix $ifs bug introduced with utf-8 code
+    
+    R=rsc
+    http://codereview.appspot.com/4187050
+
+commit 23571b39c9be67b3d83b4910d3bdc229f97a60c3
+Author: Russ Cox <rsc@swtch.com>
+Date:   Sun Jan 2 13:44:15 2011 -0500
+
+    rc: handle 4-byte utf-8
+    
+    R=rsc
+    http://codereview.appspot.com/3833043
+
+commit 5057b2057a1df4350ea33f66537c378b5841c902
+Author: Russ Cox <rsc@swtch.com>
+Date:   Sun Jan 2 13:43:20 2011 -0500
+
+    rc: handle utf-8 in $ifs
+    
+    R=rsc
+    http://codereview.appspot.com/3798046
+
+commit 8463426f0ab7bd8d86d52d6c7e11aca7ded18b68
+Author: Michael Teichgräber <mt4swm@googlemail.com>
+Date:   Sun Sep 13 18:26:51 2009 -0400
+
+    rc: implement and document <>{cmd} notation
+    
+    http://codereview.appspot.com/105061
+
+commit 9edf3026e2d2b8c5c90ea2eb54ff287aaa0b161e
+Author: Michael Teichgräber <mt4swm@googlemail.com>
+Date:   Sun Aug 23 13:25:44 2009 -0400
+
+    rc: make read not ignore interrupts/errors (again)
+    
+    http://codereview.appspot.com/110042
+
+commit daba814db2cd203d0db11560472b1fcd28f24901
+Author: Michael Teichgräber <mt4swm@googlemail.com>
+Date:   Sat Aug 8 16:27:01 2009 -0400
+
+    rc: fix segfault when SIGINT is received
+    
+    Save the value of `runq' at the start of the function, so that the `pc'
+    update
+    at the end does work on that original value, and not on a probably
+    modified
+    value of `runq'.
+    
+    fixes #14 http://code.swtch.com/plan9port/issue/14/
+    
+    http://codereview.appspot.com/104066
+
+commit d7ef58bc6caaa8ad8c8ede23c521961996ecb259
+Author: Russ Cox <rsc@swtch.com>
+Date:   Thu Aug 14 10:29:29 2008 -0400
+
+    rc: fix local variables in functions
+    
+    reported by micah stetson:
+    
+    fn foo { echo $bar }
+    bar=baz foo
+
+commit f52ffeca4c0015728105a5569b5b2910d378d686
+Author: Russ Cox <rsc@swtch.com>
+Date:   Sun Jul 20 04:15:41 2008 -0400
+
+    rc: add subscript sequences (Erik Quanstrom)
+
+commit 7e4df5496cae87e9d81f542d77594213ab64c855
+Author: rsc <devnull@localhost>
+Date:   Wed Mar 28 16:04:37 2007 +0000
+
+    keep path and PATH in sync
+
+commit 915aebaa7dcf677bd28fa0f7fbf76ecb85e21836
+Author: rsc <devnull@localhost>
+Date:   Mon Mar 26 17:04:41 2007 +0000
+
+    do not redefine rewind
+
+commit e9014f04045cdbfb69212db96c0e93bf3f565819
+Author: rsc <devnull@localhost>
+Date:   Mon Mar 26 15:02:15 2007 +0000
+
+    more memory errors (valgrind)
+
+commit 168b4886b841ff13916af3fbe016db35cab52958
+Author: rsc <devnull@localhost>
+Date:   Mon Mar 26 14:26:32 2007 +0000
+
+    fix wait
+
+commit b8f45d9ca64a32e45fd6180ae05b471905665627
+Author: rsc <devnull@localhost>
+Date:   Mon Mar 26 14:24:44 2007 +0000
+
+    fix phantom rc crashes
+
+commit 437304135b3e4a4f4e568733b521420b4c322bc7
+Author: rsc <devnull@localhost>
+Date:   Mon Mar 26 12:02:41 2007 +0000
+
+    sync with plan 9
+
+commit 2588528cb565d7faef94d79048942658694a6efd
+Author: rsc <devnull@localhost>
+Date:   Sun Mar 25 17:16:40 2007 +0000
+
+    cope with programs that leave fd in non-blocking mode (Tim Wiess)
+
+commit a54011d85f957fb3a4c0f347191f555c31fa28b1
+Author: rsc <devnull@localhost>
+Date:   Tue Jun 27 17:41:48 2006 +0000
+
+    experiment - allow = in words late in the command line
+
+commit 280291f9c540214918fe65c8375da36bdf417070
+Author: rsc <devnull@localhost>
+Date:   Sat Apr 8 23:49:08 2006 +0000
+
+    add exitcode
+
+commit d5bc8fde849a69eac5c2ff8df956676656c69612
+Author: rsc <devnull@localhost>
+Date:   Sat Apr 1 19:24:03 2006 +0000
+
+    Use gcc -ansi -pedantic in 9c.  Fix many non-C89-isms.
+
+commit 1fd383bd932eb3d8237774035b8d4e51379cb75b
+Author: rsc <devnull@localhost>
+Date:   Mon Mar 20 02:25:59 2006 +0000
+
+    update lucida
+
+commit 9c8fa18d823e4cc6a8b0019a8810b46f6ce99734
+Author: rsc <devnull@localhost>
+Date:   Tue Feb 14 19:43:54 2006 +0000
+
+    shut up about signals in scripts
+
+commit 6a40d3a814702562c8cf5aad4e57df58ec6d8bdb
+Author: rsc <devnull@localhost>
+Date:   Thu Aug 11 16:44:43 2005 +0000
+
+    Add rfork builtin.
+
+commit 3f98a6b8048ce80ea88e2aa9e880c724c9d7345e
+Author: rsc <devnull@localhost>
+Date:   Thu Aug 11 16:44:18 2005 +0000
+
+    make sure errors cause non-zero exit status
+
+commit ad689e002c33701fe8de673c4348a354427cb9f9
+Author: rsc <devnull@localhost>
+Date:   Tue Jul 26 10:19:23 2005 +0000
+
+    fixes from bengt for sun
+
+commit ea2f69c0aac75251c670796d2aa3b2fdda373ba2
+Author: rsc <devnull@localhost>
+Date:   Thu Jul 14 12:48:02 2005 +0000
+
+    ignore window size change
+
+commit 81ca259e89f81ed2623068c396eaa9bcd18bcc34
+Author: rsc <devnull@localhost>
+Date:   Wed Jul 13 03:54:01 2005 +0000
+
+    stupid sun
+
+commit 09e2e1905e06da6e93567179f7992c2c3cf17799
+Author: rsc <devnull@localhost>
+Date:   Thu May 19 17:13:24 2005 +0000
+
+    set $PLAN9 if necessary
+
+commit f84d12768963db83f35a42a6603b5178ae14d4ad
+Author: rsc <devnull@localhost>
+Date:   Fri Mar 18 19:03:25 2005 +0000
+
+    try harder to put background jobs in background; do not print in response to SIGPIPE
+
+commit d1b83bc7bca42e43691a6048d1525b6989a8dada
+Author: rsc <devnull@localhost>
+Date:   Fri Mar 18 18:54:54 2005 +0000
+
+    correct command-printing bug
+
+commit 9ee45e84099e699a937b1b5891d5319554d8d299
+Author: rsc <devnull@localhost>
+Date:   Sun Feb 13 21:38:32 2005 +0000
+
+    handle /dev/stdin always
+
+commit 747a6edac8615d6af05e4e34a7e66d121c074762
+Author: rsc <devnull@localhost>
+Date:   Fri Feb 11 16:58:06 2005 +0000
+
+    set pid=-1 explicitly
+
+commit 0e28a30a24ad4ff1ff05ebdcd6db6c61f000ccfe
+Author: rsc <devnull@localhost>
+Date:   Sun Jan 23 23:19:47 2005 +0000
+
+    more searchpath-related changes
+
+commit d23500a31f43028bc4630a17413df4d26f836f48
+Author: rsc <devnull@localhost>
+Date:   Wed Jan 19 19:48:58 2005 +0000
+
+    use correct yacc
+
+commit f8d09fae844e4a24445d66165a7ec651fdc01eee
+Author: rsc <devnull@localhost>
+Date:   Thu Jan 13 04:49:19 2005 +0000
+
+    Many small edits.
+
+commit 31659ca417bf57d26502745bdae8e68429ca7cf3
+Author: rsc <devnull@localhost>
+Date:   Wed Jan 12 16:59:50 2005 +0000
+
+    maintain $path and $PATH simultaneously
+
+commit a978809660e592b05c6fe725f6a564341ef5ada2
+Author: rsc <devnull@localhost>
+Date:   Fri Jan 7 08:02:54 2005 +0000
+
+    success on the sun
+
+commit 9c280ace23b1dde535b3eb02a4faa57aa07eb805
+Author: rsc <devnull@localhost>
+Date:   Tue Dec 28 17:34:05 2004 +0000
+
+    FreeBSD tweaks
+
+commit 3217c115884adf353f4124f8c8b8cfbb8b00171a
+Author: rsc <devnull@localhost>
+Date:   Sun Oct 17 05:29:53 2004 +0000
+
+    print out signalled exits
+
+commit f686b8163942865e235629aed61e8e5533344af7
+Author: rsc <devnull@localhost>
+Date:   Sun Oct 17 05:19:53 2004 +0000
+
+    add ulimit and umask as builtins
+
+commit 9069cfa10b25be27915e85360b12c4a7d4299728
+Author: wkj <devnull@localhost>
+Date:   Sun May 16 07:58:58 2004 +0000
+
+    Supress line noise.
+
+commit 95f95ed7f09c62cb7ca083362e4bf8d740197221
+Author: rsc <devnull@localhost>
+Date:   Fri May 14 17:45:39 2004 +0000
+
+    More little bug fixes
+
+commit 3dca634101b31741903fb8a726fe9701616450d0
+Author: rsc <devnull@localhost>
+Date:   Tue May 11 17:51:27 2004 +0000
+
+    Fix small bugs.
+
+commit 02312f2292a84132b5e7a9db56d96b7c1ad58a64
+Author: rsc <devnull@localhost>
+Date:   Fri Apr 30 02:16:28 2004 +0000
+
+    Little fixes.
+
+commit 1c0ebd20c88577e3a0496d7bb9f604b0fdb10022
+Author: rsc <devnull@localhost>
+Date:   Sat Apr 24 17:34:52 2004 +0000
+
+    fix
+
+commit 4d907f4b7e79ab651282ebea72c0aa7fc861140d
+Author: rsc <devnull@localhost>
+Date:   Sat Apr 24 17:05:43 2004 +0000
+
+    Add scat.  Temporary fix to rc r.e. note groups.
+
+commit 912e4ce027bb194893c196c6d8fa391529950de5
+Author: rsc <devnull@localhost>
+Date:   Mon Apr 19 23:04:36 2004 +0000
+
+    clean up when finished.
+    don't set PLAN9
+    don't set PLAN9
+
+commit d62d03fc643d9741743f6eed5e89cf8dd65c4a88
+Author: rsc <devnull@localhost>
+Date:   Fri Mar 26 17:30:36 2004 +0000
+
+    handle interrupts and backgrounded processes a little better.
+
+commit 060abe3e8b04440dd6974a857656b78b1e2e0605
+Author: rsc <devnull@localhost>
+Date:   Fri Mar 26 01:59:35 2004 +0000
+
+    SunOS can rot in hell.
+
+commit 38c3c5b935733443fe7321c0d8b02d4b77afed55
+Author: rsc <devnull@localhost>
+Date:   Thu Mar 25 23:03:57 2004 +0000
+
+    Today's changes.
+    More changes.
+
+commit 4040ce3f997b60b17c7ad2720a5c8ee344f8ef64
+Author: rsc <devnull@localhost>
+Date:   Sun Mar 21 04:33:13 2004 +0000
+
+    Small tweaks
+    Lots of new code imported.
+
+commit 3ba350df3a34f8315d58d660f748b6456de03c4e
+Author: rsc <devnull@localhost>
+Date:   Thu Mar 4 02:37:30 2004 +0000
+
+    Remove debugging print.
+
+commit d9109ded0e2e35ce0b0c7ac9a9e3c77afde529de
+Author: rsc <devnull@localhost>
+Date:   Thu Mar 4 02:36:36 2004 +0000
+
+    Fix rc not to bus error on Mac OS X.
+    Don't print about child notes either.
+
+commit bf41cc7bf13da2ff7eeeef985ce3d846d25482b5
+Author: rsc <devnull@localhost>
+Date:   Sun Feb 29 23:20:28 2004 +0000
+
+    Various tweaks.
+
+commit 2e9e4a641dfd2c57406913e21b3675bb669fe64d
+Author: rsc <devnull@localhost>
+Date:   Sun Feb 29 22:42:33 2004 +0000
+
+    Small tweaks to make things build again.
+
+commit c7d86ca50d89f0a1a6ec485cc1540989246f4553
+Author: rsc <devnull@localhost>
+Date:   Thu Dec 11 17:48:38 2003 +0000
+
+    Add support for user-level 9P servers/clients and various bug fixes to go with them.
+
+commit 6112780e69b29a9ca2d5141c0b31aafd31cfa682
+Author: rsc <devnull@localhost>
+Date:   Wed Dec 3 22:50:48 2003 +0000
+
+    Various fixes.
+    
+            B - fixed usage, DISPLAY :0 vs :0.0
+            9term - fixed various terminal things
+            rc - notice traps in Read
+            _p9dir - only run disk code for disks
+            dirread - getdirentries on FreeBSD and Linux
+                    are different w.r.t. meaning of off.
+            notify - set up so signals interrupt system calls
+            bprint - use bfmt.
+
+commit da2be27b8116b85dd78b896265aa360d35cf7e3d
+Author: rsc <devnull@localhost>
+Date:   Sun Nov 23 19:49:17 2003 +0000
+
+    Annoying changes to work on Sun boxes.
+
+commit bc46bd7a43bc7b8c706f15f5bddd2d03df2ebec0
+Author: rsc <devnull@localhost>
+Date:   Sun Nov 23 18:11:17 2003 +0000
+
+    forgot this.
+
+commit 78e5fd121718e565423a13509d411510d90b19d9
+Author: rsc <devnull@localhost>
+Date:   Sun Nov 23 18:04:08 2003 +0000
+
+    Plan 9's rc.
+    
+    not a clear win over byron's,
+    but at least it has the right syntax.

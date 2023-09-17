@@ -1,0 +1,31 @@
+# rcmain: Smaller Unix version
+if(~ $#home 0) home=$HOME
+if(~ $#home 0) home=/
+if(~ $#ifs 0) ifs=' 	
+'
+switch($#prompt){
+case 0
+	prompt=('% ' '	')
+case 1
+	prompt=($prompt '	')
+}
+if(flag p) path=(/bin /usr/bin)
+if not {
+	finit
+	if(~ $#path 0) path=(. /bin /usr/bin /usr/local/bin)
+}
+fn sigexit
+if(! ~ $#cflag 0){
+	if(flag l && test -r $home/lib/profile) . $home/lib/profile
+	status=''
+	eval $cflag
+	exit $status
+}
+
+#if(~ $#* 0) . /dev/fd/0
+if(~ $#* 0) . /dev/stdin
+if not{
+	status=''
+	. $*
+}
+exit $status

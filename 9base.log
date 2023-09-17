@@ -1,0 +1,74 @@
+commit 68e38206d3b8cd1d5532f0b4df33ae9bd7560916
+Author: pranomostro <pranomestro@gmail.com>
+Date:   Sat May 20 01:06:03 2017 +0200
+
+    apply changes from https://github.com/9fans/plan9port on rc/havefork.c
+    
+    before applying those changes, rc exited with sigsegv when receiving
+    sigint while executing a command in a subshell (example: rc -c '`{read}').
+
+commit 8102a5a29f5a21ac6d0dd536c82e7957b1d2dbcb
+Author: anselm@garbe.us <unknown>
+Date:   Wed Feb 29 20:52:27 2012 +0100
+
+    applied Paul Onyschuk's remarks
+
+commit df40c5801f2fa46532da144852d330890a0c05d3
+Author: anselm@garbe.us <unknown>
+Date:   Sun Feb 12 23:13:17 2012 +0100
+
+    applied Juliens 9base fixes on OBSD
+
+commit 5dc9af94725d1437b1511198455a4299e9be2bfd
+Author: Anselm R Garbe <anselm@garbe.us>
+Date:   Wed Jan 5 08:33:42 2011 +0000
+
+    reverted have*fork.c to erik's unlimited allocation to work better together with werc posts
+
+commit a3b213d01dab22d1985fc888ae13e6d1f7664793
+Author: Anselm R Garbe <anselm@garbe.us>
+Date:   Sat May 29 19:23:23 2010 +0100
+
+    applied dibbs patch, slightly modified though
+
+commit ec568f8811663827efcd49e2b4b77f995fc18eed
+Author: Anselm R Garbe <anselm@garbe.us>
+Date:   Fri May 28 11:30:17 2010 +0100
+
+    added commands as discussed with Uriel yesterday
+
+commit 56aae950889a1c71a0eb5b1294ea8dc238e46c9f
+Author: Anselm R Garbe <anselm@garbe.us>
+Date:   Sun Aug 2 10:07:10 2009 +0100
+
+    some tweaks, install into /usr/local/plan9 to provide better compatibility with p9p and apps written on top of p9p such as werc
+
+commit 2fb77677a65b0629ee95f670d456f7eea97d4659
+Author: Anselm R Garbe <anselm@garbe.us>
+Date:   Fri Jul 31 21:02:58 2009 +0100
+
+    upgraded 9base to p9p 20090731
+
+commit 15895def135d2df6b93234b2caf4efbd986fb6e9
+Author: Anselm R. Garbe <garbeam@wmii.de>
+Date:   Sat Jan 21 13:56:49 2006 +0200
+
+    applied patches to allow compilation on SunOS
+
+commit bd01e1dbd233aecc46f87c56bae9ef7f3dfea97a
+Author: garbeam@mmv.wmii.de <unknown>
+Date:   Sun Dec 18 16:47:51 2005 +0200
+
+    fixed rule
+
+commit e7f45240c6f7896953439101de603a9b7a1face7
+Author: garbeam@mmv.wmii.de <unknown>
+Date:   Sat Dec 17 15:05:37 2005 +0200
+
+    several chanes in Makefiles and rcmain installation
+
+commit c56461a2bfeb94fa485add72358add19b360c1ba
+Author: garbeam@wmii.de <unknown>
+Date:   Sun Nov 20 18:27:27 2005 +0200
+
+    initial import

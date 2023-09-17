@@ -1,0 +1,87 @@
+#!/usr/bin/env rc
+# Check the parsed syntax tree s-expression
+# against a reference in the parse/ subdir.
+
+Usage = 'checkparse [-am] <rc> <script> ...'
+refs = `{cd parse && pwd}
+
+aflag=false # all (continue on error)
+mflag=false # make new .s references
+while(~ $*(1) -[ham]*) {
+    switch($*(1)) {
+    case -h
+        echo Usage: $usage
+        exit 1
+    case -a
+        aflag=true
+    case -m
+        mflag=true
+    }
+    shift
+}
+
+if([ $#* -lt 2 ]) {
+    echo Usage: $usage
+    exit 1
+}
+{ test -f ./bin/rcmain && test -d $refs } || {
+    echo 'Must be run from top-level dir (where bin/rcmain is found)'
+    exit 1
+}
+
+rc = $*(1)
+shift
+
+$rc -m ./bin/rcmain -Dc echo >/dev/null >[2=1] || {
+  echo $rc does not support -D flag!
+  exit 1
+}
+
+fn hasfiles {
+  ok = true
+  for(f in $*) {
+    [ -f $f ] || {
+      echo File not found: $f
+      ok = false
+      ! $aflag && exit 1
+    }
+  }
+  status = $ok
+}
+
+files = $*
+if(! ~ $mflag true && ~ $#files 0) {
+    # add all non-s files.
+    for(ref in $refs/*) {
+        ! ~ $ref '*.s' && files = ($files $ref)
+    }
+}
+for(i in $files) {
+    fname = `{ basename $i }
+    if(~ $mflag true) {
+        if([ -f $refs/$fname.s ]) {
+            if(! ~ $aflag true) {
+                echo File $refs/$fname.s exists!
+                exit 1
+            }
+            echo Over-writing files $refs/$fname*
+        }
+        echo Adding $i '~>' $refs/$fname
+        diff -q $i $refs/$fname || cp $i $refs/$fname
+        chmod 444 $refs/$fname
+        $rc -m ./bin/rcmain -DY $refs/$fname >$refs/$fname.s >[2=1]
+        chmod 444 $refs/$fname.s
+    }
+    if not {
+        if(hasfiles $refs/$fname ^ ('' .s)) {
+            diff $refs/$fname $i && {
+                echo '^^^' $i '(reference script)'
+                ! $aflag && exit 2
+            }
+            diff $refs/$fname.s <{ $rc -m ./bin/rcmain -D $i >[1=2]} && {
+                echo '^^^' $i '(parse result)'
+                ! $aflag && exit 1
+            }
+        }
+    }
+}

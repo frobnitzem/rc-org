@@ -1,0 +1,642 @@
+commit 08bd6b6c4995950eb914727ef93b0798a11c1b5d
+Author: Michael Forney <mforney@mforney.org>
+Date:   Sun Oct 30 04:34:44 2022 +0000
+
+    rc: make `flag f [+-]` clear status on success
+    
+    Otherwise, the old status will be retained, which may be non-empty if
+    it follows an if command whose branch wasn't taken.  This is
+    problematic for scripts using -e.
+
+commit dcaa5a73db46275f8e032b55a1c591c0a9c71598
+Author: Ori Bernstein <ori@eigenstate.org>
+Date:   Fri Apr 29 01:51:01 2022 +0000
+
+    rc: squelch 'Write error' warning
+    
+    When writing to a large variable in /env, we
+    spam 'Write error', in spite of the env var
+    working. This is new behavior, as of commit
+    db721ad985e2b48b4c.
+    
+    It produces a lot of scary, noisy warnings,
+    which are probably bogus.
+
+commit 1fb9e69d2c36abf58a929b0ec79adefc334d770f
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Wed Feb 16 18:07:21 2022 +0000
+
+    rc: fix globbing with lists (thanks qwx)
+    
+    Pattern matching with lists no longer works:
+    
+            ; ls /tmp/*.c
+            /tmp/npage.c
+            /tmp/pagedebug.c
+            /tmp/pageold.c
+            /tmp/scheduler.c
+            /tmp/writeimagetest.c
+            ; ls /tmp/^(*.c)
+            ls: /tmp/*.c: '/tmp/*.c' directory entry not found
+            ; 9fs dump
+            ; bind /n/dump/2021/1002/amd64/bin/rc /bin/rc
+            ; rc
+            ; ls /tmp/^(*.c)
+            /tmp/npage.c
+            /tmp/pagedebug.c
+            /tmp/pageold.c
+            /tmp/scheduler.c
+            /tmp/writeimagetest.c
+    
+    the fix:
+    
+    we have to propagate the glob attribute thru lists
+    as well. before it was only handled for single words
+    and propagated thru concatenations...
+    
+    the Xglob instruction now works on list, and we
+    propagate the glob attribute thru PAREN and WORDS
+    and ARGLIST nodes.
+    
+    also, avoid using negative numbers for the Tree.glob
+    field as char might be unsigned on some targets.
+
+commit 441bb2c8a13c0263d9524816d99ccc98fbd7ee7a
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Mon Jan 10 17:41:46 2022 +0000
+
+    rc: fix pwrd() regression, forgot <= ' ' case from needsrcquote()... sorry :(
+
+commit 35f92e43c9716d406eb56d691c2924b15258f225
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Fri Jan 7 20:50:00 2022 +0000
+
+    rc: read heredoc when receiving '\n' (thanks Eckard Brauer)
+    
+    Eckard's test case:
+    
+    cat <<! | cat
+    asdf
+    !
+    
+    The issue is that we have to continue parsing until we see
+    the '\n' before consuming the here document.
+    
+    So we revert to the old approach of having two functions:
+    
+    heredoc() which remembers if we'v seen a heredoc redirection
+    and a second readhere() function that reads the doc from
+    the lexers input and sets Tree.str on thee REDIR node.
+
+commit bbeeffda47c2f966ac42c78559c869562a6146cd
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Tue Jan 4 00:19:36 2022 +0000
+
+    rc: only have single instance of a symbol, extern in header (thanks mcf)
+
+commit bcbbb761368801ba8da7eae2b892c78afa42b3c3
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Mon Jan 3 22:48:44 2022 +0000
+
+    rc: simplify Makefile, use yacc default rule (thanks k0ga)
+
+commit 1e5eeb6a764e7ea48ace530edd1ce5819963c4bd
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Mon Jan 3 18:41:48 2022 +0000
+
+    rc: make it portable (for UNIX)
+    
+    Fixup remaining Plan9 dependencies (chartorune()).
+    Add Makefile for UNIX-like systems (tested with Linux and APE).
+    Make error printing consistent, use Errstr() explicitely.
+    Get rid of NSTATUS buffer limit, just malloc it.
+
+commit bf633542d3b494c7bf4df88caab61b20d9ea33a5
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Mon Jan 3 18:22:29 2022 +0000
+
+    rc: Xerror is not a instruction, remove from pfnc
+
+commit 1cdd2f44dff8da242e9c701b565a91d80c711313
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Sun Jan 2 03:35:50 2022 +0000
+
+    rc: add Xhereq instruction to trace
+
+commit f7d4200f20f988c6178907e139ef89faa0023652
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Sun Jan 2 03:33:34 2022 +0000
+
+    rc: rstr() shouldnt skip trailing NUL bytes (thanks ori)
+
+commit c9324cd7fcade41bac8725a4d3c486af7a4492ef
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Fri Dec 31 23:26:59 2021 +0000
+
+    rc: fix here document handling with quoted end-marker (thanks sigrid)
+    
+    when end marker is quoted, we should not substitute.
+    also, pcmd() needs to print the end marker without quotes.
+
+commit 11f97e550c4727b9a7f422086bf65f3540b7bb95
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Fri Dec 31 16:08:30 2021 +0000
+
+    rc(1): fix synopsis
+
+commit 69cb83a29acbaaabe56d489e6832700e7b5e92d7
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Fri Dec 31 16:05:28 2021 +0000
+
+    rc: add err != nil check for early exit
+
+commit db721ad985e2b48b4c7b348102080e1898649152
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Fri Dec 31 15:27:10 2021 +0000
+
+    rc: fix everything
+    
+    Untangle the lexer and interpreter thread state.
+    
+    Fix the file and line number error reporting, getting rid of
+    Xsrcfile instruction, as the whole code block can only come
+    from a single file, stuff the source file in slot[1] of the
+    code block instead.
+    
+    Remove limitations for globber (path element limits)
+    and be more intelligent about handling globbing by
+    inserting Xglob instruction only when needed and not
+    run it over every Xsimple argument list.
+    
+    Remove fragile ndot magic and make it explicit by adding
+    the -q flag to . builtin command.
+    
+    Add -b flag for full compilation.
+    
+    Make exitnext() smart, so we can speculate thru rcmain and
+    avoid the fork().
+    
+    Get rid of all print(2) format functions and use io
+    instead.
+    
+    Improve the io library, adding rstr() to handle tokenization,
+    which allows us to look ahead in the already read buffer
+    for the terminators, avoiding alot of string copies.
+    
+    Auto indent pcmd(), to make line number reporting more usefull.
+    
+    Implement here documents properly, so they can work everywhere.
+
+commit c38619bea8b63b6ce5844096c48f016067de08c8
+Author: Igor Böhm <igor@9lab.org>
+Date:   Wed Nov 10 13:01:38 2021 +0000
+
+    rc: fix leaking runq->cmdfile
+    
+    To reproduce run the following on a terminal:
+    <snip>
+    cpu% leak -s `{pstree | grep termrc | sed 1q | awk '{print $1}'}
+    src(0x00209a82); // 12
+    src(0x0020b2a6); // 1
+    cpu% acid `{pstree | grep termrc | sed 1q | awk '{print $1}'}
+    /proc/358/text:amd64 plan 9 executable
+    /sys/lib/acid/port
+    /sys/lib/acid/amd64
+    acid: src(0x0020b2a6)
+    /sys/src/cmd/rc/plan9.c:169
+     164            if(runq->argv->words == 0)
+     165                    poplist();
+     166            else {
+     167                    free(runq->cmdfile);
+     168                    int f = open(runq->argv->words->word, 0);
+    >169                    runq->cmdfile = strdup(runq->argv->words->word);
+     170                    runq->lexline = 1;
+     171                    runq->pc--;
+     172                    popword();
+     173                    if(f>=0) execcmds(openfd(f));
+     174            }
+    acid:
+    </snap>
+    
+    Another `runq->cmdfile` leak is present here (captured on a cpu server):
+    <snip>
+    277         ├listen [tcp * /rc/bin/service <nil>]
+    321         │├listen [/net/tcp/2 tcp!*!80]
+    322         │├listen [/net/tcp/3 tcp!*!17019]
+    324         ││└rc [/net/tcp/5 tcp!185.64.155.70!3516]
+    334         ││ ├rc -li
+    382         ││ │└pstree
+    336         ││ └rc
+    338         ││  └cat
+    323         │└listen [/net/tcp/4 tcp!*!17020]
+    278         ├listen [tcp * /rc/bin/service.auth <nil>]
+    320         │└listen [/net/tcp/1 tcp!*!567]
+    381         └closeproc
+    cpu% leak -s 336
+    src(0x00209a82); // 2
+    src(0x002051d2); // 1
+    cpu% acid 336
+    /proc/336/text:amd64 plan 9 executable
+    /sys/lib/acid/port
+    /sys/lib/acid/amd64
+    acid: src(0x002051d2)
+    /sys/src/cmd/rc/exec.c:1056
+     1051
+     1052   void
+     1053   Xsrcfile(void)
+     1054   {
+     1055           free(runq->cmdfile);
+    >1056           runq->cmdfile = strdup(runq->code[runq->pc++].s);
+     1057   }
+    acid:
+    </snap>
+    
+    These leaks happen because we do not free cmdfile on all execution paths
+    where `Xreturn()` is invoked. In `/sys/src/cmd/rc/exec.c:/^Xreturn`
+    
+    <snip>
+    void
+    Xreturn(void)
+    {
+            struct thread *p = runq;
+            turfredir();
+            while(p->argv) poplist();
+            codefree(p->code);
+            runq = p->ret;
+            free(p);
+            if(runq==0)
+                    Exit(getstatus());
+    }
+    </snip>
+    
+    Note how the function `Xreturn()` frees a heap allocated instance of type
+    `thread` with its members *except* the `cmdfile` member.
+    
+    On some code paths where `Xreturn()` is called there is an attempt to free
+    `cmdfile`, however, there are some code paths where `Xreturn()` is called
+    where `cmdfile` is not freed, leading to a leak.
+    
+    The attached patch calls `free(p->cmdfile)` in `Xreturn()` to avoid leaking
+    memory and handling the free in one place.
+    
+    After applying the patch this particular leak is removed. There are still
+    other leaks in rc:
+    
+    <snip>
+    277         ├listen [tcp * /rc/bin/service <nil>]
+    321         │├listen [/net/tcp/2 tcp!*!80]
+    322         │├listen [/net/tcp/3 tcp!*!17019]
+    324         ││└rc [/net/tcp/5 tcp!185.64.155.70!3516]
+    334         ││ ├rc -li
+    382         ││ │└pstree
+    336         ││ └rc
+    338         ││  └cat
+    323         │└listen [/net/tcp/4 tcp!*!17020]
+    278         ├listen [tcp * /rc/bin/service.auth <nil>]
+    320         │└listen [/net/tcp/1 tcp!*!567]
+    381         └closeproc
+    cpu% leak -s 336
+    src(0x00209a82); // 2
+    src(0x002051d2); // 1
+    cpu% acid 336
+    /proc/336/text:amd64 plan 9 executable
+    /sys/lib/acid/port
+    /sys/lib/acid/amd64
+    acid: src(0x00209a82)
+    /sys/src/cmd/rc/subr.c:9
+     4      #include "fns.h"
+     5
+     6      void *
+     7      emalloc(long n)
+     8      {
+    >9              void *p = malloc(n);
+     10             if(p==0)
+     11                     panic("Can't malloc %d bytes", n);
+     12             return p;
+     13     }
+     14
+    </snap>
+    
+    To help fixing those leaks emalloc(…) and erealloc(…) have been amended to use
+    setmalloctag(…) and setrealloctag(…). The actual fixes for other reported leaks
+    are *not* part of this merge and will follow.
+
+commit 2d21fa0e11d23b1b3f7a871ddcdc8fc10a7d6295
+Author: Ori Bernstein <ori@eigenstate.org>
+Date:   Wed Sep 8 14:24:25 2021 +0000
+
+    rc: revert 344ddfef775f6d5f1af04c8281ade73c558b2c8e
+    
+    this patch doesn't pull its weight; it's not worth it.
+
+commit 344ddfef775f6d5f1af04c8281ade73c558b2c8e
+Author: Ori Bernstein <ori@eigenstate.org>
+Date:   Thu Jul 8 21:35:34 2021 +0000
+
+    rc: add subshell-function syntax
+    
+    fn foo @{bar} is now equivalent to
+    fn foo {@{bar}}. As a side effect,
+    this disallows creating functions
+    named after keywords without first
+    quoting them.
+
+commit 61fb4bb654a915c04fa07215eb7825c4caa1cf01
+Author: Ori Bernstein <ori@eigenstate.org>
+Date:   Fri Jun 25 23:10:07 2021 +0000
+
+    rc: skip arguments to Xsrcline, Xsrcfile in codefree
+    
+    We weren't correctly skipping the location operators
+    in codefree. This would mostly be work, but sometimes
+    you'd get unlucky and have one of the argmuents mismatch,
+    and that would lead to an invalid free.
+    
+    This correctly skips the args in codefree.
+
+commit f8547e772e02c4e8e5359e502cfd79acbf6f741c
+Author: Ori Bernstein <ori@eigenstate.org>
+Date:   Tue Jun 22 23:40:11 2021 +0000
+
+    rc: correct line numbers
+    
+    When loading a file using ".", we could
+    end up with our line numbers thrown off
+    due to the mutation of lexline. Putting
+    lexline into the runq beside the file
+    that we're reading from causes it to get
+    pushed and popped correctly, so that we
+    no longer lose track of our location.
+
+commit b80dcad44eadc04fc595d2a167418f913c0f7cc7
+Author: Ori Bernstein <ori@eigenstate.org>
+Date:   Sun Nov 1 11:56:26 2020 -0800
+
+    rc: show line numbers on error
+    
+    This change provides a location for errors
+    like 'null list in concatenation'.
+
+commit cd63080c9d423cd97e546420c8a89b76554bc3c7
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Tue Aug 4 16:21:37 2020 +0200
+
+    rc: avoid stat calls for directory globbing
+    
+    On Plan9, we can count on Readdir() onlydirs argument
+    to work, which allows us to avoid stating every single
+    file to see if it is a directory.
+
+commit f70d5edce33e017c0a5b3fbefa7a21523995d7fa
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Sat May 30 02:03:18 2020 +0200
+
+    rc: avoid forking for final command that has variable assignments (to get $apid right)
+    
+    basically, we want the following commands to print
+    the same pid twice:
+    
+    rc -c 'cat /dev/pid &;echo $apid'
+    
+    vs:
+    
+    rc -c 'a=1 cat /dev/pid &;echo $apid'
+    
+    basically, Xsimple() calls exitnext() to determine if
+    a simple command should be promoted to exec, by peeking
+    ahead into the code and searching for Xexit instruction.
+    
+    Xexit might not follow immediately after the Xsimple
+    instruction because of redirections, which exitnext()
+    would skip.
+    
+    but it would not skip the Xunlocal instructions that
+    where added by the variable assignment.
+
+commit a0c4cacfbcbb6aa83aba56a5f131bbb7b8d307b8
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Sat Apr 18 18:20:34 2020 +0200
+
+    rc: fix code serialization for PIPEFD (thanks BurnZeZ)
+    
+    BurnZeZ reported this the other day. It seems like if we have
+    a pipeline that looks like:
+    
+            fn foo{cat < <{echo hi}}
+    
+    then the '<' will get merged in /env/'fn#foo'. This change
+    fixes pcmd to add a space. It looks to me like this is the
+    only token that can get merged this way by pcmd.
+
+commit 155e9c76d425d3771f1d4282d7d1b9e61fbc1764
+Author: Ori Bernstein <ori@eigenstate.org>
+Date:   Mon Mar 9 14:24:02 2020 -0700
+
+    fix heredoc crash
+    
+    we emitted an error on heredoc tags, but we
+    continued on, and added a heredoc entry to
+    the list, with a tag that we couldn't handle.
+    
+    when processing this heredoc, rc would segfault.
+    
+    fix: don't add a heredoc to the list on error.
+
+commit 0322a2f3b60b23a766352074450404f0200cd00d
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Sun Jan 20 12:02:03 2019 +0100
+
+    rc: clear out redirections on "rfork F" (RFCFDG)
+    
+    rfork F closes all file descriptors, so we have to
+    invalidate the redirections as they are now refering
+    to closed files. not doing so causes the wrong file
+    descriptors being closed later on as the fd numbers
+    get reused.
+
+commit 19dce81485ba9092f5163e12f3c690426e5a23a9
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Sun Nov 18 04:56:48 2018 +0100
+
+    rc: implement $"x in terms of Xdol() and new Xqw() instruction
+    
+    to get $"1 right, remove Xqdol() and instead implement it in
+    terms of Xdol() instruction and use the new Xqw() instruction
+    to quote the resulting list.
+
+commit 3b6f3bcab148ce99af04e6937d6fb27fcafdde5e
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Sat Oct 27 18:32:00 2018 +0200
+
+    rc: skip searchpath for "", "." and ".."
+
+commit a4d91ae90cf51690b4fe4ce477f8250dc7c69b16
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Fri Oct 26 10:25:23 2018 +0200
+
+    rc: use searchpath() logic to handle $cdpath
+
+commit c3f70a270da05e21d58aa634c808b24a18fa3c21
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Fri Oct 26 09:52:05 2018 +0200
+
+    rc: ignore $cdpath for # device rooted paths (thanks kivik)
+
+commit a7a5fad611bb257c21fbb6282eb1ef09c7c05eff
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Sat Sep 8 14:49:00 2018 +0200
+
+    rc: fix Xpipefd unbalancing the redir stack
+    
+    Xpipefd wants the pipe descriptor to be closed in turfredir(), so
+    it pushes the redirection, but this breaks Xpopredir after normal
+    redirection. so we shuffle the Xpipefd redir to the bottom of the
+    stack.
+
+commit 584719b22ba2057e0911e85e02b7be458e919a5c
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Thu Jun 30 19:09:27 2016 +0200
+
+    rc: implement 9atoms ` split {command} syntax extension
+
+commit 98dbc983ec2a5462422dde99860c5e0e7465b201
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Thu Jun 30 00:45:37 2016 +0200
+
+    rc: write /dev/wdir after printing the prompt, not after executing "cd" command
+
+commit 759362094bf73d657afde18079b20f2a72e5a1dc
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Mon May 16 19:57:53 2016 +0200
+
+    rc: simplify execfinit() / Xrdfn() using the globber to lookup /env/fn'#'*
+
+commit a6ae6e9d60160164e25a716f78d4347c62fef1d7
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Mon May 16 18:03:57 2016 +0200
+
+    rc: fix double close() in addenv()
+
+commit 328d5071194f06934be84b6ed5acdca6718f9921
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Mon May 16 00:46:46 2016 +0200
+
+    rc: remove duplicate Xrdfn entry from fname[] array
+
+commit 871b74caaa98f1ce2f9f0c0388b4a38bf809a2e8
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Mon May 16 00:37:49 2016 +0200
+
+    rc: remove historical unix and win32 ports
+
+commit 6dc7b17dc47bfeaeb76dadb695bf2925f3587694
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Sun May 15 23:09:23 2016 +0200
+
+    rc: fix shift regresison, sorry
+
+commit bfc8f8c6902405332c4526415060c210fe48fdfd
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Sun May 15 19:58:24 2016 +0200
+
+    rc: remove pointless Memcpy(),Malloc(),Realloc() and efree() wrappers
+
+commit b804b92c4c33eaf6731cc22afe696ad758835d89
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Sun May 15 19:10:37 2016 +0200
+
+    rc: fix inband globbing bugs, cleanup
+    
+    add glob information to the word structure so we wont accidently
+    deglob quoted strings containing the GLOB. we store Globsize(word)
+    in in word->glob which avoids recalculating that values and the
+    check if a word should be globbed quick.
+    
+    globlist() now substitutes the word inplace avoiding the copying
+    when all words are literals and avoids recursion.
+    
+    minor cleanups: use list2str() in execeval(), move octal() to
+    unix.c, remove the (char*) casts to efree().
+
+commit 592aaf32986e6228cfad480ed4af9101c48e3594
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Mon Feb 22 22:25:21 2016 +0100
+
+    rc: terminate rc when exec fails, cleanup
+    
+    The execexec() function should never return, as it irreversably changes
+    the filedescriptor table for the new program. This means rc's internal
+    filedesciptors for reading the script get implicitely closed and we cannot
+    continue the rc interpreter when Execute() fails. So Execute() now sets the
+    error status, and execexec() runs Xexit() in case Execute() returns.
+
+commit 92b38a99af57b48911b369da715daafe497b1f71
+Author: cinap_lenrek <cinap_lenrek@felloff.net>
+Date:   Wed Jul 23 15:28:37 2014 +0200
+
+    rc: fix slow Xqdol(), avoid recursion in conclist(), estrdup(), avoid copying
+    
+    Xqdol() used to take quadratic time because of strcat(),
+    the code isnt really needed as list2str() aready does the
+    same thing in linear time without the strcat().
+    
+    add estrdup() which uses emalloc() so allocation error are
+    catched.
+    
+    move strdups() of name from callers into newvar().
+    
+    avoid recursion of conclist(), and avoid copying of word
+    strings by providing Newword() function which doesnt copy
+    the word string.
+
+commit f92381d372ba828eb6b9be1bee430055f37300f3
+Author: cinap_lenrek <cinap_lenrek@gmx.de>
+Date:   Tue Aug 20 23:56:15 2013 +0200
+
+    rc: flush environment variables (update /env) before fork
+    
+    on races... normal forks will all share the /env environment but
+    not the in memory variables of rc. so when we would normally fork
+    whoever does an exec (flush) first will override what the values of the
+    /env variables are, *independent* of the variables that where
+    actually modified *in* the process.
+    
+    when we flush *before* fork, then at least both processes start out
+    with marked clean in memory variables and the processes will flush
+    only the things they actually change.
+
+commit 586121c46be102ce548617628f1db8767e35bfd3
+Author: cinap_lenrek <cinap_lenrek@gmx.de>
+Date:   Wed Apr 24 20:13:18 2013 +0200
+
+    make all the commands agnostic about Rune width. (from sources)
+
+commit ffaed341d41e7290cd44b3ebeecff483244525bf
+Author: cinap_lenrek <cinap_lenrek@rei2.9hal>
+Date:   Wed Feb 8 04:14:32 2012 +0100
+
+    rc: remove silly efree check
+
+commit e8f0ec547dc6ed433a30b77777bd205d3ae1a6eb
+Author: cinap_lenrek <cinap_lenrek@rei2.9hal>
+Date:   Wed Feb 8 04:09:48 2012 +0100
+
+    rc: change plan9 envname limit to 128, cleanup
+
+commit 5a82bcf026e50a98d7e67824a3be6a269169d15a
+Author: stanley lieber <stanley.lieber@gmail.com>
+Date:   Mon Apr 4 20:22:56 2011 +0000
+
+    erik's patches to lift 8192 byte word size restriction
+
+commit a48a622e80cdf7a948cdcaa6a96f9de50c827a7e
+Author: Taru Karttunen <taruti@taruti.net>
+Date:   Wed Mar 30 19:35:09 2011 +0300
+
+    Import sources from 2011-03-30 iso image - lib
+
+commit 299fe23440d89f9401b55a1e986c5c975aeec772
+Author: Taru Karttunen <taruti@taruti.net>
+Date:   Wed Mar 30 15:46:40 2011 +0300
+
+    Import sources from 2011-03-30 iso image

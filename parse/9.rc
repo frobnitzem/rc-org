@@ -1,0 +1,8 @@
+#!/bin/rc
+
+if(~ $#PLAN9 0)
+	PLAN9=/usr/local/plan9port
+if(! ~ $path(1) $PLAN9/bin)
+	path=($PLAN9/bin $path)
+
+~ $#* 0 || exec $*
