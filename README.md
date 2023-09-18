@@ -1,6 +1,6 @@
 # RC Shell Tests
 
-As explained in [Unifying the the RC shell](rc_history.md), there
+As explained in [Unifying the the RC shell](history.md), there
 is a fearsome need for a consistent set of tests for implementations
 of the rc shell.
 

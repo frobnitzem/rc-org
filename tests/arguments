@@ -1,0 +1,29 @@
+echo arg1 (arg2 arg3 arg4)
+
+x = (arg1 arg2 arg3)
+echo $x
+echo $x(2)
+
+# Multiple levels of  indirection  are  possible,
+# but  of  questionable  utility.
+y = x
+echo $$y
+x = ($x $x)
+
+echo $x(1 3)
+echo $x(2-)
+echo $x(1-2)
+
+echo $#x
+z=$"x
+echo $#z
+
+# If $ifs is not otherwise set, its value is ' \t\n'.
+echo `{seq 1 10} |
+   cat - <{ seq 10 1 } >fout
+
+ifs=' ' echo `{seq 1 10} | cat - <{ seq 10 1 } >fout2
+
+tee >{ sed -e '/[13579]/d' >even } <fout | sed -e '/[02468]/d' >odd
+
+cat fout ^ fout2

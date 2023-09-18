@@ -38,7 +38,8 @@ if([ $#* -lt 1 ]) {
     echo Usage: $usage
     exit 1
 }
-rc = `{dirname $*(1)} ^ / ^ `{basename $*(1)}
+wd = `{pwd}
+rc = (`{dirname $*(1)} ^ / ^ `{basename $*(1)} -m $wd/bin/rcmain)
 shift
 
 # Test for directory layout
@@ -58,14 +59,14 @@ if not {
 
 # ensure we can run rc.
 if(~ $sflag true) {
-    $rc -m ./bin/rcmain -Dc echo >/dev/null >[2=1] || {
-      echo $rc does not support -D flag!
+    $rc -Dc echo >/dev/null >[2=1] || {
+      echo rc: "$"rc" does not support -D flag!
       exit 1
     }
 }
 if not {
-    $rc -m ./bin/rcmain -c echo >/dev/null >[2=1] || {
-      echo $rc''''s run aground!
+    $rc -c echo >/dev/null >[2=1] || {
+      echo rc: "$"rc" is not working properly.
       exit 1
     }
 }
@@ -87,7 +88,7 @@ fn flee {
 
 # outputs to stdout
 fn run_parse {
-    $rc -m ./bin/rcmain -D $*(1) >[2=1]
+    $rc -D $*(1) >[2=1]
 }
 fn diff_parse {
     _err = false
@@ -104,7 +105,7 @@ fn run_test {
     mkdir $out.d
     wd=`{pwd}
     @{ cd $out.d;
-       $rc -m $wd/bin/rcmain <$*(1) >$out.1 >[2]$out.2;
+       $rc <$*(1) >$out.1 >[2]$out.2;
        echo $status >$out.x;
     }
 }
@@ -161,7 +162,7 @@ for(i in $files) {
         echo Adding $i '~>' $refs/$fname
         diff -q $i $refs/$fname >[2]/dev/null || cp $i $refs/$fname
         if(~ $sflag true) {
-            $rc -m ./bin/rcmain -DY $refs/$fname >[1=2] >$refs/$fname.s
+            $rc -DY $refs/$fname >[1=2] >$refs/$fname.s
         }
         if not {
             run_test $refs/$fname

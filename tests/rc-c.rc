@@ -1,0 +1,25 @@
+# Adapted from rcb/trip.rc
+
+fn fail {
+    # This seems to be permitted by the manual, but why?
+    echo >[1=2] trip took a wrong turn: $*
+    #>[1=2] echo trip took a wrong turn: $*
+    exit 1
+}
+
+if ($rc -c >[2]/dev/null) fail 'rc -c didn''t report a bad exit status'
+x=`{$rc -c 'echo $0 $2 $#*' a b c d e f}
+
+if (false) { # WARNING: this differs from sh
+    # Note: !~ is not a keyword. It is an ordinary command.
+    if (! ~ $x(1) a) fail rc -c reports '$0' incorrectly as $x(1)
+    if (! ~ $x(2) c) fail rc -c reports '$2' incorrectly as $x(2)
+    if (! ~ $x(3) 5) fail rc -c reports '$#' incorrectly as $x(3)
+}
+if not {
+    #if (! ~ $x(1) $rc) fail rc -c reports '$0' incorrectly as $x(1)
+    if (! ~ $x(2) b) fail rc -c reports '$2' incorrectly as $x(2)
+    if (! ~ $x(3) 6) fail rc -c reports '$#' incorrectly as $x(3)
+}
+
+# Note: status = 1 due to if(false) being the last command.

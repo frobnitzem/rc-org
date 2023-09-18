@@ -1,0 +1,14 @@
+fn checkarg {
+    echo $#* "$"*"
+}
+
+checkarg 1 2 3
+checkarg '1 '' 2 '' 3'
+
+echo '#!' ^ $"rc  >fn
+echo 'echo hello' >>'fn'
+chmod +x fn
+
+path=(. $path) 'fn'
+
+rm fn
