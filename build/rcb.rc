@@ -1,0 +1,4 @@
+git clone https://github.com/rakitzis/rc rcb
+cd rcb
+make EDIT=readline PREFIX=`{pwd} install
+

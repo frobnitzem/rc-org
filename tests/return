@@ -1,0 +1,2 @@
+fn u { return 4 }
+u

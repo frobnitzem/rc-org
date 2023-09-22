@@ -1,21 +1,15 @@
 #!/usr/bin/env rc
+# Note: this gives both rc and mk
 
-~ $#* 0 || PLAN9=$*(1)
-
-grep -q 9fans\.github\.io $PLAN9/README.md || {
-    echo 'script argument or $PLAN9 should point at plan9port'
-    exit 1
-}
-
-path = ($PLAN9/bin $path)
+git clone https://github.com/9fans/plan9port p9p
 
 SYSNAME=`{uname}
 INSTALL=`{ [ $SYSNAME = AIX ] && echo installbsd || echo install }
 
-cd $PLAN9/src
-sh -x ../mkmk.sh
+cd p9p/src
+sh -x ./mkmk.sh
 
 cd cmd/rc
 mk
 
-$INSTALL o.rc $PLAN9/bin/rc
+$INSTALL o.rc ../../../bin/rc

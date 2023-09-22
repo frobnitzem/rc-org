@@ -9,7 +9,7 @@
 usage = 'test [-hams] <rc> <script> ...'
 
 '*' = `{getopt hams $*}
-if(! ~ $status 0) {
+if(! ~ $status 0 '') {
     echo Usage: $usage
     exit 1
 }
@@ -39,7 +39,11 @@ if([ $#* -lt 1 ]) {
     exit 1
 }
 wd = `{pwd}
-rc = (`{dirname $*(1)} ^ / ^ `{basename $*(1)} -m $wd/bin/rcmain)
+rc = (`{cd `{dirname $*(1)} && pwd} ^ / ^ `{basename $*(1)} -m $wd/bin/rcmain)
+if(~ `{dirname $rc(1)} */rcb/*) {
+    # rcb doesn't accept -m
+    rc = $rc(1)
+}
 shift
 
 # Test for directory layout
@@ -114,7 +118,9 @@ fn diff_test {
     _err = false
     for(x in $ofiles) {
         if(test -e $out.$x) {
-            diff $*(1)^.$x $out.$x || {
+            _ref = $*(1)^.$x
+            ~ $x d && mkdir -p $_ref # git deletes empty dirs.
+            diff $_ref $out.$x || {
                 echo '^^^' $*(1)^.$x '(test result)'
                 _err = true
             }

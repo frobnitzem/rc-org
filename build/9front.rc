@@ -1,0 +1,9 @@
+git clone git://git.9front.org/plan9front/plan9front 9front
+cd 9front/sys/src/cmd/rc
+make
+# Wow, that was easy.
+
+mkdir -p ../../../../bin # [sic]
+cp rc ../../../../bin
+
+#./rc -m ./rcmain.unix

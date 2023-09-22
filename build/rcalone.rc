@@ -1,0 +1,11 @@
+git clone https://github.com/frobnitzem/rc
+cd rc
+
+PREFIX=`{pwd}
+
+mkdir -p $PREFIX/bin
+mkdir -p $PREFIX/lib
+mkdir -p $PREFIX/share/man/man1
+make -j4 install PREFIX=$PREFIX
+
+# ./rc -m rcmain.unix

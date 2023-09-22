@@ -49,20 +49,6 @@ abstract: |
     and give recommendations for verifying shell implementations.
 -->
 
-<!--
-    rc can be considered a standard for which scripts may be interchanged
-    between interpreters.
-
-    the syntax and execution semantics
-    of the shell has changed little, with the exception of
-    changes to the parser front-end.
-
-    if not / else divide and correction of issues with the parser.
-    The minor divergences
-    that have occurred between versions come from usability
-    and OS compatibility issues.
--->
-
 ```
 1989 1992  2003    2006  2011 2015      2018        2021
     ----v ^--+-------------+----|
@@ -296,8 +282,8 @@ except the Byron version.
 | Linux      |       |        |         |       |
 | history    | no    | no     |         |       |
 | yacc       | no    |        |         |       |
-| ls x=      |       | ¿no?   |         |       |
-| `\`{}/x`   |       | no     | no      | ¿no?  |
+| ls x=      |       | no     |         |       |
+| `` `{}/x ``|       | no     | no      |  no   |
 | return     | no    | no     | no      |       |
 
 Fixes specifically needed for compiling on Unix/Linux
@@ -305,11 +291,16 @@ are listed are present in all the versions above.
 Practical use on most terminals requires some sort of
 line editing and command history capability.  These
 are indicated in the next row.
+Yacc refers to whether the parser is generated from
+a formal grammar (e.g. using a tool like yacc).
+Note that all versions of the rc use a custom lexer.
 
 The ability of the shell to handle command-arguments
 containing the = sign is shown on the next row.
+Shells failing this will throw `syntax error` on
+`ls x=`.
 As originally written, rc would throw a syntax error on `ls x=`.
-The row `\`{}/x` notes whether this expression parses
+The row `` `{}/x `` notes whether expressions like `` `{pwd}/x `` parse
 as a single word.
 Finally, `return` refers to a shell builtin for `return`
 in functions/scripts and `break`/`continue`
